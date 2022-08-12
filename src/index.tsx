@@ -1,4 +1,4 @@
-import { NativeModules, Platform } from 'react-native';
+import { NativeEventEmitter, NativeModules, Platform } from 'react-native';
 
 const LINKING_ERROR =
   `The package 'react-native-sourcepoint-cmp' doesn't seem to be linked. Make sure: \n\n` +
@@ -6,7 +6,7 @@ const LINKING_ERROR =
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo managed workflow\n';
 
-const SourcepointCmp = NativeModules.SourcepointCmp  ? NativeModules.SourcepointCmp  : new Proxy(
+const SourcepointCmp = NativeModules.SourcepointCmp ? NativeModules.SourcepointCmp  : new Proxy(
       {},
       {
         get() {
@@ -14,7 +14,42 @@ const SourcepointCmp = NativeModules.SourcepointCmp  ? NativeModules.Sourcepoint
         },
       }
     );
+export class SPConsentManager {
+  accountId: number;
+  propId: number;
+  propName: string;
+  emitter: NativeEventEmitter
 
-export function multiply(a: number, b: number): Promise<number> {
-  return SourcepointCmp.multiply(a, b);
+  constructor (accountId: number, propId: number, propName: string) {
+    SourcepointCmp.build(accountId, propId, propName)
+    this.emitter = new NativeEventEmitter(SourcepointCmp)
+    this.accountId = accountId;
+    this.propId = propId;
+    this.propName = propName;
+  }
+
+  onFinished(callback: () => any) {
+    this.emitter.removeAllListeners('onSPFinished')
+    this.emitter.addListener('onSPFinished', callback);
+  }
+
+  getUserData(): Promise<Object> {
+    return SourcepointCmp.getUserData();
+  }
+
+  loadMessage() {
+    SourcepointCmp.loadMessage();
+  }
+
+  clearLocalData() {
+    SourcepointCmp.clearLocalData();
+  }
+
+  loadGDPRPrivacyManager(pmId: string) {
+    SourcepointCmp.loadGDPRPrivacyManager(pmId);
+  }
+
+  loadCCPAPrivacyManager(pmId: string) {
+    SourcepointCmp.loadCCPAPrivacyManager(pmId);
+  }
 }

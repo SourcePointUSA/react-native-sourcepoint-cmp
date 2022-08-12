@@ -1,31 +1,64 @@
 import * as React from 'react';
+import { StyleSheet, View, ScrollView, SafeAreaView, Button, Text } from 'react-native';
+import JSONTree from 'react-native-json-tree';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-sourcepoint-cmp';
-
-export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+export default function App({ consentManager, config }) {
+  const [userData, setUserData] = React.useState<{}>({});
 
   React.useEffect(() => {
-    multiply(3, 7).then(setResult);
+    consentManager.onFinished(() => {
+      consentManager.getUserData().then(setUserData);
+    })
+    consentManager.loadMessage();
+    consentManager.getUserData().then(setUserData);
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text>Result: {result}</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.buttonsContainer}>
+        <Button title="Load Messages" onPress={() => {
+          consentManager.loadMessage();
+        }}/>
+        <Button title="Load GDPR PM" onPress={() => {
+          consentManager.loadGDPRPrivacyManager(config.gdprPMId);
+        }}/>
+        <Button title="Load CCPA PM" onPress={() => {
+          consentManager.loadCCPAPrivacyManager(config.ccpaPMId);
+        }}/>
+        <Button title="Clear All" onPress={() => {
+          consentManager.clearLocalData()
+          consentManager.getUserData().then(setUserData)
+        }}/>
+      </View>
+      <ScrollView style={styles.dataContainer} horizontal={true} >
+        <ScrollView>
+          <JSONTree
+            data={userData}
+            labelRenderer={([key, ..._]) => <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{key}</Text>}
+            valueRenderer={raw => <Text style={{ fontStyle: 'italic', fontSize: 16 }}>{raw}</Text>}
+          />
+        </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'flex-start',
+    padding: 20,
+  },
+  buttonsContainer: {
+    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    width: '100%',
+    minHeight: 160,
+    flexGrow: 0
   },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
-  },
+  dataContainer: {
+    flex: 1,
+    width: '100%',
+    flexGrow: 1
+  }
 });
