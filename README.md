@@ -6,6 +6,8 @@ Sourcepoint's CMP bridge for React Native
 npm install @sourcepoint/react-native-cmp
 ```
 
+Make sure to install the native dependencies too by running `pod install` on your `ios` app folder and syncing gralde dependencies on your `android` application.
+
 ## Usage
 
 ```js
