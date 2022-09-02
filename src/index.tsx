@@ -6,14 +6,13 @@ const LINKING_ERROR =
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo managed workflow\n';
 
-const SourcepointCmp = NativeModules.SourcepointCmp ? NativeModules.SourcepointCmp  : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+const SourcepointCmp = NativeModules.SourcepointCmp !== undefined ?
+  NativeModules.SourcepointCmp :
+  new Proxy({}, {
+    get() {
+      throw new Error(LINKING_ERROR);
+    },
+  });
 export class SPConsentManager {
   accountId: number;
   propId: number;
@@ -28,12 +27,12 @@ export class SPConsentManager {
     this.propName = propName;
   }
 
-  onFinished(callback: () => any) {
+  onFinished(callback: () => void) {
     this.emitter.removeAllListeners('onSPFinished')
     this.emitter.addListener('onSPFinished', callback);
   }
 
-  getUserData(): Promise<Object> {
+  getUserData(): Promise<Record<string, unknown>> {
     return SourcepointCmp.getUserData();
   }
 
