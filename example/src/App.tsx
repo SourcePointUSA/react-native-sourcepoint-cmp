@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, ScrollView, SafeAreaView, Button, Text } from 'react-native';
 
-import { SPConsentManager } from 'react-native-sourcepoint-cmp';
+import { SPConsentManager } from '@sourcepoint/react-native-cmp';
 
 const config = {
   accountId: 22,
@@ -14,7 +14,7 @@ const config = {
 const consentManager = new SPConsentManager(
   config.accountId,
   config.propertyId,
-  config.propertyName,
+  config.propertyName
 );
 
 export default function App() {
@@ -23,7 +23,7 @@ export default function App() {
   React.useEffect(() => {
     consentManager.onFinished(() => {
       consentManager.getUserData().then(setUserData);
-    })
+    });
     consentManager.loadMessage();
     consentManager.getUserData().then(setUserData);
   }, []);
@@ -31,25 +31,35 @@ export default function App() {
   return (
     <SafeAreaView>
       <View>
-        <Button title='Load Messages' onPress={() => {
-          consentManager.loadMessage();
-        }}/>
-        <Button title='Load GDPR PM' onPress={() => {
-          consentManager.loadGDPRPrivacyManager(config.gdprPMId);
-        }}/>
-        <Button title='Load CCPA PM' onPress={() => {
-          consentManager.loadCCPAPrivacyManager(config.ccpaPMId);
-        }}/>
-        <Button title='Clear All' onPress={() => {
-          consentManager.clearLocalData()
-          consentManager.getUserData().then(setUserData)
-        }}/>
+        <Button
+          title="Load Messages"
+          onPress={() => {
+            consentManager.loadMessage();
+          }}
+        />
+        <Button
+          title="Load GDPR PM"
+          onPress={() => {
+            consentManager.loadGDPRPrivacyManager(config.gdprPMId);
+          }}
+        />
+        <Button
+          title="Load CCPA PM"
+          onPress={() => {
+            consentManager.loadCCPAPrivacyManager(config.ccpaPMId);
+          }}
+        />
+        <Button
+          title="Clear All"
+          onPress={() => {
+            consentManager.clearLocalData();
+            consentManager.getUserData().then(setUserData);
+          }}
+        />
       </View>
       <ScrollView>
         <ScrollView horizontal={true}>
-          <Text>
-            {JSON.stringify(userData, undefined, ' ')}
-          </Text>
+          <Text>{JSON.stringify(userData, undefined, ' ')}</Text>
         </ScrollView>
       </ScrollView>
     </SafeAreaView>

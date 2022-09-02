@@ -1,5 +1,5 @@
 {
-  "name": "react-native-sourcepoint-cmp",
+  "name": "@sourcepoint/react-native-cmp",
   "version": "0.1.0",
   "description": "test",
   "main": "lib/commonjs/index",
@@ -35,13 +35,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/andresilveirah/react-native-sourcepoint-cmp",
+  "repository": "https://github.com/SourcePointUSA/react-native-sourcepoint-cmp",
   "author": "André Herculano <andre@sourcepoint.com> (https://github.com/andresilveirah)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/andresilveirah/react-native-sourcepoint-cmp/issues"
+    "url": "https://github.com/SourcePointUSA/react-native-sourcepoint-cmp/issues"
   },
-  "homepage": "https://github.com/andresilveirah/react-native-sourcepoint-cmp#readme",
+  "homepage": "https://github.com/SourcePointUSA/react-native-sourcepoint-cmp#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

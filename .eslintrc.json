@@ -1,11 +1,18 @@
 {
     "root": true,
+    "env": {
+        "browser": true,
+        "amd": true,
+        "node": true
+    },
     "extends": [
         "eslint:recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "@react-native-community"
     ],
     "parser": "@typescript-eslint/parser",
-    "parserOptions": { "project": ["./tsconfig.json"] },
+    "parserOptions": { 
+        "project": ["./tsconfig.json"]},
     "plugins": [
         "@typescript-eslint"
     ],
@@ -16,7 +23,18 @@
                 "allowString" : false,
                 "allowNumber" : false
             }
-        ]
+        ],
+        "react/jsx-first-prop-new-line": 0,
+        "react/jsx-max-props-per-line": 0
     },
-    "ignorePatterns": []
+    "ignorePatterns": [
+        "node_modules/",
+        "lib/",
+        "scripts/",
+        "example/scripts/",
+        "example/ios/",
+        "example/android/",
+        "example/metro.*",
+        "*.config.*"
+    ]
 }

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "react-native-sourcepoint-cmp": ["./src/index"]
+      "@sourcepoint/react-native-cmp": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

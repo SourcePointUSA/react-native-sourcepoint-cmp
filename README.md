@@ -1,9 +1,9 @@
-# react-native-sourcepoint-cmp
+# @sourcepoint/react-native-cmp
 Sourcepoint's CMP bridge for React Native
 ## Installation
 
 ```sh
-npm install react-native-sourcepoint-cmp
+npm install @sourcepoint/react-native-cmp
 ```
 
 ## Usage
@@ -11,7 +11,7 @@ npm install react-native-sourcepoint-cmp
 ```js
 //...
 
-import { SPConsentManager } from 'react-native-sourcepoint-cmp';
+import { SPConsentManager } from '@sourcepoint/react-native-cmp';
 
 const config = {
   accountId: 22,
