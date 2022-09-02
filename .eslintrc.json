@@ -31,10 +31,7 @@
         "node_modules/",
         "lib/",
         "scripts/",
-        "example/scripts/",
-        "example/ios/",
-        "example/android/",
-        "example/metro.*",
+        "example/*",
         "*.config.*"
     ]
 }

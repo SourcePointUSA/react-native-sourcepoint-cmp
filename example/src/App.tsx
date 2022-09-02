@@ -29,38 +29,24 @@ export default function App() {
   }, []);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <View>
-        <Button
-          title="Load Messages"
-          onPress={() => {
-            consentManager.loadMessage();
-          }}
-        />
-        <Button
-          title="Load GDPR PM"
-          onPress={() => {
-            consentManager.loadGDPRPrivacyManager(config.gdprPMId);
-          }}
-        />
-        <Button
-          title="Load CCPA PM"
-          onPress={() => {
-            consentManager.loadCCPAPrivacyManager(config.ccpaPMId);
-          }}
-        />
-        <Button
-          title="Clear All"
-          onPress={() => {
-            consentManager.clearLocalData();
-            consentManager.getUserData().then(setUserData);
-          }}
-        />
+        <Button title="Load Messages" onPress={() => {
+          consentManager.loadMessage();
+        }}/>
+        <Button title="Load GDPR PM" onPress={() => {
+          consentManager.loadGDPRPrivacyManager(config.gdprPMId);
+        }}/>
+        <Button title="Load CCPA PM" onPress={() => {
+          consentManager.loadCCPAPrivacyManager(config.ccpaPMId);
+        }}/>
+        <Button title="Clear All" onPress={() => {
+          consentManager.clearLocalData();
+          consentManager.getUserData().then(setUserData);
+        }}/>
       </View>
       <ScrollView>
-        <ScrollView horizontal={true}>
-          <Text>{JSON.stringify(userData, undefined, ' ')}</Text>
-        </ScrollView>
+        <Text>{JSON.stringify(userData, undefined, ' ')}</Text>
       </ScrollView>
     </SafeAreaView>
   );
