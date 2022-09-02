@@ -1,6 +1,6 @@
 {
   "name": "@sourcepoint/react-native-cmp",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "test",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -43,6 +43,7 @@
   },
   "homepage": "https://github.com/SourcePointUSA/react-native-sourcepoint-cmp#readme",
   "publishConfig": {
+    "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
