@@ -1,58 +1,83 @@
-import { NativeEventEmitter, NativeModules, Platform } from 'react-native';
+import { NativeModules, Platform, NativeEventEmitter } from 'react-native'
+import type { SourcepointCmpSpec } from './NativeSourcepointCmp'
 
 const LINKING_ERROR =
-  "The package '@sourcepoint/react-native-cmp' doesn't seem to be linked. Make sure: \n\n" +
+  `The package '@sourcepoint/react-native-cmp' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
   '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo managed workflow\n';
+  '- You are not using Expo Go\n'
 
-const SourcepointCmp =
-  NativeModules.SourcepointCmp !== undefined
-    ? NativeModules.SourcepointCmp
-    : new Proxy(
-        {},
-        {
-          get() {
-            throw new Error(LINKING_ERROR);
-          },
-        }
-      );
-export class SPConsentManager {
-  accountId: number;
-  propId: number;
-  propName: string;
-  emitter: NativeEventEmitter;
+// @ts-expect-error
+const isTurboModuleEnabled = global.__turboModuleProxy != null
 
-  constructor(accountId: number, propId: number, propName: string) {
-    SourcepointCmp.build(accountId, propId, propName);
-    this.emitter = new NativeEventEmitter(SourcepointCmp);
-    this.accountId = accountId;
-    this.propId = propId;
-    this.propName = propName;
-  }
+const SourcepointCmpModule = isTurboModuleEnabled
+  ? require('./NativeSourcepointCmp').default
+  : NativeModules.SourcepointCmp
 
-  onFinished(callback: () => void) {
-    this.emitter.removeAllListeners('onSPFinished');
-    this.emitter.addListener('onSPFinished', callback);
+const SourcepointCmp = SourcepointCmpModule
+  ? SourcepointCmpModule
+  : new Proxy(
+      {},
+      {
+        get() {
+          throw new Error(LINKING_ERROR)
+        },
+      }
+    )
+
+export class SPConsentManager implements SourcepointCmpSpec {
+  emitter = new NativeEventEmitter(SourcepointCmp)
+
+  build(accountId: number, propId: number, propName: string) {
+    SourcepointCmp.build(accountId, propId, propName)
   }
 
   getUserData(): Promise<Record<string, unknown>> {
-    return SourcepointCmp.getUserData();
+    return SourcepointCmp.getUserData()
   }
 
   loadMessage() {
-    SourcepointCmp.loadMessage();
+    SourcepointCmp.loadMessage()
   }
 
   clearLocalData() {
-    SourcepointCmp.clearLocalData();
+    SourcepointCmp.clearLocalData()
   }
 
   loadGDPRPrivacyManager(pmId: string) {
-    SourcepointCmp.loadGDPRPrivacyManager(pmId);
+    SourcepointCmp.loadGDPRPrivacyManager(pmId)
   }
 
   loadCCPAPrivacyManager(pmId: string) {
-    SourcepointCmp.loadCCPAPrivacyManager(pmId);
+    SourcepointCmp.loadCCPAPrivacyManager(pmId)
+  }
+
+  onAction(callback: (action: string) => void): void {
+    this.emitter.removeAllListeners('onAction')
+    this.emitter.addListener('onAction', callback)
+  }
+
+  onSPUIReady(callback: () => void): void {
+    this.emitter.removeAllListeners('onSPUIReady')
+    this.emitter.addListener('onSPUIReady', callback)
+  }
+
+  onSPUFinished(callback: () => void): void {
+    this.emitter.removeAllListeners('onSPUFinished')
+    this.emitter.addListener('onSPUFinished', callback)
+  }
+
+  onFinished(callback: () => void) {
+    this.emitter.removeAllListeners('onSPFinished')
+    this.emitter.addListener('onSPFinished', callback)
+  }
+
+  onError(callback: (description: string) => void): void {
+    this.emitter.removeAllListeners('onError')
+    this.emitter.addListener('onError', callback)
+  }
+
+  dispose(): void {
+    SourcepointCmp.supportedEvents()?.forEach(this.emitter.removeAllListeners)
   }
 }

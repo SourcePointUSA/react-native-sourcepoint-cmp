@@ -1,5 +1,13 @@
+//
+//  SourcepointCmp.swift
+//  react-native-sourcepoint-cmp
+//
+//  Created by Andre Herculano on 21.12.23.
+//
+
 import ConsentViewController
 import Foundation
+import React
 
 @objc(SourcepointCmp)
 @objcMembers class SourcepointCmp: RCTEventEmitter {
@@ -13,13 +21,14 @@ import Foundation
     }
 
     open override func supportedEvents() -> [String] {
-        ["onSPFinished", "onAction"]
+        ["onSPUIReady", "onSPUIFinished", "onAction", "onSPFinished", "onError"]
     }
 
     func getUserData(_ resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         resolve(consentManager?.userData.toDictionary() ?? [:])
     }
 
+    // TODO: move campaigns to the js build method
     func build(_ accountId: Int, propertyId: Int, propertyName: String) {
         SourcepointCmp.shared?.consentManager = SPConsentManager(
             accountId: accountId,
@@ -56,11 +65,13 @@ extension SourcepointCmp: SPDelegate {
     }
 
     func onSPUIReady(_ controller: UIViewController) {
+        SourcepointCmp.shared?.sendEvent(withName: "onSPUIReady", body: [])
         controller.modalPresentationStyle = .overFullScreen
         rootViewController?.present(controller, animated: true)
     }
 
     func onSPUIFinished(_ controller: UIViewController) {
+        SourcepointCmp.shared?.sendEvent(withName: "onSPUIFinished", body: [])
         rootViewController?.dismiss(animated: true)
     }
 
@@ -69,6 +80,7 @@ extension SourcepointCmp: SPDelegate {
     }
 
     func onError(error: SPError) {
+        SourcepointCmp.shared?.sendEvent(withName: "onError", body: ["description": error.description])
         print("Something went wrong", error)
     }
 }

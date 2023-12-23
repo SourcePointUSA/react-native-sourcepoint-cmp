@@ -1,10 +1,10 @@
 {
   "name": "@sourcepoint/react-native-cmp",
-  "version": "0.0.1",
-  "description": "test",
+  "version": "0.1.0",
+  "description": "The official react native bridge to the native Sourcepoint SDKs",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
-  "types": "lib/typescript/index.d.ts",
+  "types": "lib/typescript/src/index.d.ts",
   "react-native": "src/index",
   "source": "src/index",
   "files": [
@@ -13,29 +13,36 @@
     "android",
     "ios",
     "cpp",
-    "react-native-sourcepoint-cmp.podspec",
-    "!lib/typescript/example",
-    "!android/build",
+    "*.podspec",
     "!ios/build",
+    "!android/build",
+    "!android/gradle",
+    "!android/gradlew",
+    "!android/gradlew.bat",
+    "!android/local.properties",
     "!**/__tests__",
     "!**/__fixtures__",
-    "!**/__mocks__"
+    "!**/__mocks__",
+    "!**/.*"
   ],
   "scripts": {
+    "example": "yarn workspace react-native-sourcepoint-cmp-example",
     "test": "jest",
-    "typescript": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
     "prepare": "bob build",
-    "release": "release-it",
-    "example": "yarn --cwd example",
-    "bootstrap": "yarn example && yarn && yarn example pods"
+    "release": "release-it"
   },
   "keywords": [
     "react-native",
     "ios",
     "android"
   ],
-  "repository": "https://github.com/SourcePointUSA/react-native-sourcepoint-cmp",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SourcePointUSA/react-native-sourcepoint-cmp.git"
+  },
   "author": "André Herculano <andre@sourcepoint.com> (https://github.com/andresilveirah)",
   "license": "MIT",
   "bugs": {
@@ -43,28 +50,30 @@
   },
   "homepage": "https://github.com/SourcePointUSA/react-native-sourcepoint-cmp#readme",
   "publishConfig": {
-    "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
-    "@arkweid/lefthook": "^0.7.7",
-    "@babel/eslint-parser": "^7.18.2",
-    "@react-native-community/eslint-config": "^3.0.2",
+    "@commitlint/config-conventional": "^17.0.2",
+    "@evilmartians/lefthook": "^1.5.0",
+    "@react-native/eslint-config": "^0.72.2",
     "@release-it/conventional-changelog": "^5.0.0",
     "@types/jest": "^28.1.2",
     "@types/react": "~17.0.21",
-    "@types/react-native": "0.68.0",
+    "@types/react-native": "0.70.0",
+    "commitlint": "^17.0.2",
+    "del-cli": "^5.0.0",
     "eslint": "^8.4.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^28.1.1",
     "pod-install": "^0.1.0",
     "prettier": "^2.0.5",
-    "react": "17.0.2",
-    "react-native": "0.68.2",
-    "react-native-builder-bob": "^0.18.3",
+    "react": "18.2.0",
+    "react-native": "0.73.1",
+    "react-native-builder-bob": "^0.20.0",
     "release-it": "^15.0.0",
-    "typescript": "^4.5.2"
+    "turbo": "^1.10.7",
+    "typescript": "^5.0.2"
   },
   "resolutions": {
     "@types/react": "17.0.21"
@@ -73,6 +82,13 @@
     "react": "*",
     "react-native": "*"
   },
+  "workspaces": [
+    "example"
+  ],
+  "packageManager": "yarn@3.6.1",
+  "engines": {
+    "node": ">= 18.0.0"
+  },
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
@@ -80,10 +96,15 @@
       "<rootDir>/lib/"
     ]
   },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
   "release-it": {
     "git": {
-      "commitMessage": "release ${version}",
-      "tagName": "${version}"
+      "commitMessage": "chore: release ${version}",
+      "tagName": "v${version}"
     },
     "npm": {
       "publish": true
@@ -99,20 +120,21 @@
   },
   "eslintConfig": {
     "root": true,
-    "parser": "@babel/eslint-parser",
     "extends": [
-      "@react-native-community",
+      "@react-native",
       "prettier"
     ],
     "rules": {
       "prettier/prettier": [
         "error",
         {
-          "quoteProps": "consistent",
+          "semi": false,
           "singleQuote": true,
+          "quoteProps": "as-needed",
           "tabWidth": 2,
+          "useTabs": false,
           "trailingComma": "es5",
-          "useTabs": false
+          "singleAttributePerLine": false
         }
       ]
     }
@@ -122,11 +144,13 @@
     "lib/"
   ],
   "prettier": {
-    "quoteProps": "consistent",
+    "semi": false,
     "singleQuote": true,
+    "quoteProps": "as-needed",
     "tabWidth": 2,
+    "useTabs": false,
     "trailingComma": "es5",
-    "useTabs": false
+    "singleAttributePerLine": false
   },
   "react-native-builder-bob": {
     "source": "src",
@@ -141,5 +165,10 @@
         }
       ]
     ]
+  },
+  "codegenConfig": {
+    "name": "RNSourcepointCmpSpec",
+    "type": "modules",
+    "jsSrcsDir": "src"
   }
 }
