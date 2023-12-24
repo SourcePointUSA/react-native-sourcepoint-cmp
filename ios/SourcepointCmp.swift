@@ -61,7 +61,7 @@ extension SourcepointCmp: SPDelegate {
     }
 
     func onAction(_ action: SPAction, from controller: UIViewController) {
-        SourcepointCmp.shared?.sendEvent(withName: "onAction", body: action.type.description)
+        SourcepointCmp.shared?.sendEvent(withName: "onAction", body: ["actionType": action.type.description])
     }
 
     func onSPUIReady(_ controller: UIViewController) {

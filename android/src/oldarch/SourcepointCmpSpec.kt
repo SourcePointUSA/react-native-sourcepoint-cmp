@@ -6,6 +6,11 @@ import com.facebook.react.bridge.Promise
 
 abstract class SourcepointCmpSpec internal constructor(context: ReactApplicationContext) :
   ReactContextBaseJavaModule(context) {
-
-  abstract fun multiply(a: Double, b: Double, promise: Promise)
+  abstract fun build(accountId: Int, propertyId: Int, propertyName: String)
+  abstract fun loadMessage()
+  abstract fun clearLocalData()
+  abstract fun getUserData(promise: Promise)
+  abstract fun loadGDPRPrivacyManager(pmId: String)
+  abstract fun loadCCPAPrivacyManager(pmId: String)
+  abstract fun supportedEvents(): Array<String>
 }
