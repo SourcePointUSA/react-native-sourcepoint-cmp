@@ -117,17 +117,21 @@ class SourcepointCmpModule internal constructor(context: ReactApplicationContext
   private fun userConsentsToWriteableMap(consents: SPConsents) = createMap().apply {
     consents.ccpa?.let { ccpa ->
       putMap("ccpa", createMap().apply {
-        putString("uuid", ccpa.consent.uuid)
+        putMap("consents", createMap().apply {
+          putString("uuid", ccpa.consent.uuid)
+          putString("uspstring", ccpa.consent.uspstring)
+        })
         putBoolean("applies", ccpa.consent.applies)
-        putString("uspstring", ccpa.consent.uspstring)
       })
     }
 
     consents.gdpr?.let { gdpr ->
       putMap("gdpr", createMap().apply {
-        putString("uuid", gdpr.consent.uuid)
+        putMap("consents", createMap().apply {
+          putString("uuid", gdpr.consent.uuid)
+          putString("euconsent", gdpr.consent.euconsent)
+        })
         putBoolean("applies", gdpr.consent.applies)
-        putString("euconsent", gdpr.consent.euconsent)
       })
     }
   }

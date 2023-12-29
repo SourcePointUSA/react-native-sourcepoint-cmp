@@ -12,7 +12,7 @@ export interface SourcepointCmpSpec extends TurboModule {
   onFinished(callback: () => void): void
   onAction(callback: (action: string) => void): void
   onSPUIReady(callback: () => void): void
-  onSPUFinished(callback: () => void): void
+  onSPUIFinished(callback: () => void): void
   onError(callback: (description: string) => void): void
 
   dispose(): void
