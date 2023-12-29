@@ -7,7 +7,8 @@ import UserDataView from './UserDataView'
 
 enum SDKStatus {
   NotStarted = 'Not Started',
-  Running = 'Running',
+  Networking = 'Networking',
+  Presenting = 'Presenting',
   Finished = 'Finished',
   Errored = 'Errored',
 }
@@ -28,6 +29,8 @@ export default function App() {
   const [sdkStatus, setSDKStatus] = useState<SDKStatus>(SDKStatus.NotStarted)
 
   useEffect(() => {
+    consentManager.onSPUIReady(() => setSDKStatus(SDKStatus.Presenting))
+    consentManager.onSPUIFinished(() => setSDKStatus(SDKStatus.Networking))
     consentManager.onFinished(() => {
       setSDKStatus(SDKStatus.Finished)
       consentManager.getUserData().then(setUserData)
@@ -39,7 +42,7 @@ export default function App() {
     })
     consentManager.getUserData().then(setUserData)
     consentManager.loadMessage()
-    setSDKStatus(SDKStatus.Running)
+    setSDKStatus(SDKStatus.Networking)
     return () => {
       consentManager.dispose()
     }
@@ -47,16 +50,16 @@ export default function App() {
 
   const onLoadMessagePress = useCallback(() => {
     consentManager.loadMessage()
-    setSDKStatus(SDKStatus.Running)
+    setSDKStatus(SDKStatus.Networking)
   }, [])
 
   const onGDPRPMPress = useCallback(() => {
-    setSDKStatus(SDKStatus.Running)
+    setSDKStatus(SDKStatus.Networking)
     consentManager.loadGDPRPrivacyManager(config.gdprPMId)
   }, [])
 
   const onCCPAPMPress = useCallback(() => {
-    setSDKStatus(SDKStatus.Running)
+    setSDKStatus(SDKStatus.Networking)
     consentManager.loadCCPAPrivacyManager(config.ccpaPMId)
   }, [])
 
@@ -65,7 +68,8 @@ export default function App() {
     consentManager.getUserData().then(setUserData)
   }, [])
 
-  const disable = sdkStatus === SDKStatus.Running
+  const disable =
+    sdkStatus === SDKStatus.Networking || sdkStatus === SDKStatus.Presenting
 
   return (
     <SafeAreaView style={styles.container}>
@@ -87,7 +91,9 @@ export default function App() {
           disabled={disable}
         />
         <Button title="Clear All" onPress={onClearDataPress} />
-        <Text style={styles.status}>{sdkStatus}</Text>
+        <Text testID="sdkStatus" style={styles.status}>
+          {sdkStatus}
+        </Text>
       </View>
       <UserDataView data={userData} />
     </SafeAreaView>

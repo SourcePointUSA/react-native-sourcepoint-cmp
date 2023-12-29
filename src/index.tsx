@@ -62,9 +62,9 @@ export class SPConsentManager implements SourcepointCmpSpec {
     this.emitter.addListener('onSPUIReady', callback)
   }
 
-  onSPUFinished(callback: () => void): void {
-    this.emitter.removeAllListeners('onSPUFinished')
-    this.emitter.addListener('onSPUFinished', callback)
+  onSPUIFinished(callback: () => void): void {
+    this.emitter.removeAllListeners('onSPUIFinished')
+    this.emitter.addListener('onSPUIFinished', callback)
   }
 
   onFinished(callback: () => void) {
