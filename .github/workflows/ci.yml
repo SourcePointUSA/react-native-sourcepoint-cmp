@@ -23,7 +23,7 @@ jobs:
       - name: Typecheck files
         run: yarn typecheck
 
-  test:
+  unit-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -79,7 +79,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '11'
+          java-version: '17'
 
       - name: Finalize Android SDK
         if: env.turbo_cache_hit != 1
@@ -149,3 +149,17 @@ jobs:
       - name: Build example for iOS
         run: |
           yarn turbo run build:ios --cache-dir="${{ env.TURBO_CACHE_DIR }}"
+
+  e2e-test-ios:
+    needs: build-ios
+    runs-on: macos-latest
+    steps:
+      - name: run e2e tests
+        run: yarn run e2e:ios
+
+  e2e-test-android:
+    needs: build-android
+    runs-on: ubuntu-latest
+    steps:
+      - name: run e2e tests
+        run: yarn run e2e:android

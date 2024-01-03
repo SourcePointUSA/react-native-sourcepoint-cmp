@@ -11,6 +11,7 @@ module.exports = {
   },
   apps: {
     'ios.debug': {
+      start: 'yarn example start',
       type: 'ios.app',
       binaryPath: 'example/ios/build/Build/Products/Debug-iphonesimulator/SourcepointCmpExample.app',
       build: 'xcodebuild -workspace example/ios/SourcepointCmpExample.xcworkspace -scheme SourcepointCmpExample -configuration Debug -sdk iphonesimulator -derivedDataPath example/ios/build'
@@ -21,6 +22,7 @@ module.exports = {
     //   build: 'xcodebuild -workspace example/ios/SourcepointCmpExample.xcworkspace -scheme SourcepointCmpExample -configuration Release -sdk iphonesimulator -derivedDataPath example/ios/build'
     // },
     'android.debug': {
+      start: 'yarn example start',
       type: 'android.apk',
       binaryPath: 'example/android/app/build/outputs/apk/debug/app-debug.apk',
       build: 'cd example/android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug',
