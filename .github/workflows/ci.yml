@@ -48,7 +48,7 @@ jobs:
         run: yarn prepare
 
   build-android:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     env:
       TURBO_CACHE_DIR: .turbo/android
     steps:
@@ -102,7 +102,11 @@ jobs:
           yarn turbo run build:android --cache-dir="${{ env.TURBO_CACHE_DIR }}"
 
       - name: run e2e tests
-        run: yarn run e2e:android
+        uses: reactivecircus/android-emulator-runner@v2
+          with:
+            api-level: 29
+            profile: Nexus 6
+            script: yarn run e2e:android
 
   build-ios:
     runs-on: macos-latest
