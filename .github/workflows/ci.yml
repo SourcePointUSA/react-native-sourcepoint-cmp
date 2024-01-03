@@ -104,10 +104,10 @@ jobs:
 
       - name: run e2e tests
         uses: reactivecircus/android-emulator-runner@v2
-          with:
-            api-level: 29
-            profile: Nexus 6
-            script: yarn run e2e:android
+        with:
+          api-level: 29
+          profile: Nexus 6
+          script: yarn run e2e:android
 
   build-ios:
     runs-on: macos-latest
