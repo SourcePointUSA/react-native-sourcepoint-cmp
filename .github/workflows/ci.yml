@@ -101,6 +101,9 @@ jobs:
         run: |
           yarn turbo run build:android --cache-dir="${{ env.TURBO_CACHE_DIR }}"
 
+      - name: run e2e tests
+        run: yarn run e2e:android
+
   build-ios:
     runs-on: macos-latest
     env:
@@ -150,16 +153,5 @@ jobs:
         run: |
           yarn turbo run build:ios --cache-dir="${{ env.TURBO_CACHE_DIR }}"
 
-  e2e-test-ios:
-    needs: build-ios
-    runs-on: macos-latest
-    steps:
       - name: run e2e tests
         run: yarn run e2e:ios
-
-  e2e-test-android:
-    needs: build-android
-    runs-on: ubuntu-latest
-    steps:
-      - name: run e2e tests
-        run: yarn run e2e:android
