@@ -28,7 +28,7 @@
   "scripts": {
     "example": "yarn workspace react-native-sourcepoint-cmp-example",
     "test": "jest",
-    "e2e:android": "yarn detox test --configuration android.emu.debug --start=force --cleanup --take-screenshots=failing --record-logs=failing --loglevel=trace --artifacts-location=./e2e/artifacts",
+    "e2e:android": "yarn detox build --configuration android.emu.debug && yarn detox test --configuration android.emu.debug --start=force --cleanup --take-screenshots=failing --record-logs=failing --loglevel=trace --artifacts-location=./e2e/artifacts",
     "e2e:ios": "yarn detox test --configuration ios.sim.debug --start=force --cleanup --headless --take-screenshots=failing --record-logs=failing --loglevel=trace --artifacts-location=./e2e/artifacts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
