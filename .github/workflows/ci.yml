@@ -108,6 +108,8 @@ jobs:
           api-level: 29
           profile: Nexus 6
           script: yarn run e2e:android
+          avd-name: Nexus_6_API_29
+          force-avd-creation: true
 
   build-ios:
     runs-on: macos-latest
