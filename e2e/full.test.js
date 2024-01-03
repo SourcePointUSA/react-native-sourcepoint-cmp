@@ -90,6 +90,7 @@ const assertUUIDsDidntChange = async () => {
 
 const assertAllPMToggles = async (loadPMFn, { toggled, togglesCount }) => {
   await loadPMFn()
+  await app.forSDKToBePresenting()
   if (toggled) {
     await expect(app.pmToggleOn.atIndex(togglesCount - 1)).toExist()
   } else {
