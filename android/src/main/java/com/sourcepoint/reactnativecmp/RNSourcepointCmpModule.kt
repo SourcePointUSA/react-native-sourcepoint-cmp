@@ -101,7 +101,10 @@ class RNSourcepointCmpModule internal constructor(context: ReactApplicationConte
   }
 
   @ReactMethod
-  override fun supportedEvents() = SDKEvent.entries.map { name }.toTypedArray()
+  override fun supportedEvents(): Array<String> {
+    return SDKEvent.values().map { it.name }.toTypedArray()
+  }
+  
   private fun sendEvent(event: SDKEvent, params: WritableMap? = null) = reactApplicationContext
     .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
     .emit(event.name, params)
