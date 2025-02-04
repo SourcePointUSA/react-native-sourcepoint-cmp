@@ -42,9 +42,10 @@ export class SPConsentManager implements Spec {
     accountId: number,
     propertyId: number,
     propertyName: string,
-    campaigns: SPCampaigns
+    campaigns: SPCampaigns,
+    messageLanguage?: string
   ) {
-    RNSourcepointCmp.build(accountId, propertyId, propertyName, campaigns);
+    RNSourcepointCmp.build(accountId, propertyId, propertyName, campaigns, messageLanguage);
   }
 
   getUserData(): Promise<SPUserData> {

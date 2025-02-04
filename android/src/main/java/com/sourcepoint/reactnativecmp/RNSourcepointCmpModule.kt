@@ -38,7 +38,7 @@ class RNSourcepointCmpModule internal constructor(context: ReactApplicationConte
   override fun getName() = NAME
 
   @ReactMethod
-  override fun build(accountId: Int, propertyId: Int, propertyName: String, campaigns: ReadableMap) {
+  override fun build(accountId: Int, propertyId: Int, propertyName: String, campaigns: ReadableMap, messageLanguage: String) {
     val convertedCampaigns = campaigns.SPCampaigns()
 
     val config = SpConfigDataBuilder().apply {
@@ -46,6 +46,11 @@ class RNSourcepointCmpModule internal constructor(context: ReactApplicationConte
       addPropertyName(propertyName)
       addPropertyId(propertyId)
       addMessageTimeout(30000)
+
+      if (messageLanguage.isNotBlank()) {
+        addMessageLanguage(messageLanguage)
+      }
+
       convertedCampaigns.gdpr?.let {
         addCampaign(campaignType = CampaignType.GDPR, params = it.targetingParams, groupPmId = null)
       }

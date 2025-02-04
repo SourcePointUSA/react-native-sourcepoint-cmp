@@ -105,7 +105,8 @@ export interface Spec extends TurboModule {
     accountId: number,
     propertyId: number,
     propertyName: string,
-    campaigns: SPCampaigns
+    campaigns: SPCampaigns,
+    messageLanguage?: string
   ): void;
   getUserData(): Promise<SPUserData>;
   loadMessage(params?: LoadMessageParams): void;
