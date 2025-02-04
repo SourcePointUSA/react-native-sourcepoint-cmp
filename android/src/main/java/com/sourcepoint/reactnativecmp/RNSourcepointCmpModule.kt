@@ -20,6 +20,7 @@ import com.sourcepoint.cmplibrary.model.ConsentAction
 import com.sourcepoint.cmplibrary.model.exposed.SPConsents
 import com.sourcepoint.cmplibrary.util.clearAllData
 import com.sourcepoint.cmplibrary.util.userConsents
+import com.sourcepoint.cmplibrary.model.MessageLanguage
 import com.sourcepoint.reactnativecmp.consents.RNSPUserData
 import org.json.JSONObject
 
