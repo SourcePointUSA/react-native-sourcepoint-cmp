@@ -49,7 +49,7 @@ class RNSourcepointCmpModule internal constructor(context: ReactApplicationConte
       addMessageTimeout(30000)
 
       if (messageLanguage.isNotBlank()) {
-        addMessageLanguage(MessageLanguage.SPANISH)
+        addMessageLanguage(getMessageLanguage(messageLanguage))
       }
 
       convertedCampaigns.gdpr?.let {
@@ -70,6 +70,10 @@ class RNSourcepointCmpModule internal constructor(context: ReactApplicationConte
     } ?: run {
       onError(Error("No activity found when building the SDK"))
     }
+  }
+
+  private fun getMessageLanguage(languageCode: String?): MessageLanguage {
+    return MessageLanguage.values().firstOrNull { it.value == languageCode } ?: MessageLanguage.ENGLISH
   }
 
   private fun runOnMainThread(runnable: () -> Unit) {
