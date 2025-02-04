@@ -8,7 +8,7 @@ import com.facebook.react.bridge.ReadableMap
 abstract class RNSourcepointCmpSpec internal constructor(context: ReactApplicationContext) :
   ReactContextBaseJavaModule(context) {
 
-  abstract fun build(accountId: Int, propertyId: Int, propertyName: String, campaigns: ReadableMap)
+  abstract fun build(accountId: Int, propertyId: Int, propertyName: String, campaigns: ReadableMap, messageLanguage: String)
   abstract fun loadMessage(params: ReadableMap?)
   abstract fun clearLocalData()
   abstract fun getUserData(promise: Promise)
