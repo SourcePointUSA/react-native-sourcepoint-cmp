@@ -48,7 +48,7 @@ class RNSourcepointCmpModule internal constructor(context: ReactApplicationConte
       addMessageTimeout(30000)
 
       if (messageLanguage.isNotBlank()) {
-        addMessageLanguage(messageLanguage)
+        addMessageLanguage(MessageLanguage.SPANISH)
       }
 
       convertedCampaigns.gdpr?.let {
