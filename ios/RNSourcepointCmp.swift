@@ -28,7 +28,7 @@ import React
         resolve(RNSPUserData(from: consentManager?.userData).toDictionary())
     }
 
-    func build(_ accountId: Int, propertyId: Int, propertyName: String, campaigns: SPCampaigns) {
+    func build(_ accountId: Int, propertyId: Int, propertyName: String, campaigns: SPCampaigns, messageLanguage: String) {
         let manager = SPConsentManager(
             accountId: accountId,
             propertyId: propertyId,
@@ -36,6 +36,11 @@ import React
             campaigns: campaigns,
             delegate: self
         )
+
+        if !messageLanguage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            manager.messageLanguage = messageLanguage
+        }
+
         manager.messageTimeoutInSeconds = 30
         RNSourcepointCmp.shared?.consentManager = manager
     }
