@@ -38,7 +38,7 @@ import React
         )
 
         if !messageLanguage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            manager.messageLanguage = messageLanguage
+            manager.messageLanguage = SPMessageLanguage(rawValue: messageLanguage)
         }
 
         manager.messageTimeoutInSeconds = 30
