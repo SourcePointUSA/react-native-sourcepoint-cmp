@@ -7,6 +7,8 @@ import type {
   SPActionType,
 } from './types';
 
+import { Language } from './types';
+
 const LINKING_ERROR =
   `The package '@sourcepoint/react-native-cmp' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
@@ -42,9 +44,10 @@ export class SPConsentManager implements Spec {
     accountId: number,
     propertyId: number,
     propertyName: string,
-    campaigns: SPCampaigns
+    campaigns: SPCampaigns,
+    messageLanguage?: Language
   ) {
-    RNSourcepointCmp.build(accountId, propertyId, propertyName, campaigns);
+    RNSourcepointCmp.build(accountId, propertyId, propertyName, campaigns, messageLanguage || '');
   }
 
   getUserData(): Promise<SPUserData> {
