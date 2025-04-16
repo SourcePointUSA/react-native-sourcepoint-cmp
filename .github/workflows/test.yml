@@ -96,7 +96,8 @@ jobs:
           key: avd-33
       - name: create AVD and generate snapshot for caching
         if: steps.avd-cache.outputs.cache-hit != 'true'
-        uses: reactivecircus/android-emulator-runner@v2
+        # uses v2 tag of reactivecircus/android-emulator-runner as of 2025-04-15
+        uses: reactivecircus/android-emulator-runner@1dcd0090116d15e7c562f8db72807de5e036a4ed
         with:
           avd-name: Pixel_9_API_34
           force-avd-creation: false
@@ -109,7 +110,8 @@ jobs:
           disable-animations: false
           script: echo "Generated AVD snapshot for caching."
       - name: run tests
-        uses: reactivecircus/android-emulator-runner@v2
+        # uses v2 tag of reactivecircus/android-emulator-runner as of 2025-04-15
+        uses: reactivecircus/android-emulator-runner@1dcd0090116d15e7c562f8db72807de5e036a4ed
         env:
           JAVA_OPTS: "-XX:MaxHeapSize=6g"
         with:
@@ -142,7 +144,7 @@ jobs:
         env:
           HOMEBREW_NO_AUTO_UPDATE: 1
           HOMEBREW_NO_INSTALL_CLEANUP: 1
-        run: | 
+        run: |
           brew tap wix/brew
           brew install applesimutils
       - name: Cache turborepo for iOS
