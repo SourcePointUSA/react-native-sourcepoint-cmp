@@ -20,6 +20,7 @@ import com.sourcepoint.cmplibrary.model.ConsentAction
 import com.sourcepoint.cmplibrary.model.exposed.SPConsents
 import com.sourcepoint.cmplibrary.util.clearAllData
 import com.sourcepoint.cmplibrary.util.userConsents
+import com.sourcepoint.cmplibrary.model.MessageLanguage
 import com.sourcepoint.reactnativecmp.consents.RNSPUserData
 import org.json.JSONObject
 
@@ -38,7 +39,7 @@ class RNSourcepointCmpModule internal constructor(context: ReactApplicationConte
   override fun getName() = NAME
 
   @ReactMethod
-  override fun build(accountId: Int, propertyId: Int, propertyName: String, campaigns: ReadableMap) {
+  override fun build(accountId: Int, propertyId: Int, propertyName: String, campaigns: ReadableMap, messageLanguage: String) {
     val convertedCampaigns = campaigns.SPCampaigns()
 
     val config = SpConfigDataBuilder().apply {
@@ -46,6 +47,11 @@ class RNSourcepointCmpModule internal constructor(context: ReactApplicationConte
       addPropertyName(propertyName)
       addPropertyId(propertyId)
       addMessageTimeout(30000)
+
+      if (messageLanguage.isNotBlank()) {
+        addMessageLanguage(getMessageLanguage(messageLanguage))
+      }
+
       convertedCampaigns.gdpr?.let {
         addCampaign(campaignType = CampaignType.GDPR, params = it.targetingParams, groupPmId = null)
       }
@@ -64,6 +70,10 @@ class RNSourcepointCmpModule internal constructor(context: ReactApplicationConte
     } ?: run {
       onError(Error("No activity found when building the SDK"))
     }
+  }
+
+  private fun getMessageLanguage(languageCode: String?): MessageLanguage {
+    return MessageLanguage.values().firstOrNull { it.value == languageCode } ?: MessageLanguage.ENGLISH
   }
 
   private fun runOnMainThread(runnable: () -> Unit) {

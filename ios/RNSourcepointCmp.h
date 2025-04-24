@@ -9,7 +9,7 @@
 
 @interface RCT_EXTERN_MODULE(RNSourcepointCmp, RCTEventEmitter)
 
-RCT_EXTERN_METHOD(build:(int)accountId propertyId:(int)propertyId propertyName:(NSString *)propertyName campaigns:(SPCampaigns*)campaigns)
+RCT_EXTERN_METHOD(build:(int)accountId propertyId:(int)propertyId propertyName:(NSString *)propertyName campaigns:(SPCampaigns*)campaigns messageLanguage:(NSString *)messageLanguage)
 
 RCT_EXTERN_METHOD(loadMessage: (SPLoadMessageParams *)params)
 RCT_EXTERN_METHOD(clearLocalData)
