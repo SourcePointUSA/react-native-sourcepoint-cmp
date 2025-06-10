@@ -12,15 +12,16 @@ import com.sourcepoint.reactnativecmp.arguments.putAny
 typealias SPConsentable = Consentable
 
 data class RNSPUSNatConsent(
-  override val uuid: String?,
-  override val createdDate: String?,
-  override val expirationDate: String?,
+  val uuid: String?,
+  val applies: Boolean,
+  val createdDate: String?,
+  val expirationDate: String?,
   val consentSections: List<ConsentSection>,
   val statuses: Statuses,
   val gppData:  Map<String, Any?>,
   val vendors: List<Consentable>,
   val categories: List<Consentable>
-): RNSPConsent {
+): RNMappable {
   data class ConsentSection(val id: Int?, val name: String?, val consentString: String?) {
     constructor(section: ConsentString): this(
       id = section.sectionId,
@@ -79,6 +80,7 @@ data class RNSPUSNatConsent(
 
   constructor(usnat: UsNatConsent) : this(
     uuid = usnat.uuid,
+    applies = usnat.applies,
     createdDate = usnat.dateCreated,
     expirationDate = null,
     consentSections = usnat.consentStrings?.map { ConsentSection(section = it) } ?: emptyList(),
@@ -90,6 +92,7 @@ data class RNSPUSNatConsent(
 
   override fun toRN(): ReadableMap = createMap().apply {
     putString("uuid", uuid)
+    putBoolean("applies", applies)
     putString("createdDate", createdDate)
     putString("expirationDate", expirationDate)
     putArray("consentSections", createArray().apply { consentSections.forEach { pushMap(it.toRN()) } })
