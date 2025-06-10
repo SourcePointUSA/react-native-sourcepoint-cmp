@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import {
   View,
   Text,
@@ -9,8 +9,7 @@ import {
 } from 'react-native';
 import { LaunchArguments } from 'react-native-launch-arguments';
 
-import {
-  SPConsentManager,
+import SPConsentManager, {
   SPCampaignEnvironment,
 } from '@sourcepoint/react-native-cmp';
 import type { SPCampaigns, SPUserData } from '@sourcepoint/react-native-cmp';
@@ -46,7 +45,7 @@ export default function App() {
   const [userData, setUserData] = useState<SPUserData>({});
   const [sdkStatus, setSDKStatus] = useState<SDKStatus>(SDKStatus.NotStarted);
   const [authId, setAuthId] = useState<string | undefined>(launchArgs.authId);
-  const consentManager = useRef<SPConsentManager | null>();
+  const consentManager = useRef<SPConsentManager | null>(null);
 
   useEffect(() => {
     consentManager.current = new SPConsentManager();
@@ -75,7 +74,7 @@ export default function App() {
     });
 
     consentManager.current?.onAction(({ actionType }) =>
-      console.warn(`action: ${actionType}`)
+      console.log(`action: ${actionType}`)
     );
 
     consentManager.current?.onError((description) => {
@@ -90,9 +89,9 @@ export default function App() {
     setSDKStatus(SDKStatus.Networking);
 
     return () => {
-      consentManager.current?.dispose();
+      consentManager.current = null;
     };
-  }, []);
+  }, [authId]);
 
   const onLoadMessagePress = useCallback(() => {
     consentManager.current?.loadMessage({ authId });
@@ -111,6 +110,12 @@ export default function App() {
 
   const onClearDataPress = useCallback(() => {
     consentManager.current?.clearLocalData();
+    consentManager.current?.build(
+      config.accountId,
+      config.propertyId,
+      config.propertyName,
+      config.campaigns
+    );
     setUserData({});
   }, []);
 
