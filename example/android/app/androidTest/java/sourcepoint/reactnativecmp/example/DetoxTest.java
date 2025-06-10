@@ -1,4 +1,5 @@
-package com.reactnativecmpexample;
+
+package sourcepoint.reactnativecmp.example;
 
 import com.wix.detox.Detox;
 import com.wix.detox.config.DetoxConfig;
