@@ -8,10 +8,22 @@
 import Foundation
 import ConsentViewController
 
-enum RNSourcepointActionType: String, Codable {
+@objc public enum RNSourcepointActionType: Int, CustomStringConvertible {
     case acceptAll, rejectAll, showPrivacyManager, saveAndExit, dismiss, pmCancel, unknown
 
-    init(from actionType: SPActionType){
+  public var description: String {
+    return switch self {
+      case .acceptAll: "AcceptAll"
+      case .rejectAll: "RejectAll"
+      case .showPrivacyManager: "ShowPrivacyManager"
+      case .saveAndExit: "SaveAndExit"
+      case .dismiss: "Dismiss"
+      case .pmCancel: "PMCancel"
+      case .unknown: "Unknown"
+    }
+  }
+
+  public init(from actionType: SPActionType){
         switch actionType {
         case .AcceptAll: self = .acceptAll
         case .RejectAll: self = .rejectAll

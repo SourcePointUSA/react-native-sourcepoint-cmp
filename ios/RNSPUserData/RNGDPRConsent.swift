@@ -9,22 +9,16 @@ import Foundation
 import ConsentViewController
 
 // encapsulates GDPR consent
-struct RNSPGDPRConsent: RNSPConsent {
+struct RNSPGDPRConsent: Encodable {
     struct Statuses: Encodable {
         let consentedAll, consentedAny, rejectedAny: Bool?
     }
 
-    // the uuid given to a consent profile (user) it can be nil if the profile is not yet created
-    let uuid: String?
-
-    // the TCF consent string representing this user's consent. this can be nil if the user doesn't yet have consent.
-    let euconsent: String?
+    let uuid, euconsent: String?
+    let applies: Bool?
     let expirationDate, createdDate: SPDate?
     let vendorGrants: SPGDPRVendorGrants
     let statuses: Statuses
-
-    // this data is stored at the "root level" of the `UserDefaults` as specified by
-    // https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#in-app-details
     let tcfData: SPJson?
 }
 
@@ -43,6 +37,7 @@ extension RNSPGDPRConsent {
         self.init(
             uuid: gdpr.uuid,
             euconsent: gdpr.euconsent,
+            applies: gdpr.applies,
             expirationDate: nil,
             createdDate: gdpr.dateCreated,
             vendorGrants: gdpr.vendorGrants,
@@ -51,4 +46,3 @@ extension RNSPGDPRConsent {
         )
     }
 }
-

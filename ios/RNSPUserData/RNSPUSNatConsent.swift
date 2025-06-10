@@ -10,7 +10,7 @@ import ConsentViewController
 
 // Encapsulates USNat (sometimes called MSPS) consent.
 // This is an adapter of `SPUSNatConsent`
-struct RNSPUSNatConsent: RNSPConsent {
+struct RNSPUSNatConsent: Encodable {
     struct Statuses: Encodable {
         let consentedAll, consentedAny, rejectedAny,
             sellStatus, shareStatus,

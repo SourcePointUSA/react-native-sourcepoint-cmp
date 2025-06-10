@@ -9,90 +9,132 @@ import ConsentViewController
 import Foundation
 import React
 
-@objc(RNSourcepointCmp)
-@objcMembers class RNSourcepointCmp: RCTEventEmitter {
-    @objc public static var shared: RNSourcepointCmp?
+@objcMembers public class RNAction: NSObject {
+  public let type: RNSourcepointActionType
+  public let customActionId: String?
 
-    var consentManager: SPConsentManager?
+  @objc public init(type: RNSourcepointActionType, customActionId: String?) {
+    self.type = type
+    self.customActionId = customActionId
+  }
 
-    override init() {
-        super.init()
-        RNSourcepointCmp.shared = self
-    }
-
-    open override func supportedEvents() -> [String] {
-        ["onSPUIReady", "onSPUIFinished", "onAction", "onSPFinished", "onError"]
-    }
-
-    func getUserData(_ resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        resolve(RNSPUserData(from: consentManager?.userData).toDictionary())
-    }
-
-    func build(_ accountId: Int, propertyId: Int, propertyName: String, campaigns: SPCampaigns) {
-        let manager = SPConsentManager(
-            accountId: accountId,
-            propertyId: propertyId,
-            propertyName: try! SPPropertyName(propertyName),
-            campaigns: campaigns,
-            delegate: self
-        )
-        manager.messageTimeoutInSeconds = 30
-        RNSourcepointCmp.shared?.consentManager = manager
-    }
-
-    func loadMessage(_ params: SPLoadMessageParams) {
-        consentManager?.loadMessage(forAuthId: params.authId, pubData: nil)
-    }
-
-    // TODO: fix an issue with `SPConsentManager.clearAllData` returning in-memory data
-    // SPConsentManager.clearAllData() clears all data from UserDefaults, but SPCoordinator
-    // keeps a copy of it in-memory. When calling `getUserData` right after, returns its
-    // in-memory copy.
-    func clearLocalData() {
-        SPConsentManager.clearAllData()
-    }
-
-    func loadGDPRPrivacyManager(_ pmId: String) {
-        consentManager?.loadGDPRPrivacyManager(withId: pmId)
-    }
-
-    func loadUSNatPrivacyManager(_ pmId: String) {
-        consentManager?.loadUSNatPrivacyManager(withId: pmId)
-    }
+  @objc public func toDictionary() -> [String: Any] {
+    ["actionType": type.description, "customActionId": customActionId]
+  }
 }
 
-extension RNSourcepointCmp: SPDelegate {
-    weak var rootViewController: UIViewController? {
-        UIApplication.shared.delegate?.window??.rootViewController
-    }
+@objc public protocol ReactNativeCmpImplDelegate {
+  func onAction(_ action: RNAction)
+  func onSPUIReady()
+  func onSPUIFinished()
+  func onFinished()
+  func onError(description: String)
+}
 
-    func onAction(_ action: SPAction, from controller: UIViewController) {
-        RNSourcepointCmp.shared?.sendEvent(
-            withName: "onAction",
-            body: [
-              "actionType": RNSourcepointActionType(from: action.type).rawValue,
-              "customActionId": action.customActionId ?? "",
-            ]
-        )
-    }
+@objcMembers public class ReactNativeCmpImpl: NSObject {
+  @objc public static var shared: ReactNativeCmpImpl?
 
-    func onSPUIReady(_ controller: UIViewController) {
-        RNSourcepointCmp.shared?.sendEvent(withName: "onSPUIReady", body: [])
-        controller.modalPresentationStyle = .overFullScreen
-        rootViewController?.present(controller, animated: true)
-    }
+  private static var objcDelegate = CMPDelegateHandler(parent: shared)
 
-    func onSPUIFinished(_ controller: UIViewController) {
-        RNSourcepointCmp.shared?.sendEvent(withName: "onSPUIFinished", body: [])
-        rootViewController?.dismiss(animated: true)
-    }
+  var consentManager: SPConsentManager?
+  weak var delegate: ReactNativeCmpImplDelegate?
 
-    func onSPFinished(userData: SPUserData) {
-        RNSourcepointCmp.shared?.sendEvent(withName: "onSPFinished", body: [])
-    }
+  public override init() {
+    super.init()
+    Self.shared = self
+  }
 
-    func onError(error: SPError) {
-        RNSourcepointCmp.shared?.sendEvent(withName: "onError", body: ["description": error.description])
-        print("Something went wrong", error)
-    }
+  public func getUserData(_ resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+    resolve(RNSPUserData(from: consentManager?.userData).toDictionary())
+  }
+
+  public func loadMessage(_ params: RNSPLoadMessageParams) {
+    consentManager?.loadMessage(forAuthId: params.authId, pubData: nil)
+  }
+
+  // TODO: fix an issue with `SPConsentManager.clearAllData` returning in-memory data
+  // SPConsentManager.clearAllData() clears all data from UserDefaults, but SPCoordinator
+  // keeps a copy of it in-memory. When calling `getUserData` right after, returns its
+  // in-memory copy.
+  public func clearLocalData() {
+    SPConsentManager.clearAllData()
+  }
+
+  public func loadGDPRPrivacyManager(_ pmId: String) {
+    consentManager?.loadGDPRPrivacyManager(withId: pmId)
+  }
+
+  public func loadUSNatPrivacyManager(_ pmId: String) {
+    consentManager?.loadUSNatPrivacyManager(withId: pmId)
+  }
+
+  weak var rootViewController: UIViewController? {
+    UIApplication.shared.delegate?.window??.rootViewController
+  }
+
+  public func build(_ accountId: Int, propertyId: Int, propertyName: String, campaigns: RNSPCampaigns, delegate: ReactNativeCmpImplDelegate?) {
+    let manager = SPConsentManager(
+      accountId: accountId,
+      propertyId: propertyId,
+      propertyName: try! SPPropertyName(propertyName),
+      campaigns: campaigns.toSP(),
+      delegate: Self.objcDelegate
+    )
+    self.delegate = delegate
+    manager.messageTimeoutInSeconds = 10
+    Self.shared?.consentManager = manager
+  }
+
+  public func onAction(_ action: SPAction, from controller: UIViewController) {
+    delegate?.onAction(RNAction(type: RNSourcepointActionType(from: action.type), customActionId: action.customActionId))
+  }
+
+  public func onSPUIReady(_ controller: UIViewController) {
+    controller.modalPresentationStyle = .overFullScreen
+    rootViewController?.present(controller, animated: true)
+    delegate?.onSPUIReady()
+  }
+
+  public func onSPUIFinished(_ controller: UIViewController) {
+    rootViewController?.dismiss(animated: true)
+    delegate?.onSPUIFinished()
+  }
+
+  public func onSPFinished(userData: SPUserData) {
+    delegate?.onFinished()
+  }
+
+  public func onError(error: SPError) {
+    print("Something went wrong", error)
+    delegate?.onError(description: error.description)
+  }
+}
+
+
+private class CMPDelegateHandler: NSObject, SPDelegate {
+  weak var parent: ReactNativeCmpImpl?
+
+  init(parent: ReactNativeCmpImpl?) {
+    self.parent = parent
+  }
+
+  func onAction(_ action: ConsentViewController.SPAction, from controller: UIViewController) {
+    parent?.onAction(action, from: controller)
+  }
+
+  func onSPUIReady(_ controller: UIViewController) {
+    parent?.onSPUIReady(controller)
+  }
+
+  func onSPUIFinished(_ controller: UIViewController) {
+    parent?.onSPUIFinished(controller)
+  }
+
+  func onSPFinished(userData: SPUserData) {
+    parent?.onSPFinished(userData: userData)
+  }
+
+  func onError(error: SPError) {
+    parent?.onError(error: error)
+  }
 }
