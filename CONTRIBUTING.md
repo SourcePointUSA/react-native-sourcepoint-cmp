@@ -23,7 +23,7 @@ The [example app](/example/) demonstrates usage of the library. You need to run 
 
 It is configured to use the local version of the library, so any changes you make to the library's source code will be reflected in the example app. Changes to the library's JavaScript code will be reflected in the example app without a rebuild, but native code changes will require a rebuild of the example app.
 
-If you want to use Android Studio or XCode to edit the native code, you can open the `example/android` or `example/ios` directories respectively in those editors. To edit the Objective-C or Swift files, open `example/ios/SourcepointCmpExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > @sourcepoint/react-native-cmp`.
+If you want to use Android Studio or XCode to edit the native code, you can open the `example/android` or `example/ios` directories respectively in those editors. To edit the Objective-C or Swift files, open `example/ios/ReactNativeCmpExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > @sourcepoint/react-native-cmp`.
 
 To edit the Java or Kotlin files, open `example/android` in Android studio and find the source files at `sourcepoint-react-native-cmp` under `Android`.
 
@@ -47,33 +47,10 @@ To run the example app on iOS:
 yarn example ios
 ```
 
-By default, the example is configured to build with the old architecture. To run the example with the new architecture, you can do the following:
-
-1. For Android, run:
-
-   ```sh
-   ORG_GRADLE_PROJECT_newArchEnabled=true yarn example android
-   ```
-
-2. For iOS, run:
-
-   ```sh
-   cd example/ios
-   RCT_NEW_ARCH_ENABLED=1 pod install
-   cd -
-   yarn example ios
-   ```
-
-If you are building for a different architecture than your previous build, make sure to remove the build folders first. You can run the following command to cleanup all build folders:
-
-```sh
-yarn clean
-```
-
 To confirm that the app is running with the new architecture, you can check the Metro logs for a message like this:
 
 ```sh
-Running "SourcepointCmpExample" with {"fabric":true,"initialProps":{"concurrentRoot":true},"rootTag":1}
+Running "ReactNativeCmpExample" with {"fabric":true,"initialProps":{"concurrentRoot":true},"rootTag":1}
 ```
 
 Note the `"fabric":true` and `"concurrentRoot":true` properties.
