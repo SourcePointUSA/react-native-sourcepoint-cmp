@@ -44,6 +44,7 @@ const config = {
 export default function App() {
   const [userData, setUserData] = useState<SPUserData>({});
   const [sdkStatus, setSDKStatus] = useState<SDKStatus>(SDKStatus.NotStarted);
+  const [authIdInput, setAuthIdInput] = useState(launchArgs.authId);
   const [authId, setAuthId] = useState<string | undefined>(launchArgs.authId);
   const consentManager = useRef<SPConsentManager | null>(null);
 
@@ -60,13 +61,11 @@ export default function App() {
       consentManager.current?.clearLocalData();
     }
 
-    consentManager.current?.onSPUIReady(() =>
-      setSDKStatus(SDKStatus.Presenting)
-    );
+    consentManager.current?.onSPUIReady(() => {
+      setSDKStatus(SDKStatus.Presenting);
+    });
 
-    consentManager.current?.onSPUIFinished(() =>
-      setSDKStatus(SDKStatus.Networking)
-    );
+    // consentManager.current?.onSPUIFinished(() => { });
 
     consentManager.current?.onFinished(() => {
       setSDKStatus(SDKStatus.Finished);
@@ -127,14 +126,16 @@ export default function App() {
       <View>
         <Text style={styles.title}>Sourcepoint CMP</Text>
         <TextInput
-          value={authId}
-          placeholder="(optional) authId"
-          onChangeText={setAuthId}
+          value={authIdInput}
+          placeholder="(AuthId: optional, press enter to submit)"
+          onChangeText={setAuthIdInput}
+          onSubmitEditing={() => setAuthId(authIdInput)}
           style={styles.authIdInput}
           autoCapitalize="none"
           autoCorrect={false}
           autoComplete="off"
           clearButtonMode="always"
+          returnKeyType="done"
         />
         <Button
           title={authId ? `Load Messages (${authId})` : 'Load Messages'}
