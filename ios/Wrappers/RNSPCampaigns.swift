@@ -28,14 +28,6 @@ import ConsentViewController
         self.supportLegacyUSPString = supportLegacyUSPString
     }
 
-    @objc public convenience init(from campaign: SPCampaign?) {
-        self.init(
-            targetingParams: campaign?.targetingParams ?? [:],
-            groupPmId: campaign?.groupPmId,
-            supportLegacyUSPString: campaign?.supportLegacyUSPString ?? false
-        )
-    }
-
     public func toSP() -> SPCampaign {
         SPCampaign(
             targetingParams: targetingParams,

@@ -11,9 +11,31 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
     sdk = [[ReactNativeCmpImpl alloc] init];
   }
 
-  RNSPCampaigns *internalCampaigns = [[RNSPCampaigns alloc] initWithGdpr: [[RNSPCampaign alloc] initWithTargetingParams:nil groupPmId:nil supportLegacyUSPString:false]
+  RNSPCampaign *gdpr = nil;
+  RNSPCampaign *usnat = nil;
+
+  if (campaigns.gdpr().has_value()) {
+    auto gdprCampaign = campaigns.gdpr().value();
+    NSDictionary *targetingParams = (NSDictionary *)gdprCampaign.targetingParams();
+
+    gdpr = [[RNSPCampaign alloc] initWithTargetingParams:targetingParams ?: @{}
+                                               groupPmId:nil
+                                  supportLegacyUSPString:false];
+  }
+
+  if (campaigns.usnat().has_value()) {
+    auto usnatCampaign = campaigns.usnat().value();
+    NSDictionary *targetingParams = (NSDictionary *)usnatCampaign.targetingParams();
+    BOOL legacy = usnatCampaign.supportLegacyUSPString().value_or(false);
+
+    usnat = [[RNSPCampaign alloc] initWithTargetingParams:targetingParams ?: @{}
+                                                groupPmId:nil
+                                   supportLegacyUSPString:legacy];
+  }
+
+  RNSPCampaigns *internalCampaigns = [[RNSPCampaigns alloc] initWithGdpr: gdpr
                                                                     ccpa:nil
-                                                                   usnat:nil
+                                                                   usnat:usnat
                                                                    ios14:nil
                                                              environment:RNSPCampaignEnvPublic];
 
@@ -34,11 +56,11 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
   [sdk clearLocalData];
 }
 
-- (void)getUserData:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
+- (void)getUserData:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
   [sdk getUserData:resolve reject:nil];
 }
 
-- (void)loadGDPRPrivacyManager:(nonnull NSString *)pmId { 
+- (void)loadGDPRPrivacyManager:(nonnull NSString *)pmId {
   [sdk loadGDPRPrivacyManager: pmId];
 }
 
@@ -51,19 +73,19 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
   [self emitOnAction: [action toDictionary]];
 }
 
-- (void)onErrorWithDescription:(NSString * _Nonnull)description { 
+- (void)onErrorWithDescription:(NSString * _Nonnull)description {
   [self emitOnError: @{ @"description": description }];
 }
 
-- (void)onFinished { 
+- (void)onFinished {
   [self emitOnFinished];
 }
 
-- (void)onSPUIFinished { 
+- (void)onSPUIFinished {
   [self emitOnSPUIFinished];
 }
 
-- (void)onSPUIReady { 
+- (void)onSPUIReady {
   [self emitOnSPUIReady];
 }
 
