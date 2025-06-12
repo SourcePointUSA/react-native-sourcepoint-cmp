@@ -8,35 +8,13 @@ interface RNMappable {
   fun toRN(): ReadableMap
 }
 
-interface RNSPConsent: RNMappable {
-  val uuid: String?
-  val expirationDate: String?
-  val createdDate: String?
-}
-
-data class RNSPCampaignData<Consent: RNSPConsent>(
-  val applies: Boolean,
-  val consents: Consent
-): RNMappable {
-  override fun toRN(): ReadableMap = createMap().apply {
-    putBoolean("applies", applies)
-    putMap("consents", consents.toRN())
-  }
-}
-
 data class RNSPUserData(
-  val gdpr: RNSPCampaignData<RNSPGDPRConsent>?,
-  val usnat: RNSPCampaignData<RNSPUSNatConsent>?
+  val gdpr: RNSPGDPRConsent?,
+  val usnat: RNSPUSNatConsent?
 ): RNMappable {
   constructor(spData: SPConsents): this(
-    gdpr = spData.gdpr?.let { RNSPCampaignData<RNSPGDPRConsent>(
-      applies = it.consent.applies,
-      consents = RNSPGDPRConsent(gdpr = it.consent)
-    )},
-    usnat = spData.usNat?.let { RNSPCampaignData<RNSPUSNatConsent>(
-      applies = it.consent.applies,
-      consents = RNSPUSNatConsent(usnat = it.consent)
-    )}
+    gdpr = spData.gdpr?.let { RNSPGDPRConsent(gdpr = it.consent)},
+    usnat = spData.usNat?.let { RNSPUSNatConsent(usnat = it.consent)}
   )
 
   override fun toRN(): ReadableMap = createMap().apply {

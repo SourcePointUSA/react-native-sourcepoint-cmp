@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
 
 import { TestableText } from './TestableText';
@@ -9,19 +8,13 @@ export default ({ data, authId }: UserDataViewProps) => (
     <Text style={styles.header}>
       {authId ? `User Data (${authId})` : `User Data`}
     </Text>
-    <TestableText testID="gdpr.uuid">{data?.gdpr?.consents?.uuid}</TestableText>
+    <TestableText testID="gdpr.uuid">{data?.gdpr?.uuid}</TestableText>
     <TestableText testID="gdpr.consentStatus">
-      {data?.gdpr?.consents?.statuses?.consentedAll
-        ? 'consentedAll'
-        : 'rejectedAll'}
+      {data?.gdpr?.statuses?.consentedAll ? 'consentedAll' : 'rejectedAll'}
     </TestableText>
-    <TestableText testID="usnat.uuid">
-      {data?.usnat?.consents?.uuid}
-    </TestableText>
+    <TestableText testID="usnat.uuid">{data?.usnat?.uuid}</TestableText>
     <TestableText testID="usnat.consentStatus">
-      {data?.usnat?.consents?.statuses?.consentedAll
-        ? 'consentedAll'
-        : 'rejectedAll'}
+      {data?.usnat?.statuses?.consentedAll ? 'consentedAll' : 'rejectedAll'}
     </TestableText>
     <ScrollView style={styles.container}>
       <Text testID="userData" style={styles.userDataText}>

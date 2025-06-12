@@ -8,14 +8,15 @@ import com.sourcepoint.cmplibrary.model.exposed.GDPRPurposeGrants
 import com.sourcepoint.reactnativecmp.arguments.putAny
 
 data class RNSPGDPRConsent  (
-  override val uuid: String?,
-  override val createdDate: String?,
-  override val expirationDate: String?,
+  val uuid: String?,
+  val applies: Boolean,
+  val createdDate: String?,
+  val expirationDate: String?,
   val euconsent: String?,
   val vendorGrants: Map<String, GDPRPurposeGrants>,
   val statuses: Statuses,
   val tcfData: Map<String, Any?>
-) : RNSPConsent {
+): RNMappable {
   data class Statuses(val consentedAll: Boolean?, val consentedAny: Boolean?, val rejectedAny: Boolean?): RNMappable {
     constructor(status: ConsentStatus?): this(
       consentedAll = status?.consentedAll,
@@ -32,6 +33,7 @@ data class RNSPGDPRConsent  (
 
   constructor(gdpr: GDPRConsent) : this(
     uuid = gdpr.uuid,
+    applies = gdpr.applies,
     createdDate = null,
     expirationDate = null,
     euconsent = gdpr.euconsent,
@@ -42,6 +44,7 @@ data class RNSPGDPRConsent  (
 
   override fun toRN(): ReadableMap = createMap().apply {
     putString("uuid", uuid)
+    putBoolean("applies", applies)
     putString("createdDate", createdDate)
     putString("expirationDate", expirationDate)
     putString("euconsent", euconsent)

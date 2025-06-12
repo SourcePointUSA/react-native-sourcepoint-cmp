@@ -1,7 +1,7 @@
 package com.sourcepoint.reactnativecmp
 
 import com.facebook.react.bridge.ReadableMap
-import com.sourcepoint.cmplibrary.data.network.util.CampaignsEnv
+import com.sourcepoint.cmplibrary.model.CampaignsEnv
 import com.sourcepoint.cmplibrary.model.exposed.ActionType
 import com.sourcepoint.cmplibrary.model.exposed.TargetingParam
 
@@ -52,4 +52,3 @@ fun ReadableMap.SPCampaigns() = SPCampaigns(
   usnat = this.getMap("usnat")?.SPCampaign(),
   environment = campaignsEnvFrom(rawValue = this.getString("environment"))
 )
-
