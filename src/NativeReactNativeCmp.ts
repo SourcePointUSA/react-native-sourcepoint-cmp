@@ -25,6 +25,7 @@ export const enum SPActionType {
 export type SPCampaigns = {
   gdpr?: SPCampaign;
   usnat?: SPCampaign;
+  preferences?: SPCampaign;
   environment?: SPCampaignEnvironment;
 };
 
@@ -86,6 +87,7 @@ export type USNatConsent = {
 export type SPUserData = {
   gdpr?: GDPRConsent;
   usnat?: USNatConsent;
+  preferences?: PreferencesConsent;
 };
 
 export type LoadMessageParams = {
@@ -95,6 +97,34 @@ export type LoadMessageParams = {
 export type SPAction = {
   actionType: SPActionType;
   customActionId?: string;
+};
+
+export type PreferencesSubType =
+  | 'AIPolicy'
+  | 'TermsAndConditions'
+  | 'PrivacyPolicy'
+  | 'LegalPolicy'
+  | 'TermsOfSale'
+  | 'Unknown';
+
+export type PreferencesChannel = {
+  id: number;
+  status: boolean;
+};
+
+export type PreferencesStatus = {
+  categoryId: number;
+  channels: PreferencesChannel[];
+  changed?: boolean;
+  dateConsented?: string;
+  subType?: PreferencesSubType;
+};
+
+export type PreferencesConsent = {
+  dateCreated: string;
+  uuid?: string;
+  status: PreferencesStatus[];
+  rejectedStatus: PreferencesStatus[];
 };
 
 export interface Spec extends TurboModule {
