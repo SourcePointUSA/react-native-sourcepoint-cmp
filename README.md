@@ -67,6 +67,7 @@ Refer to the table below regarding the different campaigns that can be implement
 |---------------------|-----------------------------------------------------------------|
 | `gdpr: {}`          | Used if your property runs a GDPR TCF or GDPR Standard campaign |
 | `usnat: {}`         | Used if your property runs a U.S. Multi-State Privacy campaign  |
+| `preferences: {}`   | Used if your property runs a Preferences campaign               |
 
 ### Set up callbacks in instance of `SPConsentManager`
 
