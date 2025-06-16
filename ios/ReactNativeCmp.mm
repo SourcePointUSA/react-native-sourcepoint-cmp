@@ -14,6 +14,7 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
   RNSPCampaign *gdpr = nil;
   RNSPCampaign *usnat = nil;
   RNSPCampaign *preferences = nil;
+  RNSPCampaign *globalcmp = nil;
 
   if (campaigns.gdpr().has_value()) {
     auto gdprCampaign = campaigns.gdpr().value();
@@ -43,11 +44,21 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
                                          supportLegacyUSPString:false];
   }
 
+  if (campaigns.globalcmp().has_value()) {
+    auto globalCMPCampaign = campaigns.globalcmp().value();
+    NSDictionary *targetingParams = (NSDictionary *)globalCMPCampaign.targetingParams();
+
+    globalcmp = [[RNSPCampaign alloc] initWithTargetingParams:targetingParams ?: @{}
+                                                      groupPmId:globalCMPCampaign.groupPmId()
+                                         supportLegacyUSPString:false];
+  }
+
   RNSPCampaigns *internalCampaigns = [[RNSPCampaigns alloc] initWithGdpr: gdpr
                                                                     ccpa:nil
                                                                    usnat:usnat
                                                                    ios14:nil
                                                              preferences:preferences
+                                                             globalcmp: globalcmp
                                                              environment:RNSPCampaignEnvPublic];
 
   [sdk

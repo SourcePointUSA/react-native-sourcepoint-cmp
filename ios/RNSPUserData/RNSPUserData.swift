@@ -12,15 +12,18 @@ struct RNSPUserData: Encodable {
     let gdpr: RNSPGDPRConsent?
     let usnat: RNSPUSNatConsent?
     let preferences: RNSPPreferencesConsent?
+    let globalcmp: RNSPGlobalCMPConsent?
 
     init(
         gdpr: RNSPGDPRConsent? = nil,
         usnat: RNSPUSNatConsent? = nil,
-        preferences: RNSPPreferencesConsent? = nil
+        preferences: RNSPPreferencesConsent? = nil,
+        globalcmp: RNSPGlobalCMPConsent? = nil
     ) {
         self.gdpr = gdpr
         self.usnat = usnat
         self.preferences = preferences
+        self.globalcmp = globalcmp
     }
 }
 
@@ -34,7 +37,8 @@ extension RNSPUserData {
         self.init(
             gdpr: RNSPGDPRConsent(from: sdkConsents.gdpr?.consents),
             usnat: RNSPUSNatConsent(from: sdkConsents.usnat?.consents),
-            preferences: RNSPPreferencesConsent(from: sdkConsents.preferences?.consents)
+            preferences: RNSPPreferencesConsent(from: sdkConsents.preferences?.consents),
+            globalcmp: RNSPGlobalCMPConsent(from: sdkConsents.globalcmp?.consents)
         )
     }
 }
