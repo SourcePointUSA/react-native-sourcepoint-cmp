@@ -99,13 +99,14 @@ export type SPAction = {
   customActionId?: string;
 };
 
-export type PreferencesSubType =
-  | 'AIPolicy'
-  | 'TermsAndConditions'
-  | 'PrivacyPolicy'
-  | 'LegalPolicy'
-  | 'TermsOfSale'
-  | 'Unknown';
+export const enum PreferencesSubType {
+  AIPolicy = 'AIPolicy',
+  TermsAndConditions = 'TermsAndConditions',
+  PrivacyPolicy = 'PrivacyPolicy',
+  LegalPolicy = 'LegalPolicy',
+  TermsOfSale = 'TermsOfSale',
+  Unknown = 'Unknown',
+}
 
 export type PreferencesChannel = {
   id: number;
