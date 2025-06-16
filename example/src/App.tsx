@@ -36,6 +36,7 @@ const config = {
   campaigns: {
     gdpr: {},
     usnat: { supportLegacyUSPString: true },
+    preferences: {},
     environment: SPCampaignEnvironment.Public,
   } as SPCampaigns,
   ...launchArgs?.config,

@@ -15,7 +15,6 @@ import com.sourcepoint.cmplibrary.creation.ConfigOption
 import com.sourcepoint.cmplibrary.creation.SpConfigDataBuilder
 import com.sourcepoint.cmplibrary.creation.makeConsentLib
 import com.sourcepoint.cmplibrary.data.network.util.CampaignType
-import com.sourcepoint.cmplibrary.model.CampaignsEnv
 import com.sourcepoint.cmplibrary.model.ConsentAction
 import com.sourcepoint.cmplibrary.model.exposed.SPConsents
 import com.sourcepoint.cmplibrary.util.clearAllData
@@ -38,30 +37,28 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
   override fun build(
     accountId: Double,
     propertyId: Double,
-    propertyName: String?,
-    campaigns: ReadableMap?
+    propertyName: String,
+    campaigns: ReadableMap
   ) {
-    val convertedCampaigns = campaigns?.SPCampaigns() ?: SPCampaigns(
-      gdpr = null,
-      usnat = null,
-      environment = CampaignsEnv.PUBLIC
-    )
-
+    val convertedCampaigns = campaigns.SPCampaigns()
     val config = SpConfigDataBuilder().apply {
       addAccountId(accountId.toInt())
-      addPropertyName(propertyName ?: "")
+      addPropertyName(propertyName)
       addPropertyId(propertyId.toInt())
       addMessageTimeout(30000)
       convertedCampaigns.gdpr?.let {
-        addCampaign(campaignType = CampaignType.GDPR, params = it.targetingParams, groupPmId = null)
+        addCampaign(campaignType = CampaignType.GDPR, params = it.targetingParams, groupPmId = it.groupPmId)
       }
       convertedCampaigns.usnat?.let {
         addCampaign(
           campaignType = CampaignType.USNAT,
           params = it.targetingParams,
-          groupPmId = null,
+          groupPmId = it.groupPmId,
           configParams = if(it.supportLegacyUSPString) setOf(ConfigOption.SUPPORT_LEGACY_USPSTRING) else emptySet()
         )
+      }
+      convertedCampaigns.preferences?.let {
+        addCampaign(campaignType = CampaignType.PREFERENCES, params = it.targetingParams, groupPmId = it.groupPmId)
       }
     }.build()
 

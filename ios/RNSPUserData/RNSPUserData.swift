@@ -11,13 +11,16 @@ import ConsentViewController
 struct RNSPUserData: Encodable {
     let gdpr: RNSPGDPRConsent?
     let usnat: RNSPUSNatConsent?
+    let preferences: RNSPPreferencesConsent?
 
     init(
         gdpr: RNSPGDPRConsent? = nil,
-        usnat: RNSPUSNatConsent? = nil
+        usnat: RNSPUSNatConsent? = nil,
+        preferences: RNSPPreferencesConsent? = nil
     ) {
         self.gdpr = gdpr
         self.usnat = usnat
+        self.preferences = preferences
     }
 }
 
@@ -30,7 +33,8 @@ extension RNSPUserData {
 
         self.init(
             gdpr: RNSPGDPRConsent(from: sdkConsents.gdpr?.consents),
-            usnat: RNSPUSNatConsent(from: sdkConsents.usnat?.consents)
+            usnat: RNSPUSNatConsent(from: sdkConsents.usnat?.consents),
+            preferences: RNSPPreferencesConsent(from: sdkConsents.preferences?.consents)
         )
     }
 }
