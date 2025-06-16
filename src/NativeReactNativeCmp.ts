@@ -3,6 +3,7 @@ import type { TurboModule } from 'react-native';
 import type { EventEmitter } from 'react-native/Libraries/Types/CodegenTypes';
 
 export type SPCampaign = {
+  groupPmId?: string;
   targetingParams?: { [key: string]: string };
   supportLegacyUSPString?: boolean;
 };
