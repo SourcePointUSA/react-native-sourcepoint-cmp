@@ -4,12 +4,9 @@ import com.facebook.react.bridge.Arguments.createArray
 import com.facebook.react.bridge.Arguments.createMap
 import com.facebook.react.bridge.ReadableMap
 import com.sourcepoint.cmplibrary.data.network.model.optimized.USNatConsentData.ConsentString
-import com.sourcepoint.cmplibrary.model.exposed.Consentable
 import com.sourcepoint.cmplibrary.model.exposed.UsNatConsent
 import com.sourcepoint.cmplibrary.model.exposed.UsNatStatuses
 import com.sourcepoint.reactnativecmp.arguments.putAny
-
-typealias SPConsentable = Consentable
 
 data class RNSPUSNatConsent(
   val uuid: String?,
@@ -19,8 +16,8 @@ data class RNSPUSNatConsent(
   val consentSections: List<ConsentSection>,
   val statuses: Statuses,
   val gppData:  Map<String, Any?>,
-  val vendors: List<Consentable>,
-  val categories: List<Consentable>
+  val vendors: List<RNSPConsentable>,
+  val categories: List<RNSPConsentable>
 ): RNMappable {
   data class ConsentSection(val id: Int?, val name: String?, val consentString: String?) {
     constructor(section: ConsentString): this(
@@ -66,18 +63,6 @@ data class RNSPUSNatConsent(
     }
   }
 
-  data class Consentable(override val id: String, override val consented: Boolean): SPConsentable, RNMappable {
-    constructor(spConsentable: SPConsentable): this(
-      id = spConsentable.id,
-      consented = spConsentable.consented
-    )
-
-    override fun toRN(): ReadableMap = createMap().apply {
-      putString("id", id)
-      putBoolean("consented", consented)
-    }
-  }
-
   constructor(usnat: UsNatConsent) : this(
     uuid = usnat.uuid,
     applies = usnat.applies,
@@ -86,8 +71,8 @@ data class RNSPUSNatConsent(
     consentSections = usnat.consentStrings?.map { ConsentSection(section = it) } ?: emptyList(),
     statuses = Statuses(status = usnat.statuses),
     gppData = usnat.gppData,
-    vendors = usnat.vendors?.map { Consentable(it) } ?: emptyList(),
-    categories = usnat.categories?.map { Consentable(it) } ?: emptyList(),
+    vendors = usnat.vendors?.map { RNSPConsentable(it) } ?: emptyList(),
+    categories = usnat.categories?.map { RNSPConsentable(it) } ?: emptyList(),
   )
 
   override fun toRN(): ReadableMap = createMap().apply {
