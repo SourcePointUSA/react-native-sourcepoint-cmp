@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.platforms    = { :ios => min_ios_version_supported }
   s.source       = { :git => "https://github.com/SourcePointUSA/react-native-sourcepoint-cmp.git", :tag => "#{s.version}" }
 
-  s.dependency "ConsentViewController", "7.9.0"
+  s.dependency "ConsentViewController", "7.9.1"
   s.source_files = "ios/**/*.{h,m,mm,cpp,swift}"
   s.private_header_files = "ios/**/*.h"
 
