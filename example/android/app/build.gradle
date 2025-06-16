@@ -108,14 +108,18 @@ android {
             proguardFile "${rootProject.projectDir}/../node_modules/detox/android/detox/proguard-rules-app.pro"
         }
     }
+  compileOptions {
+    coreLibraryDesugaringEnabled = true
+  }
 }
 
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
-    androidTestImplementation "androidx.test:core:1.5.0"
+    androidTestImplementation "androidx.test:core:1.6.1"
     androidTestImplementation('com.wix:detox:+')
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
