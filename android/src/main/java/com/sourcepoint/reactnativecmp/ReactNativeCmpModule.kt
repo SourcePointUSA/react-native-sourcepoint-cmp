@@ -106,6 +106,10 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
     runOnMainThread { spConsentLib?.loadPrivacyManager(pmId, USNAT) }
   }
 
+  override fun loadGlobalCmpPrivacyManager(pmId: String) {
+    runOnMainThread { spConsentLib?.loadPrivacyManager(pmId, GLOBALCMP) }
+  }
+
   companion object {
     const val NAME = "ReactNativeCmp"
   }
