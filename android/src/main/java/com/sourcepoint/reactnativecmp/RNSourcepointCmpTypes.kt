@@ -2,14 +2,15 @@ package com.sourcepoint.reactnativecmp
 
 import com.facebook.react.bridge.ReadableMap
 import com.sourcepoint.cmplibrary.model.CampaignsEnv
+import com.sourcepoint.cmplibrary.model.CampaignsEnv.*
 import com.sourcepoint.cmplibrary.model.exposed.ActionType
 import com.sourcepoint.cmplibrary.model.exposed.ActionType.*
 import com.sourcepoint.cmplibrary.model.exposed.TargetingParam
 
 fun campaignsEnvFrom(rawValue: String?): CampaignsEnv? =
   when (rawValue) {
-    "Public" -> CampaignsEnv.PUBLIC
-    "Stage" -> CampaignsEnv.STAGE
+    "Public" -> PUBLIC
+    "Stage" -> STAGE
     else -> { null }
 }
 
@@ -18,13 +19,16 @@ data class SPCampaign(
   val supportLegacyUSPString: Boolean,
   val groupPmId: String? = null,
 ) {
-  val targetingParams = rawTargetingParam?.toHashMap()?.map { TargetingParam(it.key, it.value.toString()) } ?: emptyList()
+  val targetingParams = rawTargetingParam?.toHashMap()?.map {
+    TargetingParam(it.key, it.value.toString())
+  } ?: emptyList()
 }
 
 data class SPCampaigns(
   val gdpr: SPCampaign?,
   val usnat: SPCampaign?,
   val preferences: SPCampaign?,
+  val globalcmp: SPCampaign?,
   val environment: CampaignsEnv?
 )
 
@@ -55,5 +59,6 @@ fun ReadableMap.SPCampaigns() = SPCampaigns(
   gdpr = this.getMap("gdpr")?.SPCampaign(),
   usnat = this.getMap("usnat")?.SPCampaign(),
   preferences = this.getMap("preferences")?.SPCampaign(),
+  globalcmp = this.getMap("globalcmp")?.SPCampaign(),
   environment = campaignsEnvFrom(rawValue = this.getString("environment"))
 )

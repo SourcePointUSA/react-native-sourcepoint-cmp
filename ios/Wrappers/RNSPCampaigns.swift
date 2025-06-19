@@ -38,7 +38,7 @@ import ConsentViewController
 }
 
 @objcMembers public class RNSPCampaigns: NSObject {
-    @objc public let gdpr, ccpa, usnat, ios14, preferences: RNSPCampaign?
+    @objc public let gdpr, ccpa, usnat, ios14, preferences, globalcmp: RNSPCampaign?
     @objc public let environment: RNSPCampaignEnv
 
     @objc public init(
@@ -47,6 +47,7 @@ import ConsentViewController
         usnat: RNSPCampaign? = nil,
         ios14: RNSPCampaign? = nil,
         preferences: RNSPCampaign? = nil,
+        globalcmp: RNSPCampaign? = nil,
         environment: RNSPCampaignEnv = .Public
     ) {
         self.gdpr = gdpr
@@ -54,6 +55,7 @@ import ConsentViewController
         self.usnat = usnat
         self.ios14 = ios14
         self.preferences = preferences
+        self.globalcmp = globalcmp
         self.environment = environment
     }
 
@@ -63,6 +65,7 @@ import ConsentViewController
             ccpa: ccpa?.toSP(),
             usnat: usnat?.toSP(),
             ios14: ios14?.toSP(),
+            globalcmp: globalcmp?.toSP(),
             preferences: preferences?.toSP(),
             environment: environment.toSP()
         )

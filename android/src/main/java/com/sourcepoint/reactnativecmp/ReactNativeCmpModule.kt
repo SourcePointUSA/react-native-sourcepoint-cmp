@@ -11,10 +11,10 @@ import com.sourcepoint.cmplibrary.NativeMessageController
 import com.sourcepoint.cmplibrary.SpClient
 import com.sourcepoint.cmplibrary.SpConsentLib
 import com.sourcepoint.cmplibrary.core.nativemessage.MessageStructure
-import com.sourcepoint.cmplibrary.creation.ConfigOption
+import com.sourcepoint.cmplibrary.creation.ConfigOption.SUPPORT_LEGACY_USPSTRING
 import com.sourcepoint.cmplibrary.creation.SpConfigDataBuilder
 import com.sourcepoint.cmplibrary.creation.makeConsentLib
-import com.sourcepoint.cmplibrary.data.network.util.CampaignType
+import com.sourcepoint.cmplibrary.data.network.util.CampaignType.*
 import com.sourcepoint.cmplibrary.model.ConsentAction
 import com.sourcepoint.cmplibrary.model.exposed.SPConsents
 import com.sourcepoint.cmplibrary.util.clearAllData
@@ -47,18 +47,21 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
       addPropertyId(propertyId.toInt())
       addMessageTimeout(30000)
       convertedCampaigns.gdpr?.let {
-        addCampaign(campaignType = CampaignType.GDPR, params = it.targetingParams, groupPmId = it.groupPmId)
+        addCampaign(campaignType = GDPR, params = it.targetingParams, groupPmId = it.groupPmId)
       }
       convertedCampaigns.usnat?.let {
         addCampaign(
-          campaignType = CampaignType.USNAT,
+          campaignType = USNAT,
           params = it.targetingParams,
           groupPmId = it.groupPmId,
-          configParams = if(it.supportLegacyUSPString) setOf(ConfigOption.SUPPORT_LEGACY_USPSTRING) else emptySet()
+          configParams = if(it.supportLegacyUSPString) setOf(SUPPORT_LEGACY_USPSTRING) else emptySet()
         )
       }
       convertedCampaigns.preferences?.let {
-        addCampaign(campaignType = CampaignType.PREFERENCES, params = it.targetingParams, groupPmId = it.groupPmId)
+        addCampaign(campaignType = PREFERENCES, params = it.targetingParams, groupPmId = it.groupPmId)
+      }
+      convertedCampaigns.globalcmp?.let {
+        addCampaign(campaignType = GLOBALCMP, params = it.targetingParams, groupPmId = it.groupPmId)
       }
     }.build()
 
@@ -95,12 +98,16 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
 
   @ReactMethod
   override fun loadGDPRPrivacyManager(pmId: String) {
-    runOnMainThread { spConsentLib?.loadPrivacyManager(pmId, CampaignType.GDPR) }
+    runOnMainThread { spConsentLib?.loadPrivacyManager(pmId, GDPR) }
   }
 
   @ReactMethod
   override fun loadUSNatPrivacyManager(pmId: String) {
-    runOnMainThread { spConsentLib?.loadPrivacyManager(pmId, CampaignType.USNAT) }
+    runOnMainThread { spConsentLib?.loadPrivacyManager(pmId, USNAT) }
+  }
+
+  override fun loadGlobalCmpPrivacyManager(pmId: String) {
+    runOnMainThread { spConsentLib?.loadPrivacyManager(pmId, GLOBALCMP) }
   }
 
   companion object {

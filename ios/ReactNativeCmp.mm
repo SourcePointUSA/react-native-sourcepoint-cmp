@@ -14,13 +14,14 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
   RNSPCampaign *gdpr = nil;
   RNSPCampaign *usnat = nil;
   RNSPCampaign *preferences = nil;
+  RNSPCampaign *globalcmp = nil;
 
   if (campaigns.gdpr().has_value()) {
     auto gdprCampaign = campaigns.gdpr().value();
     NSDictionary *targetingParams = (NSDictionary *)gdprCampaign.targetingParams();
 
     gdpr = [[RNSPCampaign alloc] initWithTargetingParams:targetingParams ?: @{}
-                                               groupPmId:nil
+                                               groupPmId:gdprCampaign.groupPmId()
                                   supportLegacyUSPString:false];
   }
 
@@ -30,7 +31,7 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
     BOOL legacy = usnatCampaign.supportLegacyUSPString().value_or(false);
 
     usnat = [[RNSPCampaign alloc] initWithTargetingParams:targetingParams ?: @{}
-                                                groupPmId:nil
+                                                groupPmId:usnatCampaign.groupPmId()
                                    supportLegacyUSPString:legacy];
   }
 
@@ -39,7 +40,16 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
     NSDictionary *targetingParams = (NSDictionary *)preferencesCampaign.targetingParams();
 
     preferences = [[RNSPCampaign alloc] initWithTargetingParams:targetingParams ?: @{}
-                                                      groupPmId:nil
+                                                      groupPmId:preferences.groupPmId
+                                         supportLegacyUSPString:false];
+  }
+
+  if (campaigns.globalcmp().has_value()) {
+    auto globalCMPCampaign = campaigns.globalcmp().value();
+    NSDictionary *targetingParams = (NSDictionary *)globalCMPCampaign.targetingParams();
+
+    globalcmp = [[RNSPCampaign alloc] initWithTargetingParams:targetingParams ?: @{}
+                                                      groupPmId:globalCMPCampaign.groupPmId()
                                          supportLegacyUSPString:false];
   }
 
@@ -48,6 +58,7 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
                                                                    usnat:usnat
                                                                    ios14:nil
                                                              preferences:preferences
+                                                             globalcmp: globalcmp
                                                              environment:RNSPCampaignEnvPublic];
 
   [sdk

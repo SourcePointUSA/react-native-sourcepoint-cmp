@@ -33,10 +33,12 @@ const config = {
   propertyName: 'mobile.multicampaign.demo',
   gdprPMId: '488393',
   usnatPMId: '988851',
+  globalCmpPMId: '1323762',
   campaigns: {
     gdpr: {},
     usnat: { supportLegacyUSPString: true },
     preferences: {},
+    globalcmp: {},
     environment: SPCampaignEnvironment.Public,
   } as SPCampaigns,
   ...launchArgs?.config,
@@ -108,6 +110,11 @@ export default function App() {
     consentManager.current?.loadUSNatPrivacyManager(config.usnatPMId);
   }, []);
 
+  const onGlobalCMPPress = useCallback(() => {
+    setSDKStatus(SDKStatus.Networking);
+    consentManager.current?.loadGlobalCmpPrivacyManager(config.globalCmpPMId);
+  }, []);
+
   const onClearDataPress = useCallback(() => {
     consentManager.current?.clearLocalData();
     consentManager.current?.build(
@@ -146,12 +153,17 @@ export default function App() {
         <Button
           title="Load GDPR PM"
           onPress={onGDPRPMPress}
-          disabled={disable}
+          disabled={disable || config.campaigns.gdpr == undefined}
         />
         <Button
           title="Load USNAT PM"
           onPress={onUSNATPMPress}
-          disabled={disable}
+          disabled={disable || config.campaigns.usnat == undefined}
+        />
+        <Button
+          title="Load GlobalCMP PM"
+          onPress={onGlobalCMPPress}
+          disabled={disable || config.campaigns.globalcmp == undefined}
         />
         <Button title="Clear All" onPress={onClearDataPress} />
         <Text testID="sdkStatus" style={styles.status}>

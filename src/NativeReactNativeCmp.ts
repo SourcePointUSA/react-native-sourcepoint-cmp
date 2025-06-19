@@ -3,6 +3,7 @@ import type { TurboModule } from 'react-native';
 import type { EventEmitter } from 'react-native/Libraries/Types/CodegenTypes';
 
 export type SPCampaign = {
+  groupPmId?: string;
   targetingParams?: { [key: string]: string };
   supportLegacyUSPString?: boolean;
 };
@@ -26,6 +27,7 @@ export type SPCampaigns = {
   gdpr?: SPCampaign;
   usnat?: SPCampaign;
   preferences?: SPCampaign;
+  globalcmp?: SPCampaign;
   environment?: SPCampaignEnvironment;
 };
 
@@ -84,10 +86,20 @@ export type USNatConsent = {
   gppData?: { [key: string]: string };
 };
 
+export type GlobalCMPConsent = {
+  applies: boolean;
+  uuid?: string;
+  expirationDate?: string;
+  createdDate?: string;
+  vendors: Array<Consentable>;
+  categories: Array<Consentable>;
+};
+
 export type SPUserData = {
   gdpr?: GDPRConsent;
   usnat?: USNatConsent;
   preferences?: PreferencesConsent;
+  globalcmp?: GlobalCMPConsent;
 };
 
 export type LoadMessageParams = {
@@ -99,13 +111,14 @@ export type SPAction = {
   customActionId?: string;
 };
 
-export type PreferencesSubType =
-  | 'AIPolicy'
-  | 'TermsAndConditions'
-  | 'PrivacyPolicy'
-  | 'LegalPolicy'
-  | 'TermsOfSale'
-  | 'Unknown';
+export const enum PreferencesSubType {
+  AIPolicy = 'AIPolicy',
+  TermsAndConditions = 'TermsAndConditions',
+  PrivacyPolicy = 'PrivacyPolicy',
+  LegalPolicy = 'LegalPolicy',
+  TermsOfSale = 'TermsOfSale',
+  Unknown = 'Unknown',
+}
 
 export type PreferencesChannel = {
   id: number;
@@ -139,6 +152,7 @@ export interface Spec extends TurboModule {
   clearLocalData(): void;
   loadGDPRPrivacyManager(pmId: string): void;
   loadUSNatPrivacyManager(pmId: string): void;
+  loadGlobalCmpPrivacyManager(pmId: string): void;
 
   readonly onAction: EventEmitter<SPAction>;
   readonly onSPUIReady: EventEmitter<void>;

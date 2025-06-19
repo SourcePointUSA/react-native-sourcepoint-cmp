@@ -17,11 +17,6 @@ struct RNSPUSNatConsent: Encodable {
             sensitiveDataStatus, gpcStatus: Bool?
     }
 
-    struct Consentable: Encodable {
-        let id: String
-        let consented: Bool
-    }
-
     struct ConsentSection: Encodable {
         let id: Int
         let name, consentString: String
@@ -42,7 +37,7 @@ struct RNSPUSNatConsent: Encodable {
     let gppData: SPJson?
 
     // a list of vendors/categories identified by id, indicating if they are consented or rejected based on the boolean `consented`
-    let vendors, categories: [Consentable]
+    let vendors, categories: [RNSPConsentable]
 }
 
 extension RNSPUSNatConsent.Statuses {
@@ -54,13 +49,6 @@ extension RNSPUSNatConsent.Statuses {
         shareStatus = status.shareStatus
         sensitiveDataStatus = status.sensitiveDataStatus
         gpcStatus = status.gpcStatus
-    }
-}
-
-extension RNSPUSNatConsent.Consentable {
-    init(from consentable: SPConsentable) {
-        id = consentable.id
-        consented = consentable.consented
     }
 }
 
@@ -83,8 +71,8 @@ extension RNSPUSNatConsent {
             consentSections: usnat.consentStrings.map { ConsentSection(from: $0) },
             statuses: Statuses(from: usnat.statuses),
             gppData: usnat.GPPData,
-            vendors: usnat.vendors.map { Consentable(from: $0) },
-            categories: usnat.categories.map { Consentable(from: $0) }
+            vendors: usnat.vendors.map { RNSPConsentable(from: $0) },
+            categories: usnat.categories.map { RNSPConsentable(from: $0) }
         )
     }
 }
