@@ -119,6 +119,9 @@
     ]
   },
   "release-it": {
+    "hooks": {
+      "after:bump": "cd example/ios && pod install"
+    },
     "git": {
       "commitMessage": "chore: release ${version}",
       "tagName": "v${version}"
