@@ -233,9 +233,12 @@ In order to use the authenticated consent all you need to do is replace `.loadMe
 
 If our APIs have a consent profile associated with that token `"JohnDoe"` the SDK will bring the consent profile from the server, overwriting whatever was stored in the device. If none is found, the session will be treated as a new user.
 
-## Complete App examples
+## Complete App example
 
-Complete app examples for iOS and Android can be found in the [`/example`](/example/) folder of the SDK. 
+Complete app example for iOS and Android can be found in the [`/example`](/example/) folder of the SDK. 
+
+## Known issues
+On iOS, reloading the app's bundle (ie. pressing r while the emulator is open or on Webpack's console) causes React Native to stop emitting events. This issue is being investigated and it's pottentially within React Native itself.
 
 ## License
 
