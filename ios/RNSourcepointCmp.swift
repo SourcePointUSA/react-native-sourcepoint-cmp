@@ -68,6 +68,10 @@ import React
     consentManager?.loadUSNatPrivacyManager(withId: pmId)
   }
 
+  public func loadGlobalCMPPrivacyManager(_ pmId: String) {
+    consentManager?.loadGlobalCmpPrivacyManager(withId: pmId)
+  }
+
   weak var rootViewController: UIViewController? {
     UIApplication.shared.delegate?.window??.rootViewController
   }

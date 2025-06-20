@@ -79,7 +79,7 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
 }
 
 - (void)getUserData:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
-  [sdk getUserData:resolve reject:nil];
+  [sdk getUserData:resolve reject:reject];
 }
 
 - (void)loadGDPRPrivacyManager:(nonnull NSString *)pmId {
@@ -89,6 +89,11 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
 - (void)loadUSNatPrivacyManager:(nonnull NSString *)pmId {
   [sdk loadUSNatPrivacyManager: pmId];
 }
+
+- (void)loadGlobalCmpPrivacyManager:(nonnull NSString *)pmId { 
+  [sdk loadGlobalCMPPrivacyManager: pmId];
+}
+
 
 // MARK: SPDelegate
 - (void)onAction:(RNAction*)action {
