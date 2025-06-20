@@ -57,7 +57,7 @@ The following attributes should be replaced with your organization's details:
 | `config.accountId`    | Number        | Value associates the property with your organization's Sourcepoint account. Retrieved by contacting your Sourcepoint Account Manager or via the **My Account** page in the Sourcepoint portal. |
 | `config.propertyId`   | Number        | ID for property found in the Sourcepoint portal                                                                                                                                                |
 | `config.propertyName` | String        | Name of property found in the Sourcepoint portal                                                                                                                                               |
-| `config.campaigns`    | Object        | Campaigns launched on the property through the Sourcepoint portal. Accepts `gdpr: {}` and/or `usnat: {}`. See table below for information on each campaign type.                               |
+| `config.campaigns`    | Object        | Campaigns launched on the property through the Sourcepoint portal. Accepts `gdpr: {}`, `usnat: {}`, `preferences: {}` and `globalcmp: {}`. See table below for information on each campaign type.                               |
 
 Refer to the table below regarding the different campaigns that can be implemented:
 
@@ -99,8 +99,71 @@ consentManager.current?.loadMessage();
 
 ```ts
 consentManager.current?.onFinished(() => {
-      consentManager.current?.getUserData().then(setUserData);
-    });
+  consentManager.current?.getUserData().then(setUserData);
+});
+```
+
+#### `SPUserData`
+
+Is structured by campaign type.
+```ts
+type SPUserData = {
+  gdpr?: GDPRConsent;
+  usnat?: USNatConsent;
+  preferences?: PreferencesConsent;
+  globalcmp?: GlobalCMPConsent;
+};
+```
+
+`GDPRConsent`:
+```ts
+type GDPRConsent = {
+  applies: boolean;
+  uuid?: string;
+  expirationDate?: string;
+  createdDate?: string;
+  euconsent?: string;
+  vendorGrants: { [key: string]: GDPRVendorGrant };
+  statuses?: GDPRConsentStatus;
+  tcfData?: { [key: string]: string };
+};
+```
+
+`USNatConsent`:
+```ts
+type USNatConsent = {
+  applies: boolean;
+  uuid?: string;
+  expirationDate?: string;
+  createdDate?: string;
+  consentSections: Array<ConsentSection>;
+  statuses?: USNatConsentStatus;
+  vendors: Array<Consentable>;
+  categories: Array<Consentable>;
+  gppData?: { [key: string]: string };
+};
+```
+
+`PreferencesConsent`: 
+```ts
+type PreferencesConsent = {
+  dateCreated: string;
+  uuid?: string;
+  status: PreferencesStatus[];
+  rejectedStatus: PreferencesStatus[];
+}
+```
+
+`GlobalCMPConsent`:
+```ts
+type GlobalCMPConsent = {
+  applies: boolean;
+  uuid?: string;
+  expirationDate?: string;
+  createdDate?: string;
+  vendors: Array<Consentable>;
+  categories: Array<Consentable>;
+}
 ```
 
 ## React example
@@ -115,40 +178,43 @@ import { SPConsentManager, SPCampaignEnvironment } from '@sourcepoint/react-nati
 
 export default function App() {
   const [userData, setUserData] = useState<SPUserData>({});
-  const consentManager = useRef<SPConsentManager | null>();
+  const consentManager = useRef<SPConsentManager | null>(null);
 
   useEffect(() => {
     // setup
     consentManager.current = new SPConsentManager();
     consentManager.current?.build(
-      22,
-      16893,
-      "mobile.multicampaign.demo",
-      {
+      22,                           // account id
+      16893,                        // property id
+      "mobile.multicampaign.demo",  // property name
+      {                             // campaigns used by your property
+        // add only the campaigns your property uses
         gdpr: {},
-        // usnat: {} // uncomment this if you have a usnat campaign set up
+        // usnat: {},
+        // preferences: {},
+        // globalcmp: {}
       }
     );
 
     // configure callbacks
     consentManager.current?.onSPUIReady(() => {
-      console.log("Consent UI is ready to be displayed")
+      console.log("Consent UI is ready and will be presented.")
     });
     consentManager.current?.onSPUIFinished(() => {
-      console.log("Consent UI is finished")
+      console.log("Consent UI is finished and will be dismissed.")
     });
     consentManager.current?.onFinished(() => {
       consentManager.current?.getUserData().then(setUserData);
     });
-    consentManager.current?.onAction((action) => {
-      console.log(`User took action ${action}`)
+    consentManager.current?.onAction(({ actionType }) =>
+      console.log(`User took action ${actionType}`)
     });
-    consentManager.current?.onError(console.error);
+    consentManager.current?.onError(console.error)
 
     consentManager.current?.loadMessage();
 
     return () => {
-      consentManager.current?.dispose();
+      consentManager.current = null;
     };
   }, []);
   return (
