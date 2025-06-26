@@ -174,7 +174,7 @@ In the example below, you can find a fully configured example in React:
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, SafeAreaView } from 'react-native';
 
-import { SPConsentManager, SPCampaignEnvironment } from '@sourcepoint/react-native-cmp';
+import SPConsentManager, { SPCampaignEnvironment, SPUserData } from '@sourcepoint/react-native-cmp';
 
 export default function App() {
   const [userData, setUserData] = useState<SPUserData>({});
@@ -206,8 +206,8 @@ export default function App() {
     consentManager.current?.onFinished(() => {
       consentManager.current?.getUserData().then(setUserData);
     });
-    consentManager.current?.onAction(({ actionType }) =>
-      console.log(`User took action ${actionType}`)
+    consentManager.current?.onAction(({ actionType }) => {
+          console.log(`User took action ${actionType}`)
     });
     consentManager.current?.onError(console.error)
 
