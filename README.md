@@ -2,11 +2,15 @@ Sourcepoint's React Native package allows you to surface a Sourcepoint CMP messa
 
 # Table of Contents
 
+- [Prerequisites](#prerequisites)
 - [Install Sourcepoint package](#install-sourcepoint-package)
 - [Configuration overview](#configuration-overview)
 - [React example](#react-example)
 - [Complete app examples](#complete-app-examples)
 
+## Prerequisites
+
+Sourcepoint's React Native SDK v1.0.0+ utilizes and is only compatible with [React Native's new architecture](#https://reactnative.dev/architecture/landing-page). Any projects implementing the latest version of the SDK will need to ensure their project uses the new architecture. 
 ## Install Sourcepoint package
 
 Use the node package manager install command to install the Sourcepoint React Native package:
