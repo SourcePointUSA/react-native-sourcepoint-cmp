@@ -153,6 +153,7 @@ export interface Spec extends TurboModule {
   loadGDPRPrivacyManager(pmId: string): void;
   loadUSNatPrivacyManager(pmId: string): void;
   loadGlobalCmpPrivacyManager(pmId: string): void;
+  loadPreferenceCenter(id: string): void;
 
   readonly onAction: EventEmitter<SPAction>;
   readonly onSPUIReady: EventEmitter<void>;

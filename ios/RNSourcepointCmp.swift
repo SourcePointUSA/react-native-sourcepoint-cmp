@@ -72,6 +72,11 @@ import React
     consentManager?.loadGlobalCmpPrivacyManager(withId: pmId)
   }
 
+  public func loadPreferenceCenter(_ id: String)
+  {
+    consentManager?.loadPreferenceCenter(withId: id)
+  }
+
   weak var rootViewController: UIViewController? {
     UIApplication.shared.delegate?.window??.rootViewController
   }

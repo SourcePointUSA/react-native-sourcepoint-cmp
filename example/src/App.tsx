@@ -34,6 +34,7 @@ const config = {
   gdprPMId: '488393',
   usnatPMId: '988851',
   globalCmpPMId: '1323762',
+  preferencesCenterId: '1306779',
   campaigns: {
     gdpr: {},
     usnat: { supportLegacyUSPString: true },
@@ -115,6 +116,11 @@ export default function App() {
     consentManager.current?.loadGlobalCmpPrivacyManager(config.globalCmpPMId);
   }, []);
 
+  const onPreferencesPress = useCallback(() => {
+    setSDKStatus(SDKStatus.Networking);
+    consentManager.current?.loadPreferenceCenter(config.preferencesCenterId);
+  }, []);
+
   const onClearDataPress = useCallback(() => {
     consentManager.current?.clearLocalData();
     consentManager.current?.build(
@@ -164,6 +170,11 @@ export default function App() {
           title="Load GlobalCMP PM"
           onPress={onGlobalCMPPress}
           disabled={disable || config.campaigns.globalcmp == undefined}
+        />
+        <Button
+          title="Load Preferences Center"
+          onPress={onPreferencesPress}
+          disabled={disable || config.campaigns.preferences == undefined}
         />
         <Button title="Clear All" onPress={onClearDataPress} />
         <Text testID="sdkStatus" style={styles.status}>
