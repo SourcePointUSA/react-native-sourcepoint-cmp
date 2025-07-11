@@ -94,6 +94,11 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
   [sdk loadGlobalCMPPrivacyManager: pmId];
 }
 
+- (void)loadPreferenceCenter:(nonnull NSString *)id { 
+  [sdk loadPreferenceCenter: id];
+}
+
+
 
 // MARK: SPDelegate
 - (void)onAction:(RNAction*)action {
