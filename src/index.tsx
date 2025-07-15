@@ -44,6 +44,10 @@ export default class SPConsentManager implements Spec {
     ReactNativeCmp.loadGlobalCmpPrivacyManager(pmId);
   }
 
+  loadPreferenceCenter(id: string) {
+    ReactNativeCmp.loadPreferenceCenter(id);
+  }
+
   onAction: EventEmitter<SPAction> = ReactNativeCmp.onAction;
   onSPUIReady: EventEmitter<void> = ReactNativeCmp.onSPUIReady;
   onSPUIFinished: EventEmitter<void> = ReactNativeCmp.onSPUIFinished;
