@@ -98,8 +98,6 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
   [sdk loadPreferenceCenter: id];
 }
 
-
-
 // MARK: SPDelegate
 - (void)onAction:(RNAction*)action {
   [self emitOnAction: [action toDictionary]];

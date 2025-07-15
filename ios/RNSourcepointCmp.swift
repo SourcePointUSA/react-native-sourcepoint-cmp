@@ -72,8 +72,7 @@ import React
     consentManager?.loadGlobalCmpPrivacyManager(withId: pmId)
   }
 
-  public func loadPreferenceCenter(_ id: String)
-  {
+  public func loadPreferenceCenter(_ id: String) {
     consentManager?.loadPreferenceCenter(withId: id)
   }
 
