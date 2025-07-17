@@ -131,6 +131,7 @@ export type PreferencesStatus = {
   changed?: boolean;
   dateConsented?: string;
   subType?: PreferencesSubType;
+  versionId?: string;
 };
 
 export type PreferencesConsent = {

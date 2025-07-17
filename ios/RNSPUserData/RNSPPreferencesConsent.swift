@@ -7,6 +7,7 @@ struct RNSPPreferencesConsent: Encodable {
     let changed: Bool?
     let dateConsented: SPDate?
     let subType: SubType?
+    let versionId: String?
   }
 
   struct Channel: Encodable {
@@ -42,6 +43,7 @@ extension RNSPPreferencesConsent.Status {
     changed = status.changed
     dateConsented = status.dateConsented
     subType = status.subType.flatMap { RNSPPreferencesConsent.SubType(from: $0) }
+    versionId = status.versionId
   }
 }
 
