@@ -16,7 +16,8 @@ data class RNSPPreferencesConsent(
     val channels: List<Channel>,
     val changed: Boolean?,
     val dateConsented: String?,
-    val subType: String?
+    val subType: String?,
+    val versionId: String?
   ): RNMappable {
     data class Channel(val id: Int, val status: Boolean): RNMappable {
       override fun toRN(): ReadableMap = createMap().apply {
@@ -31,6 +32,7 @@ data class RNSPPreferencesConsent(
       changed?.let { putBoolean("changed", it) }
       putString("dateConsented", dateConsented)
       putString("subType", subType)
+      putString("versionId", versionId)
     }
   }
 
@@ -45,7 +47,8 @@ data class RNSPPreferencesConsent(
         } ?: emptyList(),
         changed = status.changed,
         dateConsented = status.dateConsented?.toString(),
-        subType = status.subType?.toString()
+        subType = status.subType?.toString(),
+        versionId = status.versionId
       )
     } ?: emptyList(),
     rejectedStatus = preferences.rejectedStatus?.map { status ->
@@ -56,7 +59,8 @@ data class RNSPPreferencesConsent(
         } ?: emptyList(),
         changed = status.changed,
         dateConsented = status.dateConsented?.toString(),
-        subType = status.subType?.toString()
+        subType = status.subType?.toString(),
+        versionId = status.versionId
       )
     } ?: emptyList()
   )
