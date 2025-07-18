@@ -34,6 +34,7 @@ const config = {
   propertyName: 'mobile.multicampaign.demo',
   buildOptions: {
     language: SPMessageLanguage.SPANISH, // in order to override the message language, make sure the option "Use Browser Default" is disabled in the Sourcepoint dashboard
+    messageTimeoutInSeconds: 1,
   },
   gdprPMId: '488393',
   usnatPMId: '988851',

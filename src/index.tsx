@@ -13,6 +13,7 @@ export * from './NativeReactNativeCmp';
 
 const defaultBuildOptions: SPBuildOptions = {
   language: SPMessageLanguage.ENGLISH,
+  messageTimeoutInSeconds: 30,
 }
 
 export default class SPConsentManager implements Spec {

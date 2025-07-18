@@ -197,6 +197,7 @@ export type PreferencesConsent = {
 
 export type SPBuildOptions = {
   language?: SPMessageLanguage;
+  messageTimeoutInSeconds?: number;
 }
 
 export interface Spec extends TurboModule {

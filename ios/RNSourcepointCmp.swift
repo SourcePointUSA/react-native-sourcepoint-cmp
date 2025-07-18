@@ -11,9 +11,11 @@ import React
 
 @objcMembers public class RNBuildOptions: NSObject {
   public let language: String
+  public let messageTimeout: Int
 
   @objc public init(language: String, messageTimeout: Int) {
     self.language = language
+    self.messageTimeout = messageTimeout
   }
 }
 
@@ -104,8 +106,8 @@ import React
       delegate: Self.objcDelegate
     )
     self.delegate = delegate
-    manager.messageTimeoutInSeconds = 10
     manager.messageLanguage = SPMessageLanguage.init(rawValue: options.language) ?? .English
+    manager.messageTimeoutInSeconds = TimeInterval(options.messageTimeout)
     Self.shared?.consentManager = manager
   }
 
