@@ -1,4 +1,7 @@
-import type { SPCampaigns } from '@sourcepoint/react-native-cmp';
+import type {
+  SPCampaigns,
+  SPBuildOptions
+} from '@sourcepoint/react-native-cmp';
 
 export type LaunchArgs = {
   config?: {
@@ -8,6 +11,7 @@ export type LaunchArgs = {
     gdprPMId?: string;
     usnatPMId?: string;
     campaigns?: SPCampaigns;
+    buildOptions?: SPBuildOptions;
   };
   authId?: string;
   clearData?: boolean;
