@@ -4,20 +4,26 @@ import type {
   SPUserData,
   LoadMessageParams,
   SPAction,
+  SPBuildOptions,
 } from './NativeReactNativeCmp';
-import ReactNativeCmp from './NativeReactNativeCmp';
+import ReactNativeCmp, { SPMessageLanguage } from './NativeReactNativeCmp';
 import type { EventEmitter } from 'react-native/Libraries/Types/CodegenTypes';
 
 export * from './NativeReactNativeCmp';
+
+const defaultBuildOptions: SPBuildOptions = {
+  language: SPMessageLanguage.ENGLISH,
+}
 
 export default class SPConsentManager implements Spec {
   build(
     accountId: number,
     propertyId: number,
     propertyName: string,
-    campaigns: SPCampaigns
+    campaigns: SPCampaigns,
+    options: SPBuildOptions = defaultBuildOptions,
   ) {
-    ReactNativeCmp.build(accountId, propertyId, propertyName, campaigns);
+    ReactNativeCmp.build(accountId, propertyId, propertyName, campaigns, options);
   }
 
   getUserData(): Promise<SPUserData> {

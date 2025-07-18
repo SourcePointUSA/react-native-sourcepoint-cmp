@@ -6,7 +6,7 @@
 }
 RCT_EXPORT_MODULE(ReactNativeCmpImpl)
 
-- (void)build:(double)accountId propertyId:(double)propertyId propertyName:(nonnull NSString *)propertyName campaigns:(JS::NativeReactNativeCmp::SPCampaigns &)campaigns {
+- (void)build:(double)accountId propertyId:(double)propertyId propertyName:(nonnull NSString *)propertyName campaigns:(JS::NativeReactNativeCmp::SPCampaigns &)campaigns options:(JS::NativeReactNativeCmp::SPBuildOptions &)options {
   if (sdk == nil) {
     sdk = [[ReactNativeCmpImpl alloc] init];
   }
@@ -61,11 +61,17 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
                                                              globalcmp: globalcmp
                                                              environment:RNSPCampaignEnvPublic];
 
+  RNBuildOptions *buildOptions = [
+    [RNBuildOptions alloc]
+      initWithLanguage: options.language()
+  ];
+
   [sdk
-   build:(NSInteger)accountId
+   buildWithAccountId:(NSInteger)accountId
    propertyId:(NSInteger)propertyId
    propertyName:propertyName
    campaigns: internalCampaigns
+   options: buildOptions
    delegate: self
   ];
 }
