@@ -38,6 +38,7 @@ import React
 
   var consentManager: SPConsentManager?
   weak var delegate: ReactNativeCmpImplDelegate?
+  weak var presentingViewController: UIViewController?
 
   public override init() {
     super.init()
@@ -100,11 +101,13 @@ import React
   public func onSPUIReady(_ controller: UIViewController) {
     controller.modalPresentationStyle = .overFullScreen
     rootViewController?.present(controller, animated: true)
+    presentingViewController = controller
     delegate?.onSPUIReady()
   }
 
   public func onSPUIFinished(_ controller: UIViewController) {
     rootViewController?.dismiss(animated: true)
+    presentingViewController = nil
     delegate?.onSPUIFinished()
   }
 
@@ -114,10 +117,16 @@ import React
 
   public func onError(error: SPError) {
     print("Something went wrong", error)
+    presentingViewController = nil
     delegate?.onError(description: error.description)
   }
-}
 
+  public func dismissMessage() {
+    if let presentingVc = presentingViewController {
+      consentManager?.dismissMessage(presentingVc)
+    }
+  }
+}
 
 private class CMPDelegateHandler: NSObject, SPDelegate {
   weak var parent: ReactNativeCmpImpl?

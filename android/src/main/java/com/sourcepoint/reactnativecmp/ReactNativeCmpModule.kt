@@ -114,6 +114,10 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
     runOnMainThread { spConsentLib?.loadPrivacyManager(id, PREFERENCES) }
   }
 
+  override fun dismissMessage() {
+    runOnMainThread { spConsentLib?.dismissMessage() }
+  }
+
   companion object {
     const val NAME = "ReactNativeCmp"
   }

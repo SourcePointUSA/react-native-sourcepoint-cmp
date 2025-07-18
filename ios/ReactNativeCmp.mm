@@ -98,6 +98,10 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
   [sdk loadPreferenceCenter: id];
 }
 
+- (void)dismissMessage { 
+  [sdk dismissMessage];
+}
+
 // MARK: SPDelegate
 - (void)onAction:(RNAction*)action {
   [self emitOnAction: [action toDictionary]];
