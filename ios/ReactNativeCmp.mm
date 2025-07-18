@@ -64,6 +64,7 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
   RNBuildOptions *buildOptions = [
     [RNBuildOptions alloc]
       initWithLanguage: options.language()
+      messageTimeout: options.messageTimeoutInSeconds().has_value() ? (NSInteger)options.messageTimeoutInSeconds().value(): 30
   ];
 
   [sdk
