@@ -154,6 +154,7 @@ export interface Spec extends TurboModule {
   loadUSNatPrivacyManager(pmId: string): void;
   loadGlobalCmpPrivacyManager(pmId: string): void;
   loadPreferenceCenter(id: string): void;
+  dismissMessage(): void;
 
   readonly onAction: EventEmitter<SPAction>;
   readonly onSPUIReady: EventEmitter<void>;
