@@ -3,6 +3,7 @@ package com.sourcepoint.reactnativecmp.arguments
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.WritableArray
 import com.facebook.react.bridge.WritableMap
+import com.facebook.react.bridge.ReadableArray
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
@@ -157,4 +158,12 @@ fun WritableMap.putArray(name: String, value: Iterable<*>) {
   putArray(name, Arguments.createArray().apply {
     value.forEach { this.pushAny(it) }
   })
+}
+
+fun ReadableArray.toStringList(): List<String> {
+    val list = mutableListOf<String>()
+    for (i in 0 until this.size()) {
+        this.getString(i)?.let { list.add(it) }
+    }
+    return list
 }

@@ -2,10 +2,12 @@ package com.sourcepoint.reactnativecmp
 
 import android.view.View
 import com.facebook.react.bridge.Arguments.createMap
+import com.facebook.react.bridge.Callback
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
+import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.module.annotations.ReactModule
 import com.sourcepoint.cmplibrary.NativeMessageController
 import com.sourcepoint.cmplibrary.SpClient
@@ -20,6 +22,8 @@ import com.sourcepoint.cmplibrary.model.exposed.SPConsents
 import com.sourcepoint.cmplibrary.util.clearAllData
 import com.sourcepoint.cmplibrary.util.userConsents
 import com.sourcepoint.reactnativecmp.consents.RNSPUserData
+import com.sourcepoint.reactnativecmp.consents.RNSPGDPRConsent
+import com.sourcepoint.reactnativecmp.arguments.toStringList
 import org.json.JSONObject
 
 data class SPLoadMessageParams(val authId: String?) {
@@ -112,6 +116,20 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
 
   override fun loadPreferenceCenter(id: String) {
     runOnMainThread { spConsentLib?.loadPrivacyManager(id, PREFERENCES) }
+  }
+
+  @ReactMethod
+  override fun postCustomConsent(vendors: ReadableArray, categories: ReadableArray, legIntCategories: ReadableArray, callback: Callback) {
+    runOnMainThread { 
+      spConsentLib?.customConsentGDPR(vendors.toStringList(), categories.toStringList(), legIntCategories.toStringList(), success = { spconsents: SPConsents? -> spconsents?.let { callback.invoke(RNSPGDPRConsent(it.gdpr!!.consent).toRN()) }})
+      }
+  }
+
+  @ReactMethod
+  override fun postDeleteCustomConsent(vendors: ReadableArray, categories: ReadableArray, legIntCategories: ReadableArray, callback: Callback) {
+    runOnMainThread { 
+      spConsentLib?.deleteCustomConsentTo(vendors.toStringList(), categories.toStringList(), legIntCategories.toStringList(), success = { spconsents: SPConsents? -> spconsents?.let { callback.invoke(RNSPGDPRConsent(it.gdpr!!.consent).toRN()) }})
+    }
   }
 
   companion object {

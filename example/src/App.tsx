@@ -12,7 +12,7 @@ import { LaunchArguments } from 'react-native-launch-arguments';
 import SPConsentManager, {
   SPCampaignEnvironment,
 } from '@sourcepoint/react-native-cmp';
-import type { SPCampaigns, SPUserData } from '@sourcepoint/react-native-cmp';
+import type { GDPRConsent, SPCampaigns, SPUserData } from '@sourcepoint/react-native-cmp';
 import type { LaunchArgs } from './LaunchArgs';
 
 import UserDataView from './UserDataView';
@@ -121,6 +121,30 @@ export default function App() {
     consentManager.current?.loadPreferenceCenter(config.preferencesCenterId);
   }, []);
 
+  const onCustomConsentPress = useCallback(() => {
+    setSDKStatus(SDKStatus.Networking);
+    consentManager.current?.postCustomConsent(
+      ["5ff4d000a228633ac048be41"],
+      ["608bad95d08d3112188e0e36", "608bad95d08d3112188e0e2f"], 
+      [], 
+      (consent: GDPRConsent) => {
+        console.log('GDPRConsent:', consent);
+        setSDKStatus(SDKStatus.Finished);
+      });
+  }, []);
+
+  const onDeleteCustomConsentPress = useCallback(() => {
+    setSDKStatus(SDKStatus.Networking);
+    consentManager.current?.postDeleteCustomConsent(
+      ["5ff4d000a228633ac048be41"],
+      ["608bad95d08d3112188e0e36", "608bad95d08d3112188e0e2f"], 
+      [], 
+      (consent: GDPRConsent) => {
+        console.log('GDPRConsent:', consent);
+        setSDKStatus(SDKStatus.Finished);
+      });
+  }, []);
+
   const onClearDataPress = useCallback(() => {
     consentManager.current?.clearLocalData();
     consentManager.current?.build(
@@ -175,6 +199,16 @@ export default function App() {
           title="Load Preferences Center"
           onPress={onPreferencesPress}
           disabled={disable || config.campaigns.preferences == undefined}
+        />
+        <Button
+          title="Post Custom Consent"
+          onPress={onCustomConsentPress}
+          disabled={disable || config.campaigns.gdpr == undefined}
+        />
+        <Button
+          title="Delete Custom Consent"
+          onPress={onDeleteCustomConsentPress}
+          disabled={disable || config.campaigns.gdpr == undefined}
         />
         <Button title="Clear All" onPress={onClearDataPress} />
         <Text testID="sdkStatus" style={styles.status}>

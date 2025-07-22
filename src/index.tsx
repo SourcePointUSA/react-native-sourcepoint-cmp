@@ -4,6 +4,7 @@ import type {
   SPUserData,
   LoadMessageParams,
   SPAction,
+  GDPRConsent,
 } from './NativeReactNativeCmp';
 import ReactNativeCmp from './NativeReactNativeCmp';
 import type { EventEmitter } from 'react-native/Libraries/Types/CodegenTypes';
@@ -46,6 +47,24 @@ export default class SPConsentManager implements Spec {
 
   loadPreferenceCenter(id: string) {
     ReactNativeCmp.loadPreferenceCenter(id);
+  }
+
+  postCustomConsent(
+    vendors: string[],
+    categories: string[],
+    legIntCategories: string[],
+    callback: (consent: GDPRConsent) => void
+  ) {
+    ReactNativeCmp.postCustomConsent(vendors, categories, legIntCategories, callback);
+  }
+
+  postDeleteCustomConsent(
+    vendors: string[],
+    categories: string[],
+    legIntCategories: string[],
+    callback: (consent: GDPRConsent) => void
+    ) {
+      ReactNativeCmp.postDeleteCustomConsent(vendors, categories, legIntCategories, callback);
   }
 
   onAction: EventEmitter<SPAction> = ReactNativeCmp.onAction;
