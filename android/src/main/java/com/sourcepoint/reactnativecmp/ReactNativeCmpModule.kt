@@ -119,14 +119,14 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
   }
 
   @ReactMethod
-  override fun postCustomConsent(vendors: ReadableArray, categories: ReadableArray, legIntCategories: ReadableArray, callback: Callback) {
+  override fun postCustomConsentGDPR(vendors: ReadableArray, categories: ReadableArray, legIntCategories: ReadableArray, callback: Callback) {
     runOnMainThread { 
       spConsentLib?.customConsentGDPR(vendors.toStringList(), categories.toStringList(), legIntCategories.toStringList(), success = { spconsents: SPConsents? -> spconsents?.let { callback.invoke(RNSPGDPRConsent(it.gdpr!!.consent).toRN()) }})
       }
   }
 
   @ReactMethod
-  override fun postDeleteCustomConsent(vendors: ReadableArray, categories: ReadableArray, legIntCategories: ReadableArray, callback: Callback) {
+  override fun postDeleteCustomConsentGDPR(vendors: ReadableArray, categories: ReadableArray, legIntCategories: ReadableArray, callback: Callback) {
     runOnMainThread { 
       spConsentLib?.deleteCustomConsentTo(vendors.toStringList(), categories.toStringList(), legIntCategories.toStringList(), success = { spconsents: SPConsents? -> spconsents?.let { callback.invoke(RNSPGDPRConsent(it.gdpr!!.consent).toRN()) }})
     }

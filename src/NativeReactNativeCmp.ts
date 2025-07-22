@@ -154,13 +154,13 @@ export interface Spec extends TurboModule {
   loadUSNatPrivacyManager(pmId: string): void;
   loadGlobalCmpPrivacyManager(pmId: string): void;
   loadPreferenceCenter(id: string): void;
-  postCustomConsent(
+  postCustomConsentGDPR(
     vendors: string[],
     categories: string[],
     legIntCategories: string[],
     callback: (consent: GDPRConsent) => void
   ): void;
-  postDeleteCustomConsent(
+  postDeleteCustomConsentGDPR(
     vendors: string[],
     categories: string[],
     legIntCategories: string[],

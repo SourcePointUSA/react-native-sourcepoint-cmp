@@ -49,22 +49,22 @@ export default class SPConsentManager implements Spec {
     ReactNativeCmp.loadPreferenceCenter(id);
   }
 
-  postCustomConsent(
+  postCustomConsentGDPR(
     vendors: string[],
     categories: string[],
     legIntCategories: string[],
     callback: (consent: GDPRConsent) => void
   ) {
-    ReactNativeCmp.postCustomConsent(vendors, categories, legIntCategories, callback);
+    ReactNativeCmp.postCustomConsentGDPR(vendors, categories, legIntCategories, callback);
   }
 
-  postDeleteCustomConsent(
+  postDeleteCustomConsentGDPR(
     vendors: string[],
     categories: string[],
     legIntCategories: string[],
     callback: (consent: GDPRConsent) => void
     ) {
-      ReactNativeCmp.postDeleteCustomConsent(vendors, categories, legIntCategories, callback);
+      ReactNativeCmp.postDeleteCustomConsentGDPR(vendors, categories, legIntCategories, callback);
   }
 
   onAction: EventEmitter<SPAction> = ReactNativeCmp.onAction;

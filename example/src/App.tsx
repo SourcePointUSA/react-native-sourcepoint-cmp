@@ -121,9 +121,9 @@ export default function App() {
     consentManager.current?.loadPreferenceCenter(config.preferencesCenterId);
   }, []);
 
-  const onCustomConsentPress = useCallback(() => {
+  const onCustomConsentGDPRPress = useCallback(() => {
     setSDKStatus(SDKStatus.Networking);
-    consentManager.current?.postCustomConsent(
+    consentManager.current?.postCustomConsentGDPR(
       ["5ff4d000a228633ac048be41"],
       ["608bad95d08d3112188e0e36", "608bad95d08d3112188e0e2f"], 
       [], 
@@ -133,9 +133,9 @@ export default function App() {
       });
   }, []);
 
-  const onDeleteCustomConsentPress = useCallback(() => {
+  const onDeleteCustomConsentGDPRPress = useCallback(() => {
     setSDKStatus(SDKStatus.Networking);
-    consentManager.current?.postDeleteCustomConsent(
+    consentManager.current?.postDeleteCustomConsentGDPR(
       ["5ff4d000a228633ac048be41"],
       ["608bad95d08d3112188e0e36", "608bad95d08d3112188e0e2f"], 
       [], 
@@ -202,12 +202,12 @@ export default function App() {
         />
         <Button
           title="Post Custom Consent"
-          onPress={onCustomConsentPress}
+          onPress={onCustomConsentGDPRPress}
           disabled={disable || config.campaigns.gdpr == undefined}
         />
         <Button
           title="Delete Custom Consent"
-          onPress={onDeleteCustomConsentPress}
+          onPress={onDeleteCustomConsentGDPRPress}
           disabled={disable || config.campaigns.gdpr == undefined}
         />
         <Button title="Clear All" onPress={onClearDataPress} />
