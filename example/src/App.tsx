@@ -33,15 +33,17 @@ const config = {
   propertyId: 16893,
   propertyName: 'mobile.multicampaign.demo',
   buildOptions: {
-    language: SPMessageLanguage.SPANISH, // in order to override the message language, make sure the option "Use Browser Default" is disabled in the Sourcepoint dashboard
-    messageTimeoutInSeconds: 1,
+    // in order to override the message language, make sure the option "Use Browser Default"
+    // is disabled in the Sourcepoint dashboard
+    language: SPMessageLanguage.ENGLISH,
+    messageTimeoutInSeconds: 20,
   },
   gdprPMId: '488393',
   usnatPMId: '988851',
   globalCmpPMId: '1323762',
   preferencesCenterId: '1306779',
   campaigns: {
-    gdpr: { targetingParams: { withoutBrowserDefault: 'true' } }, // this targeting param is used to test a scenario where the browser default language is not used, allowing the SDK to override it with the language set in the build options
+    gdpr: {},
     usnat: { supportLegacyUSPString: true },
     preferences: {},
     globalcmp: {},
