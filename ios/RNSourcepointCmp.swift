@@ -116,8 +116,11 @@ import React
     print("Something went wrong", error)
     delegate?.onError(description: error.description)
   }
-}
 
+  public func dismissMessage() {
+    consentManager?.dismissMessage()
+  }
+}
 
 private class CMPDelegateHandler: NSObject, SPDelegate {
   weak var parent: ReactNativeCmpImpl?

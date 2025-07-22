@@ -48,6 +48,10 @@ export default class SPConsentManager implements Spec {
     ReactNativeCmp.loadPreferenceCenter(id);
   }
 
+  dismissMessage(): void {
+    ReactNativeCmp.dismissMessage();
+  }
+
   onAction: EventEmitter<SPAction> = ReactNativeCmp.onAction;
   onSPUIReady: EventEmitter<void> = ReactNativeCmp.onSPUIReady;
   onSPUIFinished: EventEmitter<void> = ReactNativeCmp.onSPUIFinished;
