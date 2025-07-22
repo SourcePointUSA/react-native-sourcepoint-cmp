@@ -9,6 +9,16 @@ import ConsentViewController
 import Foundation
 import React
 
+@objcMembers public class RNBuildOptions: NSObject {
+  public let language: String
+  public let messageTimeout: Int
+
+  @objc public init(language: String, messageTimeout: Int) {
+    self.language = language
+    self.messageTimeout = messageTimeout
+  }
+}
+
 @objcMembers public class RNAction: NSObject {
   public let type: RNSourcepointActionType
   public let customActionId: String?
@@ -80,7 +90,14 @@ import React
     UIApplication.shared.delegate?.window??.rootViewController
   }
 
-  public func build(_ accountId: Int, propertyId: Int, propertyName: String, campaigns: RNSPCampaigns, delegate: ReactNativeCmpImplDelegate?) {
+  public func build(
+    accountId: Int,
+    propertyId: Int,
+    propertyName: String,
+    campaigns: RNSPCampaigns,
+    options: RNBuildOptions,
+    delegate: ReactNativeCmpImplDelegate?
+  ) {
     let manager = SPConsentManager(
       accountId: accountId,
       propertyId: propertyId,
@@ -89,7 +106,8 @@ import React
       delegate: Self.objcDelegate
     )
     self.delegate = delegate
-    manager.messageTimeoutInSeconds = 10
+    manager.messageLanguage = SPMessageLanguage.init(rawValue: options.language) ?? .English
+    manager.messageTimeoutInSeconds = TimeInterval(options.messageTimeout)
     Self.shared?.consentManager = manager
   }
 

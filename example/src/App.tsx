@@ -11,6 +11,7 @@ import { LaunchArguments } from 'react-native-launch-arguments';
 
 import SPConsentManager, {
   SPCampaignEnvironment,
+  SPMessageLanguage,
 } from '@sourcepoint/react-native-cmp';
 import type { SPCampaigns, SPUserData } from '@sourcepoint/react-native-cmp';
 import type { LaunchArgs } from './LaunchArgs';
@@ -31,6 +32,12 @@ const config = {
   accountId: 22,
   propertyId: 16893,
   propertyName: 'mobile.multicampaign.demo',
+  buildOptions: {
+    // in order to override the message language, make sure the option "Use Browser Default"
+    // is disabled in the Sourcepoint dashboard
+    language: SPMessageLanguage.ENGLISH,
+    messageTimeoutInSeconds: 20,
+  },
   gdprPMId: '488393',
   usnatPMId: '988851',
   globalCmpPMId: '1323762',
@@ -58,7 +65,8 @@ export default function App() {
       config.accountId,
       config.propertyId,
       config.propertyName,
-      config.campaigns
+      config.campaigns,
+      config.buildOptions
     );
 
     if (launchArgs.clearData === true) {
@@ -127,7 +135,8 @@ export default function App() {
       config.accountId,
       config.propertyId,
       config.propertyName,
-      config.campaigns
+      config.campaigns,
+      config.buildOptions
     );
     setUserData({});
   }, []);
@@ -159,22 +168,22 @@ export default function App() {
         <Button
           title="Load GDPR PM"
           onPress={onGDPRPMPress}
-          disabled={disable || config.campaigns.gdpr == undefined}
+          disabled={disable || config.campaigns.gdpr === undefined}
         />
         <Button
           title="Load USNAT PM"
           onPress={onUSNATPMPress}
-          disabled={disable || config.campaigns.usnat == undefined}
+          disabled={disable || config.campaigns.usnat === undefined}
         />
         <Button
           title="Load GlobalCMP PM"
           onPress={onGlobalCMPPress}
-          disabled={disable || config.campaigns.globalcmp == undefined}
+          disabled={disable || config.campaigns.globalcmp === undefined}
         />
         <Button
           title="Load Preferences Center"
           onPress={onPreferencesPress}
-          disabled={disable || config.campaigns.preferences == undefined}
+          disabled={disable || config.campaigns.preferences === undefined}
         />
         <Button title="Clear All" onPress={onClearDataPress} />
         <Text testID="sdkStatus" style={styles.status}>
