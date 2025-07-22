@@ -47,7 +47,8 @@ useEffect(() => {
     config.accountId,
     config.propertyId,
     config.propertyName,
-    config.campaigns
+    config.campaigns,
+    config.buildOptions
   );
 
   return () => {
@@ -64,6 +65,7 @@ The following attributes should be replaced with your organization's details:
 | `config.propertyId`   | Number        | ID for property found in the Sourcepoint portal                                                                                                                                                   |
 | `config.propertyName` | String        | Name of property found in the Sourcepoint portal                                                                                                                                                  |
 | `config.campaigns`    | Object        | Campaigns launched on the property through the Sourcepoint portal. Accepts `gdpr: {}`, `usnat: {}`, `preferences: {}` and `globalcmp: {}`. See table below for information on each campaign type. |
+| `config.buildOptions` | Object?       | Check `SPBuildOptions` type for more information. |
 
 Refer to the table below regarding the different campaigns that can be implemented:
 
@@ -210,7 +212,7 @@ In the example below, you can find a fully configured example in React:
 
 ```jsx
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text, SafeAreaView, SPMessageLanguage } from 'react-native';
 
 import SPConsentManager, { SPCampaignEnvironment, SPUserData } from '@sourcepoint/react-native-cmp';
 
@@ -231,6 +233,12 @@ export default function App() {
         // usnat: {},
         // preferences: {},
         // globalcmp: {}
+      },
+      {
+        // in order to override the message language, make sure the option "Use Browser Default"
+        // is disabled in the Sourcepoint dashboard
+        language: SPMessageLanguage.ENGLISH,
+        messageTimeoutInSeconds: 20,
       }
     );
 
