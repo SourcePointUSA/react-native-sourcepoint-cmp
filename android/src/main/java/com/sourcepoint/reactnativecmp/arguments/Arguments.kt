@@ -1,6 +1,7 @@
 package com.sourcepoint.reactnativecmp.arguments
 
 import com.facebook.react.bridge.Arguments
+import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.WritableArray
 import com.facebook.react.bridge.WritableMap
 import com.facebook.react.bridge.ReadableArray
@@ -159,6 +160,13 @@ fun WritableMap.putArray(name: String, value: Iterable<*>) {
     value.forEach { this.pushAny(it) }
   })
 }
+
+fun ReadableMap.getLongOrNull(name: String) =
+  if (hasKey(name) && !isNull(name)) {
+    getLong(name)
+  } else {
+    null
+  }
 
 fun ReadableArray.toStringList(): List<String> {
     val list = mutableListOf<String>()

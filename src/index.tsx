@@ -4,21 +4,28 @@ import type {
   SPUserData,
   LoadMessageParams,
   SPAction,
+  SPBuildOptions,
   GDPRConsent,
 } from './NativeReactNativeCmp';
-import ReactNativeCmp from './NativeReactNativeCmp';
+import ReactNativeCmp, { SPMessageLanguage } from './NativeReactNativeCmp';
 import type { EventEmitter } from 'react-native/Libraries/Types/CodegenTypes';
 
 export * from './NativeReactNativeCmp';
+
+const defaultBuildOptions: SPBuildOptions = {
+  language: SPMessageLanguage.ENGLISH,
+  messageTimeoutInSeconds: 30,
+}
 
 export default class SPConsentManager implements Spec {
   build(
     accountId: number,
     propertyId: number,
     propertyName: string,
-    campaigns: SPCampaigns
+    campaigns: SPCampaigns,
+    options: SPBuildOptions = defaultBuildOptions,
   ) {
-    ReactNativeCmp.build(accountId, propertyId, propertyName, campaigns);
+    ReactNativeCmp.build(accountId, propertyId, propertyName, campaigns, options);
   }
 
   getUserData(): Promise<SPUserData> {
@@ -47,6 +54,10 @@ export default class SPConsentManager implements Spec {
 
   loadPreferenceCenter(id: string) {
     ReactNativeCmp.loadPreferenceCenter(id);
+  }
+
+  dismissMessage(): void {
+    ReactNativeCmp.dismissMessage();
   }
 
   postCustomConsentGDPR(

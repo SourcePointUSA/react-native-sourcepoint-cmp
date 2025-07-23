@@ -13,6 +13,60 @@ export const enum SPCampaignEnvironment {
   Stage = 'Stage',
 }
 
+export const enum SPMessageLanguage {
+  ALBANIAN = 'sq',
+  ARABIC = 'ar',
+  BASQUE = 'eu',
+  BOSNIAN_LATIN = 'bs',
+  BULGARIAN = 'bg',
+  CATALAN = 'ca',
+  CHINESE_SIMPLIFIED = 'zh',
+  CHINESE_TRADITIONAL = 'zh-hant',
+  CROATIAN = 'hr',
+  CZECH = 'cs',
+  DANISH = 'da',
+  DUTCH = 'nl',
+  ENGLISH = 'en',
+  ESTONIAN = 'et',
+  FINNISH = 'fi',
+  FRENCH = 'fr',
+  GALICIAN = 'gl',
+  GEORGIAN = 'ka',
+  GERMAN = 'de',
+  GREEK = 'el',
+  HEBREW = 'he',
+  HINDI = 'hi',
+  HUNGARIAN = 'hu',
+  INDONESIAN = 'id',
+  ITALIAN = 'it',
+  JAPANESE = 'ja',
+  KOREAN = 'ko',
+  LATVIAN = 'lv',
+  LITHUANIAN = 'lt',
+  MACEDONIAN = 'mk',
+  MALAY = 'ms',
+  MALTESE = 'mt',
+  NORWEGIAN = 'no',
+  POLISH = 'pl',
+  PORTUGUESE_BRAZIL = 'pt-br',
+  PORTUGUESE_PORTUGAL = 'pt-pt',
+  ROMANIAN = 'ro',
+  RUSSIAN = 'ru',
+  SERBIAN_CYRILLIC = 'sr-cyrl',
+  SERBIAN_LATIN = 'sr-latn',
+  SLOVAK = 'sk',
+  SLOVENIAN = 'sl',
+  SPANISH = 'es',
+  SWAHILI = 'sw',
+  SWEDISH = 'sv',
+  TAGALOG = 'tl',
+  THAI = 'th',
+  TURKISH = 'tr',
+  UKRAINIAN = 'uk',
+  VIETNAMESE = 'vi',
+  WELSH = 'cy',
+}
+
 export const enum SPActionType {
   acceptAll = 'acceptAll',
   rejectAll = 'rejectAll',
@@ -131,6 +185,7 @@ export type PreferencesStatus = {
   changed?: boolean;
   dateConsented?: string;
   subType?: PreferencesSubType;
+  versionId?: string;
 };
 
 export type PreferencesConsent = {
@@ -140,12 +195,18 @@ export type PreferencesConsent = {
   rejectedStatus: PreferencesStatus[];
 };
 
+export type SPBuildOptions = {
+  language?: SPMessageLanguage;
+  messageTimeoutInSeconds?: number;
+}
+
 export interface Spec extends TurboModule {
   build(
     accountId: number,
     propertyId: number,
     propertyName: string,
-    campaigns: SPCampaigns
+    campaigns: SPCampaigns,
+    options?: SPBuildOptions,
   ): void;
   getUserData(): Promise<SPUserData>;
   loadMessage(params?: LoadMessageParams): void;
@@ -154,6 +215,7 @@ export interface Spec extends TurboModule {
   loadUSNatPrivacyManager(pmId: string): void;
   loadGlobalCmpPrivacyManager(pmId: string): void;
   loadPreferenceCenter(id: string): void;
+  dismissMessage(): void;
   postCustomConsentGDPR(
     vendors: string[],
     categories: string[],

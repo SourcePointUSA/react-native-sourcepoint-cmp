@@ -21,6 +21,7 @@ import com.sourcepoint.cmplibrary.model.ConsentAction
 import com.sourcepoint.cmplibrary.model.exposed.SPConsents
 import com.sourcepoint.cmplibrary.util.clearAllData
 import com.sourcepoint.cmplibrary.util.userConsents
+import com.sourcepoint.reactnativecmp.arguments.BuildOptions
 import com.sourcepoint.reactnativecmp.consents.RNSPUserData
 import com.sourcepoint.reactnativecmp.consents.RNSPGDPRConsent
 import com.sourcepoint.reactnativecmp.arguments.toStringList
@@ -42,14 +43,17 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
     accountId: Double,
     propertyId: Double,
     propertyName: String,
-    campaigns: ReadableMap
+    campaigns: ReadableMap,
+    options: ReadableMap?,
   ) {
     val convertedCampaigns = campaigns.SPCampaigns()
+    val parsedOptions = BuildOptions(options)
     val config = SpConfigDataBuilder().apply {
       addAccountId(accountId.toInt())
       addPropertyName(propertyName)
       addPropertyId(propertyId.toInt())
-      addMessageTimeout(30000)
+      addMessageTimeout(parsedOptions.messageTimeoutInSeconds)
+      addMessageLanguage(parsedOptions.language)
       convertedCampaigns.gdpr?.let {
         addCampaign(campaignType = GDPR, params = it.targetingParams, groupPmId = it.groupPmId)
       }
@@ -118,14 +122,16 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
     runOnMainThread { spConsentLib?.loadPrivacyManager(id, PREFERENCES) }
   }
 
-  @ReactMethod
+  override fun dismissMessage() {
+    runOnMainThread { spConsentLib?.dismissMessage() }
+  }
+  
   override fun postCustomConsentGDPR(vendors: ReadableArray, categories: ReadableArray, legIntCategories: ReadableArray, callback: Callback) {
     runOnMainThread { 
       spConsentLib?.customConsentGDPR(vendors.toStringList(), categories.toStringList(), legIntCategories.toStringList(), success = { spconsents: SPConsents? -> spconsents?.let { callback.invoke(RNSPGDPRConsent(it.gdpr!!.consent).toRN()) }})
       }
   }
 
-  @ReactMethod
   override fun postDeleteCustomConsentGDPR(vendors: ReadableArray, categories: ReadableArray, legIntCategories: ReadableArray, callback: Callback) {
     runOnMainThread { 
       spConsentLib?.deleteCustomConsentTo(vendors.toStringList(), categories.toStringList(), legIntCategories.toStringList(), success = { spconsents: SPConsents? -> spconsents?.let { callback.invoke(RNSPGDPRConsent(it.gdpr!!.consent).toRN()) }})
