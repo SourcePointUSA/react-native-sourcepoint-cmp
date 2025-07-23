@@ -44,13 +44,14 @@ import React
 @objcMembers public class ReactNativeCmpImpl: NSObject {
   @objc public static var shared: ReactNativeCmpImpl?
 
-  private static var objcDelegate = CMPDelegateHandler(parent: shared)
+  private var objcDelegate: CMPDelegateHandler?
 
   var consentManager: SPConsentManager?
   weak var delegate: ReactNativeCmpImplDelegate?
 
   public override init() {
     super.init()
+    objcDelegate = CMPDelegateHandler(parent: self)
     Self.shared = self
   }
 
@@ -115,7 +116,7 @@ import React
       propertyId: propertyId,
       propertyName: try! SPPropertyName(propertyName),
       campaigns: campaigns.toSP(),
-      delegate: Self.objcDelegate
+      delegate: objcDelegate
     )
     self.delegate = delegate
     manager.messageLanguage = SPMessageLanguage.init(rawValue: options.language) ?? .English
