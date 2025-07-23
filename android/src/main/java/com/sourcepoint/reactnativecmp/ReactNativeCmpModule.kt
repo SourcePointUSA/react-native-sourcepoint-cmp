@@ -88,10 +88,9 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
   override fun loadMessage(params: ReadableMap?) {
     val parsedParams = SPLoadMessageParams(fromReadableMap = params)
 
-    runOnMainThread { spConsentLib?.loadMessage(
-      authId = parsedParams.authId,
-      cmpViewId = View.generateViewId()
-    ) }
+    runOnMainThread {
+      spConsentLib?.loadMessage(authId = parsedParams.authId, cmpViewId = View.generateViewId())
+    }
   }
 
   @ReactMethod
@@ -125,16 +124,38 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
   override fun dismissMessage() {
     runOnMainThread { spConsentLib?.dismissMessage() }
   }
-  
+
   override fun postCustomConsentGDPR(vendors: ReadableArray, categories: ReadableArray, legIntCategories: ReadableArray, callback: Callback) {
-    runOnMainThread { 
-      spConsentLib?.customConsentGDPR(vendors.toStringList(), categories.toStringList(), legIntCategories.toStringList(), success = { spconsents: SPConsents? -> spconsents?.let { callback.invoke(RNSPGDPRConsent(it.gdpr!!.consent).toRN()) }})
-      }
+    runOnMainThread {
+      spConsentLib?.customConsentGDPR(
+        vendors.toStringList(),
+        categories.toStringList(),
+        legIntCategories.toStringList(),
+        success = { consents ->
+          if (consents?.gdpr != null) {
+            callback.invoke(RNSPGDPRConsent(consents.gdpr!!.consent).toRN())
+          } else {
+            callback.invoke(RNSPGDPRConsent(applies = true).toRN())
+          }
+        }
+      )
+    }
   }
 
   override fun postDeleteCustomConsentGDPR(vendors: ReadableArray, categories: ReadableArray, legIntCategories: ReadableArray, callback: Callback) {
-    runOnMainThread { 
-      spConsentLib?.deleteCustomConsentTo(vendors.toStringList(), categories.toStringList(), legIntCategories.toStringList(), success = { spconsents: SPConsents? -> spconsents?.let { callback.invoke(RNSPGDPRConsent(it.gdpr!!.consent).toRN()) }})
+    runOnMainThread {
+      spConsentLib?.deleteCustomConsentTo(
+        vendors.toStringList(),
+        categories.toStringList(),
+        legIntCategories.toStringList(),
+        success = { consents ->
+          if (consents?.gdpr != null) {
+            callback.invoke(RNSPGDPRConsent(consents.gdpr!!.consent).toRN())
+          } else {
+            callback.invoke(RNSPGDPRConsent(applies = true).toRN())
+          }
+        }
+      )
     }
   }
 

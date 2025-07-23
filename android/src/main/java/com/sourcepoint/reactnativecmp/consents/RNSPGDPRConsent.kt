@@ -8,14 +8,14 @@ import com.sourcepoint.cmplibrary.model.exposed.GDPRPurposeGrants
 import com.sourcepoint.reactnativecmp.arguments.putAny
 
 data class RNSPGDPRConsent  (
-  val uuid: String?,
+  val uuid: String? = null,
   val applies: Boolean,
-  val createdDate: String?,
-  val expirationDate: String?,
-  val euconsent: String?,
-  val vendorGrants: Map<String, GDPRPurposeGrants>,
-  val statuses: Statuses,
-  val tcfData: Map<String, Any?>
+  val createdDate: String? = null,
+  val expirationDate: String? = null,
+  val euconsent: String? = null,
+  val vendorGrants: Map<String, GDPRPurposeGrants> = emptyMap(),
+  val statuses: Statuses = Statuses(null),
+  val tcfData: Map<String, Any?> = emptyMap()
 ): RNMappable {
   data class Statuses(val consentedAll: Boolean?, val consentedAny: Boolean?, val rejectedAny: Boolean?): RNMappable {
     constructor(status: ConsentStatus?): this(
