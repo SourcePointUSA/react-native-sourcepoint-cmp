@@ -212,12 +212,12 @@ export default function App() {
         <Button
           title="Post Custom Consent"
           onPress={onCustomConsentGDPRPress}
-          disabled={disable || config.campaigns.gdpr == undefined}
+          disabled={disable || config.campaigns.gdpr === undefined}
         />
         <Button
           title="Delete Custom Consent"
           onPress={onDeleteCustomConsentGDPRPress}
-          disabled={disable || config.campaigns.gdpr == undefined}
+          disabled={disable || config.campaigns.gdpr === undefined}
         />
         <Button title="Clear All" onPress={onClearDataPress} />
         <Text testID="sdkStatus" style={styles.status}>
