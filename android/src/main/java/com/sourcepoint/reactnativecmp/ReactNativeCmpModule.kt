@@ -22,9 +22,9 @@ import com.sourcepoint.cmplibrary.model.exposed.SPConsents
 import com.sourcepoint.cmplibrary.util.clearAllData
 import com.sourcepoint.cmplibrary.util.userConsents
 import com.sourcepoint.reactnativecmp.arguments.BuildOptions
+import com.sourcepoint.reactnativecmp.arguments.toList
 import com.sourcepoint.reactnativecmp.consents.RNSPUserData
 import com.sourcepoint.reactnativecmp.consents.RNSPGDPRConsent
-import com.sourcepoint.reactnativecmp.arguments.toStringList
 import org.json.JSONObject
 
 data class SPLoadMessageParams(val authId: String?) {
@@ -128,9 +128,9 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
   override fun postCustomConsentGDPR(vendors: ReadableArray, categories: ReadableArray, legIntCategories: ReadableArray, callback: Callback) {
     runOnMainThread {
       spConsentLib?.customConsentGDPR(
-        vendors.toStringList(),
-        categories.toStringList(),
-        legIntCategories.toStringList(),
+        vendors.toList(),
+        categories.toList(),
+        legIntCategories.toList(),
         success = { consents ->
           if (consents?.gdpr != null) {
             callback.invoke(RNSPGDPRConsent(consents.gdpr!!.consent).toRN())
@@ -145,9 +145,9 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
   override fun postDeleteCustomConsentGDPR(vendors: ReadableArray, categories: ReadableArray, legIntCategories: ReadableArray, callback: Callback) {
     runOnMainThread {
       spConsentLib?.deleteCustomConsentTo(
-        vendors.toStringList(),
-        categories.toStringList(),
-        legIntCategories.toStringList(),
+        vendors.toList(),
+        categories.toList(),
+        legIntCategories.toList(),
         success = { consents ->
           if (consents?.gdpr != null) {
             callback.invoke(RNSPGDPRConsent(consents.gdpr!!.consent).toRN())

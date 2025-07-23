@@ -168,4 +168,13 @@ fun ReadableMap.getDoubleOrNull(name: String) =
     null
   }
 
-fun ReadableArray.toStringList() = List(size()) { getString(it) }.filterNotNull()
+inline fun <reified T> ReadableArray.toList(): List<T> = List(size()) {
+  when (T::class) {
+    String::class -> getString(it)
+    Int::class -> getInt(it)
+    Double::class -> getDouble(it)
+    Long::class -> getLong(it)
+    Boolean::class -> getBoolean(it)
+    else -> null
+  } as T
+}.filterNotNull()
