@@ -40,7 +40,7 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
     NSDictionary *targetingParams = (NSDictionary *)preferencesCampaign.targetingParams();
 
     preferences = [[RNSPCampaign alloc] initWithTargetingParams:targetingParams ?: @{}
-                                                      groupPmId:preferences.groupPmId
+                                                      groupPmId:preferencesCampaign.groupPmId()
                                          supportLegacyUSPString:false];
   }
 
