@@ -133,8 +133,8 @@ export default function App() {
     setSDKStatus(SDKStatus.Networking);
     consentManager.current?.postCustomConsentGDPR(
       ["5ff4d000a228633ac048be41"],
-      ["608bad95d08d3112188e0e36", "608bad95d08d3112188e0e2f"], 
-      [], 
+      ["608bad95d08d3112188e0e36", "608bad95d08d3112188e0e2f"],
+      [],
       (consent: GDPRConsent) => {
         console.log('GDPRConsent:', consent);
         setSDKStatus(SDKStatus.Finished);
@@ -145,8 +145,8 @@ export default function App() {
     setSDKStatus(SDKStatus.Networking);
     consentManager.current?.postDeleteCustomConsentGDPR(
       ["5ff4d000a228633ac048be41"],
-      ["608bad95d08d3112188e0e36", "608bad95d08d3112188e0e2f"], 
-      [], 
+      ["608bad95d08d3112188e0e36", "608bad95d08d3112188e0e2f"],
+      [],
       (consent: GDPRConsent) => {
         console.log('GDPRConsent:', consent);
         setSDKStatus(SDKStatus.Finished);

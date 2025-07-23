@@ -52,7 +52,7 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
       addAccountId(accountId.toInt())
       addPropertyName(propertyName)
       addPropertyId(propertyId.toInt())
-      addMessageTimeout(parsedOptions.messageTimeoutInSeconds)
+      addMessageTimeout(parsedOptions.messageTimeoutInMilliseconds)
       addMessageLanguage(parsedOptions.language)
       convertedCampaigns.gdpr?.let {
         addCampaign(campaignType = GDPR, params = it.targetingParams, groupPmId = it.groupPmId)

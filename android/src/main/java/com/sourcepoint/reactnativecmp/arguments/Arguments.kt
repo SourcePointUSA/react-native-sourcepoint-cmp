@@ -161,9 +161,9 @@ fun WritableMap.putArray(name: String, value: Iterable<*>) {
   })
 }
 
-fun ReadableMap.getLongOrNull(name: String) =
+fun ReadableMap.getDoubleOrNull(name: String) =
   if (hasKey(name) && !isNull(name)) {
-    getLong(name)
+    getDouble(name)
   } else {
     null
   }
