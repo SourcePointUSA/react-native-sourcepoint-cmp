@@ -4,6 +4,7 @@ import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.WritableArray
 import com.facebook.react.bridge.WritableMap
+import com.facebook.react.bridge.ReadableArray
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
@@ -67,7 +68,7 @@ fun WritableArray.pushJsonPrimitive(value: JsonPrimitive) {
 
 fun WritableArray.pushJsonArray(value: JsonArray) {
   pushArray(Arguments.createArray().apply {
-    value.forEach { this.pushJsonElement(it) }
+    value.forEach { pushJsonElement(it) }
   })
 }
 
@@ -136,7 +137,7 @@ fun WritableMap.putJsonPrimitive(name: String, value: JsonPrimitive) {
 
 fun WritableMap.putJsonArray(name: String, value: JsonArray) {
   putArray(name, Arguments.createArray().apply {
-    value.forEach { this.pushJsonElement(it) }
+    value.forEach { pushJsonElement(it) }
   })
 }
 
@@ -156,13 +157,24 @@ fun WritableMap.putMap(name: String, value: Map<*, *>) {
 
 fun WritableMap.putArray(name: String, value: Iterable<*>) {
   putArray(name, Arguments.createArray().apply {
-    value.forEach { this.pushAny(it) }
+    value.forEach { pushAny(it) }
   })
 }
 
-fun ReadableMap.getLongOrNull(name: String) =
+fun ReadableMap.getDoubleOrNull(name: String) =
   if (hasKey(name) && !isNull(name)) {
-    getLong(name)
+    getDouble(name)
   } else {
     null
   }
+
+inline fun <reified T> ReadableArray.toList(): List<T> = List(size()) {
+  when (T::class) {
+    String::class -> getString(it)
+    Int::class -> getInt(it)
+    Double::class -> getDouble(it)
+    Long::class -> getLong(it)
+    Boolean::class -> getBoolean(it)
+    else -> null
+  } as T
+}.filterNotNull()

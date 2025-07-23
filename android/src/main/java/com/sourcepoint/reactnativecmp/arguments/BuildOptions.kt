@@ -8,8 +8,10 @@ data class BuildOptions(
   val language: MessageLanguage,
   val messageTimeoutInSeconds: Long,
 ) {
+  val messageTimeoutInMilliseconds = messageTimeoutInSeconds * 1000L
+
   constructor(options: ReadableMap?) : this(
     language = MessageLanguage.entries.find { it.value == options?.getString("language") } ?: ENGLISH,
-    messageTimeoutInSeconds = options?.getLongOrNull("messageTimeoutInSeconds") ?: 30000
+    messageTimeoutInSeconds = options?.getDoubleOrNull("messageTimeoutInSeconds")?.toLong() ?: 30L
   )
 }

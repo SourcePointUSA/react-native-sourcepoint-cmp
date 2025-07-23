@@ -5,6 +5,7 @@ import type {
   LoadMessageParams,
   SPAction,
   SPBuildOptions,
+  GDPRConsent,
 } from './NativeReactNativeCmp';
 import ReactNativeCmp, { SPMessageLanguage } from './NativeReactNativeCmp';
 import type { EventEmitter } from 'react-native/Libraries/Types/CodegenTypes';
@@ -57,6 +58,24 @@ export default class SPConsentManager implements Spec {
 
   dismissMessage(): void {
     ReactNativeCmp.dismissMessage();
+  }
+
+  postCustomConsentGDPR(
+    vendors: string[],
+    categories: string[],
+    legIntCategories: string[],
+    callback: (consent: GDPRConsent) => void
+  ) {
+    ReactNativeCmp.postCustomConsentGDPR(vendors, categories, legIntCategories, callback);
+  }
+
+  postDeleteCustomConsentGDPR(
+    vendors: string[],
+    categories: string[],
+    legIntCategories: string[],
+    callback: (consent: GDPRConsent) => void
+    ) {
+      ReactNativeCmp.postDeleteCustomConsentGDPR(vendors, categories, legIntCategories, callback);
   }
 
   onAction: EventEmitter<SPAction> = ReactNativeCmp.onAction;

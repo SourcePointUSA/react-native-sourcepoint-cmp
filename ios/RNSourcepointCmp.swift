@@ -86,6 +86,18 @@ import React
     consentManager?.loadPreferenceCenter(withId: id)
   }
 
+  public func postCustomConsentGDPR(_ vendors: [String], _ categories: [String], _ legIntCategories: [String], _ callback: @escaping RCTResponseSenderBlock) {
+    consentManager?.customConsentGDPR(vendors: vendors, categories: categories, legIntCategories: legIntCategories) { consents in
+      callback([RNSPGDPRConsent(from: consents)])
+    }
+  }
+
+  public func postDeleteCustomConsentGDPR(_ vendors: [String], _ categories: [String], _ legIntCategories: [String], _ callback: @escaping RCTResponseSenderBlock) {
+    consentManager?.deleteCustomConsentGDPR(vendors: vendors, categories: categories, legIntCategories: legIntCategories) { consents in
+      callback([RNSPGDPRConsent(from: consents)])
+    }
+  }
+
   weak var rootViewController: UIViewController? {
     UIApplication.shared.delegate?.window??.rootViewController
   }

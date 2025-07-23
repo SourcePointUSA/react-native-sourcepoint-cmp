@@ -109,6 +109,20 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
   [sdk dismissMessage];
 }
 
+- (void)postCustomConsentGDPR:(NSArray *)vendors
+               categories:(NSArray *)categories
+         legIntCategories:(NSArray *)legIntCategories
+                 callback:(RCTResponseSenderBlock)callback {
+  [sdk postCustomConsentGDPR:vendors :categories :legIntCategories :callback];
+}
+
+- (void)postDeleteCustomConsentGDPR:(NSArray *)vendors
+                     categories:(NSArray *)categories
+               legIntCategories:(NSArray *)legIntCategories
+                       callback:(RCTResponseSenderBlock)callback{
+  [sdk postDeleteCustomConsentGDPR:vendors :categories :legIntCategories :callback];
+}
+
 // MARK: SPDelegate
 - (void)onAction:(RNAction*)action {
   [self emitOnAction: [action toDictionary]];
