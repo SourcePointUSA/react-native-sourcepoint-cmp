@@ -68,7 +68,7 @@ fun WritableArray.pushJsonPrimitive(value: JsonPrimitive) {
 
 fun WritableArray.pushJsonArray(value: JsonArray) {
   pushArray(Arguments.createArray().apply {
-    value.forEach { this.pushJsonElement(it) }
+    value.forEach { pushJsonElement(it) }
   })
 }
 
@@ -137,7 +137,7 @@ fun WritableMap.putJsonPrimitive(name: String, value: JsonPrimitive) {
 
 fun WritableMap.putJsonArray(name: String, value: JsonArray) {
   putArray(name, Arguments.createArray().apply {
-    value.forEach { this.pushJsonElement(it) }
+    value.forEach { pushJsonElement(it) }
   })
 }
 
@@ -157,7 +157,7 @@ fun WritableMap.putMap(name: String, value: Map<*, *>) {
 
 fun WritableMap.putArray(name: String, value: Iterable<*>) {
   putArray(name, Arguments.createArray().apply {
-    value.forEach { this.pushAny(it) }
+    value.forEach { pushAny(it) }
   })
 }
 
@@ -168,10 +168,4 @@ fun ReadableMap.getLongOrNull(name: String) =
     null
   }
 
-fun ReadableArray.toStringList(): List<String> {
-    val list = mutableListOf<String>()
-    for (i in 0 until this.size()) {
-        this.getString(i)?.let { list.add(it) }
-    }
-    return list
-}
+fun ReadableArray.toStringList() = List(size()) { getString(it) }.filterNotNull()
