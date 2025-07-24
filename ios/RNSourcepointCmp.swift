@@ -99,6 +99,10 @@ import React
     }
   }
 
+  public func rejectAll(_ campaignType: String) {
+    consentManager?.rejectAll(campaignType: SPCampaignType(rawValue: campaignType))
+  }
+
   weak var rootViewController: UIViewController? {
     UIApplication.shared.delegate?.window??.rootViewController
   }

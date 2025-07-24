@@ -123,6 +123,10 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
   [sdk postDeleteCustomConsentGDPR:vendors :categories :legIntCategories :callback];
 }
 
+- (void)rejectAll:(nonnull NSString *)campaignType {
+  [sdk rejectAll:campaignType];
+}
+
 // MARK: SPDelegate
 - (void)onAction:(RNAction*)action {
   [self emitOnAction: [action toDictionary]];
