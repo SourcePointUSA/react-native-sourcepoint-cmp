@@ -21,7 +21,7 @@ fun campaignTypeFrom(rawValue: String?): CampaignType =
     "GDPR" -> GDPR
     "CCPA" -> CCPA
     "usnat" -> USNAT
-    "ios14" -> GLOBALCMP
+    "globalcmp" -> GLOBALCMP
     "preferences" -> PREFERENCES
      else -> { CampaignType.UNKNOWN }
 }
