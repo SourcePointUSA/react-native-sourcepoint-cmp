@@ -233,6 +233,7 @@ export interface Spec extends TurboModule {
   readonly onSPUIReady: EventEmitter<void>;
   readonly onSPUIFinished: EventEmitter<void>;
   readonly onFinished: EventEmitter<void>;
+  readonly onUserInactive: EventEmitter<void>;
   readonly onError: EventEmitter<{ description: string }>;
 }
 

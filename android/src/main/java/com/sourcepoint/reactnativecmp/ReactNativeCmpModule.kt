@@ -191,6 +191,10 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
     emitOnFinished()
   }
 
+  override fun onUserInactive() {
+    emitOnUserInactive()
+  }
+
   override fun onUIFinished(view: View) {
     spConsentLib?.removeView(view)
     emitOnSPUIFinished()
