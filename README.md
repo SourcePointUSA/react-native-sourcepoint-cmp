@@ -88,6 +88,7 @@ Refer to the table below regarding the different campaigns that can be implement
 | `onAction(callback: (action: string) => {})`     | Called when the user takes an action (e.g. Accept All) within the consent message. `action: string` is going to be replaced with an enum.                                                                                              |
 | `onSPUIFinished(callback: () => {})`             | Called when the native SDKs is done removing the consent UI from the foreground.                                                                                                                                                       |
 | `onFinished(callback: () => {})`                 | Called when all UI and network processes are finished. User consent is stored on the local storage of each platform (`UserDefaults` for iOS and `SharedPrefs` for Android). And it is safe to retrieve consent data with `getUserData` |
+| `onMessageInactivityTimeout(callback: () => {})` | Called when the user becomes inactive while viewing a consent message. This allows your app to respond to user inactivity events.                                                                                                      |
 | `onError(callback: (description: string) => {})` | Called if something goes wrong.                                                                                                                                                                                                        |
 
 ### Call `loadMessages`
@@ -254,6 +255,9 @@ export default function App() {
     });
     consentManager.current?.onAction(({ actionType }) => {
           console.log(`User took action ${actionType}`)
+    });
+    consentManager.current?.onMessageInactivityTimeout(() => {
+      console.log("User became inactive")
     });
     consentManager.current?.onError(console.error)
 
