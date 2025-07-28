@@ -14,8 +14,7 @@ export const enum SPCampaignEnvironment {
 }
 
 export const enum SPCampaignType {
-  Gdpr = "GDPR",
-  Ccpa = "CCPA",
+  Gdpr = "gdpr",
   UsNat = "usnat",
   IOS14 = "ios14",
   Preferences = "preferences",

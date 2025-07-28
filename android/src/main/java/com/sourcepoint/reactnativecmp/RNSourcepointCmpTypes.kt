@@ -18,8 +18,7 @@ fun campaignsEnvFrom(rawValue: String?): CampaignsEnv? =
 
 fun campaignTypeFrom(rawValue: String?): CampaignType =
   when (rawValue) {
-    "GDPR" -> GDPR
-    "CCPA" -> CCPA
+    "gdpr" -> GDPR
     "usnat" -> USNAT
     "globalcmp" -> GLOBALCMP
     "preferences" -> PREFERENCES

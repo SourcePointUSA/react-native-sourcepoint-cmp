@@ -11,6 +11,7 @@ import { LaunchArguments } from 'react-native-launch-arguments';
 
 import SPConsentManager, {
   SPCampaignEnvironment,
+  SPCampaignType,
   SPMessageLanguage,
 } from '@sourcepoint/react-native-cmp';
 import type { GDPRConsent, SPCampaigns, SPUserData } from '@sourcepoint/react-native-cmp';
