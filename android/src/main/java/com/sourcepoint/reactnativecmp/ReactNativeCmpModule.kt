@@ -191,8 +191,8 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
     emitOnFinished()
   }
 
-  override fun onUserInactive() {
-    emitOnUserInactive()
+  override fun onMessageInactivityTimeout() {
+    emitOnMessageInactivityTimeout()
   }
 
   override fun onUIFinished(view: View) {

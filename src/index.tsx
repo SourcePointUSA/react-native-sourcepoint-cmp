@@ -82,6 +82,6 @@ export default class SPConsentManager implements Spec {
   onSPUIReady: EventEmitter<void> = ReactNativeCmp.onSPUIReady;
   onSPUIFinished: EventEmitter<void> = ReactNativeCmp.onSPUIFinished;
   onFinished: EventEmitter<void> = ReactNativeCmp.onFinished;
-  onUserInactive: EventEmitter<void> = ReactNativeCmp.onUserInactive;
+  onMessageInactivityTimeout: EventEmitter<void> = ReactNativeCmp.onMessageInactivityTimeout;
   onError: EventEmitter<{ description: string }> = ReactNativeCmp.onError;
 }

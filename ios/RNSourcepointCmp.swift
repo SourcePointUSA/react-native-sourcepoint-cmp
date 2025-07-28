@@ -38,7 +38,7 @@ import React
   func onSPUIReady()
   func onSPUIFinished()
   func onFinished()
-  func onUserInactive()
+  func onMessageInactivityTimeout()
   func onError(description: String)
 }
 
@@ -144,8 +144,8 @@ import React
     delegate?.onFinished()
   }
 
-  public func onUserInactive() {
-    delegate?.onUserInactive()
+  public func onMessageInactivityTimeout() {
+    delegate?.onMessageInactivityTimeout()
   }
 
   public func onError(error: SPError) {
@@ -181,8 +181,8 @@ private class CMPDelegateHandler: NSObject, SPDelegate {
     parent?.onSPFinished(userData: userData)
   }
 
-  func onUserInactive() {
-    parent?.onUserInactive()
+  func onMessageInactivityTimeout() {
+    parent?.onMessageInactivityTimeout()
   }
 
   func onError(error: SPError) {

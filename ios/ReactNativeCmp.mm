@@ -136,8 +136,8 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
   [self emitOnFinished];
 }
 
-- (void)onUserInactive {
-  [self emitOnUserInactive];
+- (void)onMessageInactivityTimeout {
+  [self emitOnMessageInactivityTimeout];
 }
 
 - (void)onSPUIFinished {

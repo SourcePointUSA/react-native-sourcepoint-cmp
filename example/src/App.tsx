@@ -88,7 +88,7 @@ export default function App() {
       console.log(`action: ${actionType}`)
     );
 
-    consentManager.current?.onUserInactive(() => {
+    consentManager.current?.onMessageInactivityTimeout(() => {
       console.log("User inactive");
     });
 
