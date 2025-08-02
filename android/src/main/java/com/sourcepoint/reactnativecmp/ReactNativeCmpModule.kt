@@ -5,14 +5,10 @@ import com.facebook.react.bridge.Arguments.createMap
 import com.facebook.react.bridge.Callback
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.ReactMethod
-import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.bridge.ReadableArray
-import com.facebook.react.module.annotations.ReactModule
-import com.sourcepoint.cmplibrary.NativeMessageController
+import com.facebook.react.bridge.ReadableMap
 import com.sourcepoint.cmplibrary.SpClient
 import com.sourcepoint.cmplibrary.SpConsentLib
-import com.sourcepoint.cmplibrary.core.nativemessage.MessageStructure
 import com.sourcepoint.cmplibrary.creation.ConfigOption.SUPPORT_LEGACY_USPSTRING
 import com.sourcepoint.cmplibrary.creation.SpConfigDataBuilder
 import com.sourcepoint.cmplibrary.creation.makeConsentLib
@@ -23,22 +19,19 @@ import com.sourcepoint.cmplibrary.util.clearAllData
 import com.sourcepoint.cmplibrary.util.userConsents
 import com.sourcepoint.reactnativecmp.arguments.BuildOptions
 import com.sourcepoint.reactnativecmp.arguments.toList
-import com.sourcepoint.reactnativecmp.consents.RNSPUserData
 import com.sourcepoint.reactnativecmp.consents.RNSPGDPRConsent
-import org.json.JSONObject
+import com.sourcepoint.reactnativecmp.consents.RNSPUserData
 
 data class SPLoadMessageParams(val authId: String?) {
   constructor(fromReadableMap: ReadableMap?) : this(authId = fromReadableMap?.getString("authId"))
 }
 
-@ReactModule(name = ReactNativeCmpModule.NAME)
 class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactNativeCmpSpec(reactContext),
   SpClient {
   private var spConsentLib: SpConsentLib? = null
 
   override fun getName() = NAME
 
-  @ReactMethod
   override fun build(
     accountId: Double,
     propertyId: Double,
@@ -84,7 +77,6 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
     reactApplicationContext.runOnUiQueueThread(runnable)
   }
 
-  @ReactMethod
   override fun loadMessage(params: ReadableMap?) {
     val parsedParams = SPLoadMessageParams(fromReadableMap = params)
 
@@ -93,22 +85,18 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
     }
   }
 
-  @ReactMethod
   override fun clearLocalData() {
     clearAllData(reactApplicationContext)
   }
 
-  @ReactMethod
   override fun getUserData(promise: Promise) {
     promise.resolve(userConsentsToWriteableMap(userConsents(reactApplicationContext)))
   }
 
-  @ReactMethod
   override fun loadGDPRPrivacyManager(pmId: String) {
     runOnMainThread { spConsentLib?.loadPrivacyManager(pmId, GDPR) }
   }
 
-  @ReactMethod
   override fun loadUSNatPrivacyManager(pmId: String) {
     runOnMainThread { spConsentLib?.loadPrivacyManager(pmId, USNAT) }
   }
@@ -125,7 +113,12 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
     runOnMainThread { spConsentLib?.dismissMessage() }
   }
 
-  override fun postCustomConsentGDPR(vendors: ReadableArray, categories: ReadableArray, legIntCategories: ReadableArray, callback: Callback) {
+  override fun postCustomConsentGDPR(
+    vendors: ReadableArray,
+    categories: ReadableArray,
+    legIntCategories: ReadableArray,
+    callback: Callback
+  ) {
     runOnMainThread {
       spConsentLib?.customConsentGDPR(
         vendors.toList(),
@@ -142,7 +135,12 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
     }
   }
 
-  override fun postDeleteCustomConsentGDPR(vendors: ReadableArray, categories: ReadableArray, legIntCategories: ReadableArray, callback: Callback) {
+  override fun postDeleteCustomConsentGDPR(
+    vendors: ReadableArray,
+    categories: ReadableArray,
+    legIntCategories: ReadableArray,
+    callback: Callback)
+  {
     runOnMainThread {
       spConsentLib?.deleteCustomConsentTo(
         vendors.toList(),
@@ -176,14 +174,6 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
   override fun onError(error: Throwable) {
     emitOnError(createMap().apply { putString("description", error.message) })
   }
-
-  @Deprecated("onMessageReady callback will be removed in favor of onUIReady. Currently this callback is disabled.")
-  override fun onMessageReady(message: JSONObject) {}
-
-  override fun onNativeMessageReady(
-    message: MessageStructure,
-    messageController: NativeMessageController
-  ) {}
 
   override fun onNoIntentActivitiesFound(url: String) {}
 
