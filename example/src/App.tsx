@@ -88,6 +88,10 @@ export default function App() {
       console.log(`action: ${actionType}`)
     );
 
+    consentManager.current?.onMessageInactivityTimeout(() => {
+      console.log("User inactive");
+    });
+
     consentManager.current?.onError((description) => {
       setSDKStatus(SDKStatus.Errored);
       console.error(description);

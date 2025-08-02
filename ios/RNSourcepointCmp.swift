@@ -38,6 +38,7 @@ import React
   func onSPUIReady()
   func onSPUIFinished()
   func onFinished()
+  func onMessageInactivityTimeout()
   func onError(description: String)
 }
 
@@ -143,6 +144,10 @@ import React
     delegate?.onFinished()
   }
 
+  public func onMessageInactivityTimeout() {
+    delegate?.onMessageInactivityTimeout()
+  }
+
   public func onError(error: SPError) {
     print("Something went wrong", error)
     delegate?.onError(description: error.description)
@@ -174,6 +179,10 @@ private class CMPDelegateHandler: NSObject, SPDelegate {
 
   func onSPFinished(userData: SPUserData) {
     parent?.onSPFinished(userData: userData)
+  }
+
+  func onMessageInactivityTimeout() {
+    parent?.onMessageInactivityTimeout()
   }
 
   func onError(error: SPError) {
