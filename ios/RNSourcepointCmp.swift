@@ -100,6 +100,10 @@ import React
     }
   }
 
+  public func rejectAll(_ campaignType: String) {
+    consentManager?.rejectAll(campaignType: SPCampaignType(rawValue: campaignType == "gdpr" ? "GDPR" : campaignType ))
+  }
+
   weak var rootViewController: UIViewController? {
     UIApplication.shared.delegate?.window??.rootViewController
   }
