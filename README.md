@@ -36,7 +36,7 @@ In the sections below, we will review each of the steps in more detail:
 In your app, you can setup the SPConsent manager in a external file or on your app. In the example below we use `useRef`
 to keep a reference of the `SPConsentManager`.
 
-> It is important to notice that we wrap the initialisation of `SPConsentManager` in a `useEffect` and call `consentManager.current?.dispose()` to avoid memory leaks.
+> It is important to notice that we wrap the initialisation of `SPConsentManager` in a `useEffect` and set its reference to `null` to avoid memory leaks.
 
 ```ts
 const consentManager = useRef<SPConsentManager | null>();
@@ -52,7 +52,7 @@ useEffect(() => {
   );
 
   return () => {
-    consentManager.current?.dispose();
+    consentManager.current = null;
   };
 }
 ```
