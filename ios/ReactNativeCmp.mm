@@ -1,5 +1,10 @@
 #import "ReactNativeCmp.h"
-#import "ReactNativeCmp-Swift.h"
+
+#if __has_include(<ReactNativeCmp/ReactNativeCmp-Swift.h>)
+  #import <ReactNativeCmp/ReactNativeCmp-Swift.h>
+#else
+  #import "ReactNativeCmp-Swift.h"
+#endif
 
 @implementation ReactNativeCmp {
   ReactNativeCmpImpl *sdk;

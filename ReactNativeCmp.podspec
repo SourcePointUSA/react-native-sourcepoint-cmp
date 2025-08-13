@@ -12,6 +12,8 @@ Pod::Spec.new do |s|
   s.license      = package["license"]
   s.authors      = package["author"]
 
+  s.static_framework = true
+
   s.platforms    = { :ios => min_ios_version_supported }
   s.source       = { :git => "https://github.com/SourcePointUSA/react-native-sourcepoint-cmp.git", :tag => "#{s.version}" }
 
