@@ -1659,7 +1659,7 @@ PODS:
     - React-logger (= 0.79.2)
     - React-perflogger (= 0.79.2)
     - React-utils (= 0.79.2)
-  - ReactNativeCmp (1.0.6):
+  - ReactNativeCmp (1.0.7):
     - ConsentViewController (= 7.12.1)
     - DoubleConversion
     - glog
