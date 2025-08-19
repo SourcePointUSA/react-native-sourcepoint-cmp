@@ -37,6 +37,9 @@ const config = {
     // is disabled in the Sourcepoint dashboard
     language: SPMessageLanguage.ENGLISH,
     messageTimeoutInSeconds: 20,
+    // Preventing android users from dismissing the consent message on back press
+    // `true` is the default value, allowing users to dismiss the consent message on back press
+    dismissMessageOnBackPress: true,
   },
   gdprPMId: '488393',
   usnatPMId: '988851',
@@ -45,8 +48,8 @@ const config = {
   campaigns: {
     gdpr: {},
     usnat: { supportLegacyUSPString: true },
-    preferences: {},
-    globalcmp: {},
+    //preferences: {},
+    //globalcmp: {},
     environment: SPCampaignEnvironment.Public,
   } as SPCampaigns,
   ...launchArgs?.config,

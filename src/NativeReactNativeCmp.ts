@@ -198,6 +198,7 @@ export type PreferencesConsent = {
 export type SPBuildOptions = {
   language?: SPMessageLanguage;
   messageTimeoutInSeconds?: number;
+  dismissMessageOnBackPress?: boolean;
 }
 
 export interface Spec extends TurboModule {
