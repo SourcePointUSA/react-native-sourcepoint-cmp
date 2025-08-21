@@ -67,7 +67,7 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
     }.build()
 
     reactApplicationContext.currentActivity?.let {
-      spConsentLib = makeConsentLib(config, it, this, parsedOptions.dismissMessageOnBackPressForAndroid)
+      spConsentLib = makeConsentLib(config, it, this, parsedOptions.androidDismissMessageOnBackPress)
     } ?: run {
       onError(Error("No activity found when building the SDK"))
     }

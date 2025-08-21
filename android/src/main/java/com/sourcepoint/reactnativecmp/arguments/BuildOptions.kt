@@ -7,13 +7,13 @@ import com.sourcepoint.cmplibrary.model.MessageLanguage.ENGLISH
 data class BuildOptions(
   val language: MessageLanguage,
   val messageTimeoutInSeconds: Long,
-  val dismissMessageOnBackPressForAndroid: Boolean
+  val androidDismissMessageOnBackPress: Boolean
 ) {
   val messageTimeoutInMilliseconds = messageTimeoutInSeconds * 1000L
 
   constructor(options: ReadableMap?) : this(
     language = MessageLanguage.entries.find { it.value == options?.getString("language") } ?: ENGLISH,
     messageTimeoutInSeconds = options?.getDoubleOrNull("messageTimeoutInSeconds")?.toLong() ?: 30L,
-    dismissMessageOnBackPressForAndroid = options?.getBooleanOrNull("dismissMessageOnBackPressForAndroid") ?: true
+    androidDismissMessageOnBackPress = options?.getBooleanOrNull("androidDismissMessageOnBackPress") ?: true
   )
 }
