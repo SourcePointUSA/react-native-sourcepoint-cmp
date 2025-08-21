@@ -39,7 +39,7 @@ const config = {
     messageTimeoutInSeconds: 20,
     // Preventing android users from dismissing the consent message on back press
     // `true` is the default value, allowing users to dismiss the consent message on back press
-    dismissMessageOnBackPress: true,
+    dismissMessageOnBackPressForAndroid: true,
   },
   gdprPMId: '488393',
   usnatPMId: '988851',
