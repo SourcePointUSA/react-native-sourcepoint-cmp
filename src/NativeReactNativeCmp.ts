@@ -198,6 +198,7 @@ export type PreferencesConsent = {
 export type SPBuildOptions = {
   language?: SPMessageLanguage;
   messageTimeoutInSeconds?: number;
+  androidDismissMessageOnBackPress?: boolean;
 }
 
 export interface Spec extends TurboModule {
