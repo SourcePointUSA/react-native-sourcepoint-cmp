@@ -26,8 +26,9 @@ data class SPLoadMessageParams(val authId: String?) {
   constructor(fromReadableMap: ReadableMap?) : this(authId = fromReadableMap?.getString("authId"))
 }
 
-class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactNativeCmpSpec(reactContext),
-  SpClient {
+class ReactNativeCmpModule(reactContext: ReactApplicationContext): NativeReactNativeCmpSpec(reactContext), SpClient {
+  private val eventEmitter = EventEmitter(reactContext)
+
   private var spConsentLib: SpConsentLib? = null
 
   override fun getName() = NAME
@@ -162,7 +163,7 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
   }
 
   override fun onAction(view: View, consentAction: ConsentAction): ConsentAction {
-    emitOnAction(createMap().apply {
+    eventEmitter.emitOnAction(createMap().apply {
       putString("actionType", RNSourcepointActionType.from(consentAction.actionType).name)
       putString("customActionId", consentAction.customActionId)
     })
@@ -172,27 +173,27 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
   override fun onConsentReady(consent: SPConsents) {}
 
   override fun onError(error: Throwable) {
-    emitOnError(createMap().apply { putString("description", error.message) })
+    eventEmitter.emitOnError(createMap().apply { putString("description", error.message) })
   }
 
   override fun onNoIntentActivitiesFound(url: String) {}
 
   override fun onSpFinished(sPConsents: SPConsents) {
-    emitOnFinished()
+    eventEmitter.emitOnFinished()
   }
 
   override fun onMessageInactivityTimeout() {
-    emitOnMessageInactivityTimeout()
+    eventEmitter.emitOnMessageInactivityTimeout()
   }
 
   override fun onUIFinished(view: View) {
     spConsentLib?.removeView(view)
-    emitOnSPUIFinished()
+    eventEmitter.emitOnSPUIFinished()
   }
 
   override fun onUIReady(view: View) {
     spConsentLib?.showView(view)
-    emitOnSPUIReady()
+    eventEmitter.emitOnSPUIReady()
   }
 
   private fun userConsentsToWriteableMap(consents: SPConsents) = RNSPUserData(consents).toRN()
