@@ -201,6 +201,10 @@ export type SPBuildOptions = {
   androidDismissMessageOnBackPress?: boolean;
 }
 
+export type SPError = {
+  description: string;
+};
+
 export interface Spec extends TurboModule {
   build(
     accountId: number,
@@ -230,12 +234,12 @@ export interface Spec extends TurboModule {
     callback: (consent: GDPRConsent) => void
   ): void;
 
-  readonly onAction: EventEmitter<SPAction>;
+  readonly internalOnAction: EventEmitter<string>;
   readonly onSPUIReady: EventEmitter<void>;
   readonly onSPUIFinished: EventEmitter<void>;
   readonly onFinished: EventEmitter<void>;
   readonly onMessageInactivityTimeout: EventEmitter<void>;
-  readonly onError: EventEmitter<{ description: string }>;
+  readonly internalOnError: EventEmitter<string>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('ReactNativeCmp');
