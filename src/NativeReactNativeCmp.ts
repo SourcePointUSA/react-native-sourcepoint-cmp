@@ -231,6 +231,7 @@ export interface Spec extends TurboModule {
   ): void;
 
   readonly onAction: EventEmitter<SPAction>;
+  readonly onActionSimplified: EventEmitter<string>;
   readonly onSPUIReady: EventEmitter<void>;
   readonly onSPUIFinished: EventEmitter<void>;
   readonly onFinished: EventEmitter<void>;

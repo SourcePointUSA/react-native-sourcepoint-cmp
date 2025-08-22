@@ -92,6 +92,10 @@ export default function App() {
       console.log(`action: ${actionType}`)
     );
 
+    consentManager.current?.onActionSimplified((value) =>
+      console.log(`actionSimplified: ${value}`)
+    );
+
     consentManager.current?.onMessageInactivityTimeout(() => {
       console.log("User inactive");
     });

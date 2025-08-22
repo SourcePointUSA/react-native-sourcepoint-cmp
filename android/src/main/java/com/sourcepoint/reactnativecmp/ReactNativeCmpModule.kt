@@ -162,10 +162,11 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
   }
 
   override fun onAction(view: View, consentAction: ConsentAction): ConsentAction {
-    emitOnAction(createMap().apply {
-      putString("actionType", RNSourcepointActionType.from(consentAction.actionType).name)
-      putString("customActionId", consentAction.customActionId)
-    })
+//    emitOnAction(createMap().apply {
+//      putString("actionType", RNSourcepointActionType.from(consentAction.actionType).name)
+//      putString("customActionId", consentAction.customActionId)
+//    })
+    emitOnActionSimplified("hello world")
     return consentAction
   }
 
