@@ -1,7 +1,6 @@
 package com.sourcepoint.reactnativecmp
 
 import android.view.View
-import com.facebook.react.bridge.Arguments.createMap
 import com.facebook.react.bridge.Callback
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
@@ -21,6 +20,8 @@ import com.sourcepoint.reactnativecmp.arguments.BuildOptions
 import com.sourcepoint.reactnativecmp.arguments.toList
 import com.sourcepoint.reactnativecmp.consents.RNSPGDPRConsent
 import com.sourcepoint.reactnativecmp.consents.RNSPUserData
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 data class SPLoadMessageParams(val authId: String?) {
   constructor(fromReadableMap: ReadableMap?) : this(authId = fromReadableMap?.getString("authId"))
@@ -162,17 +163,17 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
   }
 
   override fun onAction(view: View, consentAction: ConsentAction): ConsentAction {
-    emitOnAction(createMap().apply {
-      putString("actionType", RNSourcepointActionType.from(consentAction.actionType).name)
-      putString("customActionId", consentAction.customActionId)
-    })
+    emitInternalOnAction(Json.encodeToString(mapOf(
+      "actionType" to RNSourcepointActionType.from(consentAction.actionType).name,
+      "customActionId" to consentAction.customActionId
+    )))
     return consentAction
   }
 
   override fun onConsentReady(consent: SPConsents) {}
 
   override fun onError(error: Throwable) {
-    emitOnError(createMap().apply { putString("description", error.message) })
+    emitInternalOnError(Json.encodeToString(mapOf("description" to error.message)))
   }
 
   override fun onNoIntentActivitiesFound(url: String) {}
