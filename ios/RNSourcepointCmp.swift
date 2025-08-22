@@ -37,7 +37,7 @@ import React
        let jsonString = String(data: jsonData, encoding: .utf8) {
         return jsonString
     } else {
-      return "{\"actionType:\"unknown\"}"
+      return "{\"actionType\":\"unknown\"}"
     }
   }
 }
