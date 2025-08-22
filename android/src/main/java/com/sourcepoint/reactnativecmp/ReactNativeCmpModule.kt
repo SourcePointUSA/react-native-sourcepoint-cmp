@@ -140,8 +140,8 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
     vendors: ReadableArray,
     categories: ReadableArray,
     legIntCategories: ReadableArray,
-    callback: Callback)
-  {
+    callback: Callback
+  ) {
     runOnMainThread {
       spConsentLib?.deleteCustomConsentTo(
         vendors.toList(),

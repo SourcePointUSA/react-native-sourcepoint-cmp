@@ -28,8 +28,17 @@ import React
     self.customActionId = customActionId
   }
 
-  @objc public func toDictionary() -> [String: Any] {
+  func toDictionary() -> [String: Any] {
     ["actionType": type.description, "customActionId": customActionId]
+  }
+
+  @objc public func stringifiedJson() -> String {
+    if let jsonData = try? JSONSerialization.data(withJSONObject: toDictionary()),
+       let jsonString = String(data: jsonData, encoding: .utf8) {
+        return jsonString
+    } else {
+      return "{\"actionType:\"unknown\"}"
+    }
   }
 }
 
