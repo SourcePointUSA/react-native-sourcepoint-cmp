@@ -6,6 +6,7 @@ import type {
   SPAction,
   SPBuildOptions,
   GDPRConsent,
+  SPError
 } from './NativeReactNativeCmp';
 import ReactNativeCmp, { SPMessageLanguage } from './NativeReactNativeCmp';
 import type { EventEmitter } from 'react-native/Libraries/Types/CodegenTypes';
@@ -18,6 +19,32 @@ const defaultBuildOptions: SPBuildOptions = {
 }
 
 export default class SPConsentManager implements Spec {
+  /** intended to be used by the SDK only */
+  internalOnAction: EventEmitter<string> = ReactNativeCmp.internalOnAction;
+  /** intended to be used by the SDK only */
+  internalOnError: EventEmitter<string> = ReactNativeCmp.internalOnError;
+
+  onSPUIReady: EventEmitter<void> = ReactNativeCmp.onSPUIReady;
+  onSPUIFinished: EventEmitter<void> = ReactNativeCmp.onSPUIFinished;
+  onFinished: EventEmitter<void> = ReactNativeCmp.onFinished;
+  onMessageInactivityTimeout: EventEmitter<void> = ReactNativeCmp.onMessageInactivityTimeout;
+
+  onAction(handler: (action: SPAction) => void) {
+    ReactNativeCmp.internalOnAction((stringifiedAction) => {
+      handler(JSON.parse(stringifiedAction) as SPAction);
+    });
+  }
+
+  onError(handler: (error: SPError) => void) {
+    ReactNativeCmp.internalOnError((stringifiedError) => {
+      handler(JSON.parse(stringifiedError) as SPError);
+    });
+  }
+
+  getConstants?(): {} {
+    throw new Error('Method not implemented.');
+  }
+
   build(
     accountId: number,
     propertyId: number,
@@ -74,14 +101,7 @@ export default class SPConsentManager implements Spec {
     categories: string[],
     legIntCategories: string[],
     callback: (consent: GDPRConsent) => void
-    ) {
-      ReactNativeCmp.postDeleteCustomConsentGDPR(vendors, categories, legIntCategories, callback);
+  ) {
+    ReactNativeCmp.postDeleteCustomConsentGDPR(vendors, categories, legIntCategories, callback);
   }
-
-  onAction: EventEmitter<SPAction> = ReactNativeCmp.onAction;
-  onSPUIReady: EventEmitter<void> = ReactNativeCmp.onSPUIReady;
-  onSPUIFinished: EventEmitter<void> = ReactNativeCmp.onSPUIFinished;
-  onFinished: EventEmitter<void> = ReactNativeCmp.onFinished;
-  onMessageInactivityTimeout: EventEmitter<void> = ReactNativeCmp.onMessageInactivityTimeout;
-  onError: EventEmitter<{ description: string }> = ReactNativeCmp.onError;
 }
