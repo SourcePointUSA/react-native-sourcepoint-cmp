@@ -158,6 +158,12 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
     }
   }
 
+  override fun rejectAll(campaignType: String) {
+    runOnMainThread {
+      spConsentLib?.rejectAll(campaignTypeFrom(campaignType))
+    }
+  }
+
   companion object {
     const val NAME = "ReactNativeCmp"
   }

@@ -6,12 +6,23 @@ import com.sourcepoint.cmplibrary.model.CampaignsEnv.*
 import com.sourcepoint.cmplibrary.model.exposed.ActionType
 import com.sourcepoint.cmplibrary.model.exposed.ActionType.*
 import com.sourcepoint.cmplibrary.model.exposed.TargetingParam
+import com.sourcepoint.cmplibrary.data.network.util.CampaignType
+import com.sourcepoint.cmplibrary.data.network.util.CampaignType.*
 
 fun campaignsEnvFrom(rawValue: String?): CampaignsEnv? =
   when (rawValue) {
     "Public" -> PUBLIC
     "Stage" -> STAGE
     else -> { null }
+}
+
+fun campaignTypeFrom(rawValue: String?): CampaignType =
+  when (rawValue) {
+    "gdpr" -> GDPR
+    "usnat" -> USNAT
+    "globalcmp" -> GLOBALCMP
+    "preferences" -> PREFERENCES
+     else -> { CampaignType.UNKNOWN }
 }
 
 data class SPCampaign(

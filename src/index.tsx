@@ -6,6 +6,7 @@ import type {
   SPAction,
   SPBuildOptions,
   GDPRConsent,
+  SPCampaignType,
   SPError
 } from './NativeReactNativeCmp';
 import ReactNativeCmp, { SPMessageLanguage } from './NativeReactNativeCmp';
@@ -103,5 +104,9 @@ export default class SPConsentManager implements Spec {
     callback: (consent: GDPRConsent) => void
   ) {
     ReactNativeCmp.postDeleteCustomConsentGDPR(vendors, categories, legIntCategories, callback);
+  }
+
+  rejectAll(campaignType: SPCampaignType) {
+    ReactNativeCmp.rejectAll(campaignType)
   }
 }

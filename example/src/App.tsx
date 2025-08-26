@@ -11,6 +11,7 @@ import { LaunchArguments } from 'react-native-launch-arguments';
 
 import SPConsentManager, {
   SPCampaignEnvironment,
+  SPCampaignType,
   SPMessageLanguage,
 } from '@sourcepoint/react-native-cmp';
 import type { GDPRConsent, SPCampaigns, SPUserData } from '@sourcepoint/react-native-cmp';
@@ -122,6 +123,11 @@ export default function App() {
     consentManager.current?.loadGDPRPrivacyManager(config.gdprPMId);
   }, []);
 
+  const onRejectAllGDPRPMPress = useCallback(() => {
+    setSDKStatus(SDKStatus.Networking);
+    consentManager.current?.rejectAll(SPCampaignType.Gdpr);
+  }, []);
+
   const onUSNATPMPress = useCallback(() => {
     setSDKStatus(SDKStatus.Networking);
     consentManager.current?.loadUSNatPrivacyManager(config.usnatPMId);
@@ -200,6 +206,11 @@ export default function App() {
         <Button
           title="Load GDPR PM"
           onPress={onGDPRPMPress}
+          disabled={disable || config.campaigns.gdpr === undefined}
+        />
+        <Button
+          title="Reject All GDPR"
+          onPress={onRejectAllGDPRPMPress}
           disabled={disable || config.campaigns.gdpr === undefined}
         />
         <Button

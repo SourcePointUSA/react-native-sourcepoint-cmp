@@ -13,6 +13,14 @@ export const enum SPCampaignEnvironment {
   Stage = 'Stage',
 }
 
+export const enum SPCampaignType {
+  Gdpr = "gdpr",
+  UsNat = "usnat",
+  IOS14 = "ios14",
+  Preferences = "preferences",
+  GlobalCmp = "globalcmp",
+}
+
 export const enum SPMessageLanguage {
   ALBANIAN = 'sq',
   ARABIC = 'ar',
@@ -233,6 +241,7 @@ export interface Spec extends TurboModule {
     legIntCategories: string[],
     callback: (consent: GDPRConsent) => void
   ): void;
+  rejectAll(campaignType: SPCampaignType): void;
 
   readonly internalOnAction: EventEmitter<string>;
   readonly onSPUIReady: EventEmitter<void>;
