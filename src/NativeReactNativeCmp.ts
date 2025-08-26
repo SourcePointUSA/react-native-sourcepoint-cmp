@@ -206,7 +206,12 @@ export type PreferencesConsent = {
 export type SPBuildOptions = {
   language?: SPMessageLanguage;
   messageTimeoutInSeconds?: number;
+  androidDismissMessageOnBackPress?: boolean;
 }
+
+export type SPError = {
+  description: string;
+};
 
 export interface Spec extends TurboModule {
   build(
@@ -238,11 +243,12 @@ export interface Spec extends TurboModule {
   ): void;
   rejectAll(campaignType: SPCampaignType): void;
 
-  readonly onAction: EventEmitter<SPAction>;
+  readonly internalOnAction: EventEmitter<string>;
   readonly onSPUIReady: EventEmitter<void>;
   readonly onSPUIFinished: EventEmitter<void>;
   readonly onFinished: EventEmitter<void>;
-  readonly onError: EventEmitter<{ description: string }>;
+  readonly onMessageInactivityTimeout: EventEmitter<void>;
+  readonly internalOnError: EventEmitter<string>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('ReactNativeCmp');

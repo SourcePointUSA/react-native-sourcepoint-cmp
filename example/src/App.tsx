@@ -38,6 +38,10 @@ const config = {
     // is disabled in the Sourcepoint dashboard
     language: SPMessageLanguage.ENGLISH,
     messageTimeoutInSeconds: 20,
+    // Allows Android users to dismiss the consent message on back press. 
+    // True by default. 
+    // Set it to false if you wish to prevent this users from dismissing the message on back press.
+    androidDismissMessageOnBackPress: false,
   },
   gdprPMId: '488393',
   usnatPMId: '988851',
@@ -88,6 +92,10 @@ export default function App() {
     consentManager.current?.onAction(({ actionType }) =>
       console.log(`action: ${actionType}`)
     );
+
+    consentManager.current?.onMessageInactivityTimeout(() => {
+      console.log("User inactive");
+    });
 
     consentManager.current?.onError((description) => {
       setSDKStatus(SDKStatus.Errored);

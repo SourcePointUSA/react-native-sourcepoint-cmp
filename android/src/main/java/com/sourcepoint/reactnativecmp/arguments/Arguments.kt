@@ -168,6 +168,13 @@ fun ReadableMap.getDoubleOrNull(name: String) =
     null
   }
 
+fun ReadableMap.getBooleanOrNull(name: String) =
+  if (hasKey(name) && !isNull(name)) {
+    getBoolean(name)
+  } else {
+    null
+  }
+
 inline fun <reified T> ReadableArray.toList(): List<T> = List(size()) {
   when (T::class) {
     String::class -> getString(it)

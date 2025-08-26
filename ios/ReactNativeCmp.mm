@@ -1,5 +1,10 @@
 #import "ReactNativeCmp.h"
-#import "ReactNativeCmp-Swift.h"
+
+#if __has_include(<ReactNativeCmp/ReactNativeCmp-Swift.h>)
+  #import <ReactNativeCmp/ReactNativeCmp-Swift.h>
+#else
+  #import "ReactNativeCmp-Swift.h"
+#endif
 
 @implementation ReactNativeCmp {
   ReactNativeCmpImpl *sdk;
@@ -129,15 +134,22 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
 
 // MARK: SPDelegate
 - (void)onAction:(RNAction*)action {
-  [self emitOnAction: [action toDictionary]];
+  [self emitInternalOnAction: [action stringifiedJson]];
 }
 
 - (void)onErrorWithDescription:(NSString * _Nonnull)description {
-  [self emitOnError: @{ @"description": description }];
+  NSDictionary *dict = @{@"description": description};
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:nil];
+  NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+  [self emitInternalOnError: json];
 }
 
 - (void)onFinished {
   [self emitOnFinished];
+}
+
+- (void)onMessageInactivityTimeout {
+  [self emitOnMessageInactivityTimeout];
 }
 
 - (void)onSPUIFinished {

@@ -1,6 +1,6 @@
 {
   "name": "@sourcepoint/react-native-cmp",
-  "version": "1.0.4",
+  "version": "1.0.9-beta.2",
   "description": "The official react native bridge to the native Sourcepoint SDKs",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",

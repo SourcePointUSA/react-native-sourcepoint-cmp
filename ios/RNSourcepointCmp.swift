@@ -28,8 +28,17 @@ import React
     self.customActionId = customActionId
   }
 
-  @objc public func toDictionary() -> [String: Any] {
+  func toDictionary() -> [String: Any] {
     ["actionType": type.description, "customActionId": customActionId]
+  }
+
+  @objc public func stringifiedJson() -> String {
+    if let jsonData = try? JSONSerialization.data(withJSONObject: toDictionary()),
+       let jsonString = String(data: jsonData, encoding: .utf8) {
+        return jsonString
+    } else {
+      return "{\"actionType\":\"unknown\"}"
+    }
   }
 }
 
@@ -38,6 +47,7 @@ import React
   func onSPUIReady()
   func onSPUIFinished()
   func onFinished()
+  func onMessageInactivityTimeout()
   func onError(description: String)
 }
 
@@ -147,6 +157,10 @@ import React
     delegate?.onFinished()
   }
 
+  public func onMessageInactivityTimeout() {
+    delegate?.onMessageInactivityTimeout()
+  }
+
   public func onError(error: SPError) {
     print("Something went wrong", error)
     delegate?.onError(description: error.description)
@@ -178,6 +192,10 @@ private class CMPDelegateHandler: NSObject, SPDelegate {
 
   func onSPFinished(userData: SPUserData) {
     parent?.onSPFinished(userData: userData)
+  }
+
+  func onMessageInactivityTimeout() {
+    parent?.onMessageInactivityTimeout()
   }
 
   func onError(error: SPError) {
