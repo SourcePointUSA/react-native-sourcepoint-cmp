@@ -100,6 +100,7 @@ export default function App() {
     consentManager.current?.onError((description) => {
       setSDKStatus(SDKStatus.Errored);
       console.error(description);
+      consentManager.current?.getUserData().then(setUserData);
     });
 
     consentManager.current?.getUserData().then(setUserData);
