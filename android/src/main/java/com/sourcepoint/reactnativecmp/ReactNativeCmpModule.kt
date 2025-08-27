@@ -86,6 +86,10 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
     }
   }
 
+  override fun setCleanUserDataOnError(value: Boolean) {
+    spConsentLib?.cleanUserDataOnError = value
+  }
+
   override fun clearLocalData() {
     clearAllData(reactApplicationContext)
   }

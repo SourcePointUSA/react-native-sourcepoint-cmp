@@ -72,6 +72,10 @@ import React
   public func loadMessage(_ params: RNSPLoadMessageParams) {
     consentManager?.loadMessage(forAuthId: params.authId, pubData: nil)
   }
+  
+  public func setCleanUserDataOnError(_ value: Bool) {
+    consentManager?.cleanUserDataOnError = value
+  }
 
   // TODO: fix an issue with `SPConsentManager.clearAllData` returning in-memory data
   // SPConsentManager.clearAllData() clears all data from UserDefaults, but SPCoordinator

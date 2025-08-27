@@ -132,6 +132,11 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
   [sdk rejectAll:campaignType];
 }
 
+- (void)setCleanUserDataOnError:(BOOL)value { 
+  [sdk setCleanUserDataOnError:value];
+}
+
+
 // MARK: SPDelegate
 - (void)onAction:(RNAction*)action {
   [self emitInternalOnAction: [action stringifiedJson]];

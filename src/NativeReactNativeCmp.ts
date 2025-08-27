@@ -223,6 +223,7 @@ export interface Spec extends TurboModule {
   ): void;
   getUserData(): Promise<SPUserData>;
   loadMessage(params?: LoadMessageParams): void;
+  setCleanUserDataOnError(value: boolean): void;
   clearLocalData(): void;
   loadGDPRPrivacyManager(pmId: string): void;
   loadUSNatPrivacyManager(pmId: string): void;

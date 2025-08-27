@@ -64,6 +64,10 @@ export default class SPConsentManager implements Spec {
     ReactNativeCmp.loadMessage(params);
   }
 
+  setCleanUserDataOnError(value: boolean) {
+    ReactNativeCmp.setCleanUserDataOnError(value);
+  }
+
   clearLocalData() {
     ReactNativeCmp.clearLocalData();
   }
