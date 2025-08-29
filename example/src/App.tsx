@@ -97,9 +97,9 @@ export default function App() {
       console.log("User inactive");
     });
 
-    consentManager.current?.onError((description) => {
+    consentManager.current?.onError((error) => {
       setSDKStatus(SDKStatus.Errored);
-      console.error(description);
+      console.error(error);
     });
 
     consentManager.current?.getUserData().then(setUserData);
