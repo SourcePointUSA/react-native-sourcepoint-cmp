@@ -42,13 +42,36 @@ import React
   }
 }
 
+@objcMembers public class RNError: NSObject {
+  public let code: String
+  public let errorDescription: String
+
+  @objc public init(code: String, description: String) {
+    self.code = code
+    self.errorDescription = description
+  }
+
+  func toDictionary() -> [String: Any] {
+    ["spCode": code, "description": errorDescription]
+  }
+
+  @objc public func stringifiedJson() -> String {
+    if let jsonData = try? JSONSerialization.data(withJSONObject: toDictionary()),
+       let jsonString = String(data: jsonData, encoding: .utf8) {
+        return jsonString
+    } else {
+      return "{\"code\":\"unknown\"}"
+    }
+  }
+}
+
 @objc public protocol ReactNativeCmpImplDelegate {
   func onAction(_ action: RNAction)
   func onSPUIReady()
   func onSPUIFinished()
   func onFinished()
   func onMessageInactivityTimeout()
-  func onError(description: String)
+  func onError(_ error: RNError)
 }
 
 @objcMembers public class ReactNativeCmpImpl: NSObject {
@@ -163,7 +186,7 @@ import React
 
   public func onError(error: SPError) {
     print("Something went wrong", error)
-    delegate?.onError(description: error.description)
+    delegate?.onError(RNError(code: error.spCode, description: error.description))
   }
 
   public func dismissMessage() {
