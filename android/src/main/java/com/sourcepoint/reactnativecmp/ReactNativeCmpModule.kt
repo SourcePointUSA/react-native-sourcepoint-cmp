@@ -8,6 +8,7 @@ import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.bridge.ReadableMap
 import com.sourcepoint.cmplibrary.SpClient
 import com.sourcepoint.cmplibrary.SpConsentLib
+import com.sourcepoint.cmplibrary.exception.ConsentLibExceptionK
 import com.sourcepoint.cmplibrary.creation.ConfigOption.SUPPORT_LEGACY_USPSTRING
 import com.sourcepoint.cmplibrary.creation.SpConfigDataBuilder
 import com.sourcepoint.cmplibrary.creation.makeConsentLib
@@ -179,7 +180,11 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
   override fun onConsentReady(consent: SPConsents) {}
 
   override fun onError(error: Throwable) {
-    emitInternalOnError(Json.encodeToString(mapOf("description" to error.message)))
+    val convertedError = error as? ConsentLibExceptionK
+    emitInternalOnError(Json.encodeToString(mapOf(
+      "spCode" to convertedError?.code as String,
+      "description" to convertedError?.message as String
+    )))
   }
 
   override fun onNoIntentActivitiesFound(url: String) {}

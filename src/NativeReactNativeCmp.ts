@@ -210,6 +210,7 @@ export type SPBuildOptions = {
 }
 
 export type SPError = {
+  spCode: string;
   description: string;
 };
 
