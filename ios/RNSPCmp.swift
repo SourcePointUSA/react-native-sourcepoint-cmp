@@ -19,36 +19,13 @@ import React
   }
 }
 
-@objcMembers public class RNAction: NSObject {
-  public let type: RNSourcepointActionType
-  public let customActionId: String?
-
-  @objc public init(type: RNSourcepointActionType, customActionId: String?) {
-    self.type = type
-    self.customActionId = customActionId
-  }
-
-  func toDictionary() -> [String: Any] {
-    ["actionType": type.description, "customActionId": customActionId]
-  }
-
-  @objc public func stringifiedJson() -> String {
-    if let jsonData = try? JSONSerialization.data(withJSONObject: toDictionary()),
-       let jsonString = String(data: jsonData, encoding: .utf8) {
-        return jsonString
-    } else {
-      return "{\"actionType\":\"unknown\"}"
-    }
-  }
-}
-
 @objc public protocol ReactNativeCmpImplDelegate {
-  func onAction(_ action: RNAction)
+  func onAction(_ action: RNSPAction)
   func onSPUIReady()
   func onSPUIFinished()
   func onFinished()
   func onMessageInactivityTimeout()
-  func onError(description: String)
+  func onError(_ error: RNSPError)
 }
 
 @objcMembers public class ReactNativeCmpImpl: NSObject {
@@ -110,7 +87,7 @@ import React
   }
 
   public func rejectAll(_ campaignType: String) {
-    consentManager?.rejectAll(campaignType: SPCampaignType(rawValue: campaignType == "gdpr" ? "GDPR" : campaignType ))
+    consentManager?.rejectAll(campaignType: RNSPCampaignType(rawValue: campaignType).toSP())
   }
 
   weak var rootViewController: UIViewController? {
@@ -139,7 +116,7 @@ import React
   }
 
   public func onAction(_ action: SPAction, from controller: UIViewController) {
-    delegate?.onAction(RNAction(type: RNSourcepointActionType(from: action.type), customActionId: action.customActionId))
+    delegate?.onAction(RNSPAction(type: RNSPActionType(from: action.type), customActionId: action.customActionId))
   }
 
   public func onSPUIReady(_ controller: UIViewController) {
@@ -163,7 +140,7 @@ import React
 
   public func onError(error: SPError) {
     print("Something went wrong", error)
-    delegate?.onError(description: error.description)
+    delegate?.onError(RNSPError(error))
   }
 
   public func dismissMessage() {

@@ -133,7 +133,7 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
 }
 
 // MARK: SPDelegate
-- (void)onAction:(RNAction*)action {
+- (void)onAction:(RNSPAction*)action {
   [self emitInternalOnAction: [action stringifiedJson]];
 }
 
