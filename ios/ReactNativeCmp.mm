@@ -137,11 +137,8 @@ RCT_EXPORT_MODULE(ReactNativeCmpImpl)
   [self emitInternalOnAction: [action stringifiedJson]];
 }
 
-- (void)onErrorWithDescription:(NSString * _Nonnull)description {
-  NSDictionary *dict = @{@"description": description};
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:nil];
-  NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-  [self emitInternalOnError: json];
+- (void)onError:(RNSPError*)error {
+  [self emitInternalOnError: [error stringifiedJson]];
 }
 
 - (void)onFinished {

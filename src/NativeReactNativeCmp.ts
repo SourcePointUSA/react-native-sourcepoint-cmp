@@ -209,8 +209,13 @@ export type SPBuildOptions = {
   androidDismissMessageOnBackPress?: boolean;
 }
 
+export type SPErrorName =
+  | "Unknown";
+
 export type SPError = {
+  name: SPErrorName;
   description: string;
+  campaignType?: SPCampaignType;
 };
 
 export interface Spec extends TurboModule {
