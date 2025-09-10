@@ -256,7 +256,7 @@ export default function App() {
       consentManager.current?.getUserData().then(setUserData);
     });
     consentManager.current?.onAction(({ actionType }) => {
-          console.log(`User took action ${actionType}`)
+      console.log(`User took action ${actionType}`)
     });
     consentManager.current?.onMessageInactivityTimeout(() => {
       console.log("User became inactive")
