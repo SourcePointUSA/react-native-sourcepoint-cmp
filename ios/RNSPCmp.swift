@@ -140,6 +140,7 @@ import React
 
   public func onError(error: SPError) {
     print("Something went wrong", error)
+    rootViewController?.dismiss(animated: true)
     delegate?.onError(RNSPError(error))
   }
 
