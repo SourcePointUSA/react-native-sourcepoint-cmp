@@ -89,7 +89,7 @@ Refer to the table below regarding the different campaigns that can be implement
 | `onSPUIFinished(callback: () => {})`             | Called when the native SDKs is done removing the consent UI from the foreground.                                                                                                                                                       |
 | `onFinished(callback: () => {})`                 | Called when all UI and network processes are finished. User consent is stored on the local storage of each platform (`UserDefaults` for iOS and `SharedPrefs` for Android). And it is safe to retrieve consent data with `getUserData` |
 | `onMessageInactivityTimeout(callback: () => {})` | Called when the user becomes inactive while viewing a consent message. This allows your app to respond to user inactivity events.                                                                                                      |
-| `onError(callback: (description: string) => {})` | Called if something goes wrong.                                                                                                                                                                                                        |
+| `onError(callback: (error: SPError) => {})` | Called if something goes wrong.                                                                                                                                                                                                        |
 
 ### Call `loadMessages`
 
@@ -286,13 +286,29 @@ In order to use the authenticated consent all you need to do is replace `.loadMe
 
 If our APIs have a consent profile associated with that token `"JohnDoe"` the SDK will bring the consent profile from the server, overwriting whatever was stored in the device. If none is found, the session will be treated as a new user.
 
+## The `SPError` object
+```ts
+export type SPErrorName =
+  | "Unknown"
+  | "NoInternetConnection"
+  | "LoadMessagesError"
+  | "RenderingAppError"
+  | "ReportActionError"
+  | "ReportCustomConsentError"
+  | "AndroidNoIntentFound"
+  | string;
+
+export type SPError = {
+  name: SPErrorName;
+  description: string;
+  campaignType?: SPCampaignType;
+};
+```
+Notice `campaignType` is optional. Not all errors cases contain that information and on Android that data is not provided by the native SDK.
+
 ## Complete App example
 
 Complete app example for iOS and Android can be found in the [`/example`](/example/) folder of the SDK.
-
-## Known issues
-
-On iOS, reloading the app's bundle (ie. pressing r while the emulator is open or on Webpack's console) causes React Native to stop emitting events. This issue is being investigated and it's pottentially within React Native itself.
 
 ## License
 
