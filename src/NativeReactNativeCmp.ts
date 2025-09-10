@@ -210,7 +210,14 @@ export type SPBuildOptions = {
 }
 
 export type SPErrorName =
-  | "Unknown";
+  | "Unknown"
+  | "NoInternetConnection"
+  | "LoadMessagesError"
+  | "RenderingAppError"
+  | "ReportActionError"
+  | "ReportCustomConsentError"
+  | "AndroidNoIntentFound"
+  | string;
 
 export type SPError = {
   name: SPErrorName;
