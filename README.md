@@ -20,6 +20,21 @@ Use the node package manager install command to install the Sourcepoint React Na
 npm install @sourcepoint/react-native-cmp
 ```
 
+### iOS only
+Make sure your app is building its dependencies statically. On your app's `Podfile` check if 
+```ruby
+use_frameworks! :static
+```
+If your app uses React Native's default `Podfile`, it should be something like:
+```ruby
+linkage = "static" #ENV['USE_FRAMEWORKS'] <=========== make sure this is set to "static"
+if linkage != nil
+  Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
+  Pod::UI.puts "Min iOS version: #{min_ios_version_supported} (from Podfile)".green
+  use_frameworks! :linkage => linkage.to_sym
+end
+```
+
 ## Configuration overview
 
 In order to use the `SPConsentManager` you will need to perform the following:
