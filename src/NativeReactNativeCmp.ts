@@ -209,8 +209,20 @@ export type SPBuildOptions = {
   androidDismissMessageOnBackPress?: boolean;
 }
 
+export type SPErrorName =
+  | "Unknown"
+  | "NoInternetConnection"
+  | "LoadMessagesError"
+  | "RenderingAppError"
+  | "ReportActionError"
+  | "ReportCustomConsentError"
+  | "AndroidNoIntentFound"
+  | string;
+
 export type SPError = {
+  name: SPErrorName;
   description: string;
+  campaignType?: SPCampaignType;
 };
 
 export interface Spec extends TurboModule {
