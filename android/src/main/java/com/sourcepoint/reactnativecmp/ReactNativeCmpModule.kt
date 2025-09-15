@@ -30,6 +30,7 @@ data class SPLoadMessageParams(val authId: String?) {
 class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactNativeCmpSpec(reactContext),
   SpClient {
   private var spConsentLib: SpConsentLib? = null
+  private var consentView: View? = null
 
   override fun getName() = NAME
 
@@ -183,7 +184,11 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
   override fun onConsentReady(consent: SPConsents) {}
 
   override fun onError(error: Throwable) {
-    emitInternalOnError(Json.encodeToString(mapOf("description" to error.message)))
+    emitInternalOnError(RNSPError.from(error).toJsonString())
+    consentView?.let {
+      spConsentLib?.removeView(it)
+    }
+    consentView = null
   }
 
   override fun onNoIntentActivitiesFound(url: String) {}
@@ -197,11 +202,13 @@ class ReactNativeCmpModule(reactContext: ReactApplicationContext) : NativeReactN
   }
 
   override fun onUIFinished(view: View) {
+    consentView = null
     spConsentLib?.removeView(view)
     emitOnSPUIFinished()
   }
 
   override fun onUIReady(view: View) {
+    consentView = view
     spConsentLib?.showView(view)
     emitOnSPUIReady()
   }

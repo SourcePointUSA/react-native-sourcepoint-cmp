@@ -1,5 +1,5 @@
 //
-//  RNSourcepointActionType.swift
+//  RNSPActionType.swift
 //  sourcepoint-react-native-cmp
 //
 //  Created by Andre Herculano on 31/5/24.
@@ -8,7 +8,7 @@
 import Foundation
 import ConsentViewController
 
-@objc public enum RNSourcepointActionType: Int, CustomStringConvertible {
+@objc public enum RNSPActionType: Int, CustomStringConvertible {
     case acceptAll, rejectAll, showPrivacyManager, saveAndExit, dismiss, pmCancel, unknown
 
   public var description: String {
