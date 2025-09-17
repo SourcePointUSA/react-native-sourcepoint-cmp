@@ -34,7 +34,7 @@ data class RNSPGDPRConsent  (
   constructor(gdpr: GDPRConsent) : this(
     uuid = gdpr.uuid,
     applies = gdpr.applies,
-    createdDate = null,
+    createdDate = gdpr.dateCreated,
     expirationDate = null,
     euconsent = gdpr.euconsent,
     vendorGrants = gdpr.grants,
