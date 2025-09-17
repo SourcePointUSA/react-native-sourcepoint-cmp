@@ -60,7 +60,7 @@ export default class SPConsentManager implements Spec {
     return ReactNativeCmp.getUserData();
   }
 
-  loadMessage(params?: LoadMessageParams) {
+  loadMessage(params: LoadMessageParams = { authId: undefined }) {
     ReactNativeCmp.loadMessage(params);
   }
 

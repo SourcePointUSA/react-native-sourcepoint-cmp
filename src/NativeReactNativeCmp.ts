@@ -234,7 +234,7 @@ export interface Spec extends TurboModule {
     options?: SPBuildOptions,
   ): void;
   getUserData(): Promise<SPUserData>;
-  loadMessage(params?: LoadMessageParams): void;
+  loadMessage(params: LoadMessageParams): void;
   clearLocalData(): void;
   loadGDPRPrivacyManager(pmId: string): void;
   loadUSNatPrivacyManager(pmId: string): void;
