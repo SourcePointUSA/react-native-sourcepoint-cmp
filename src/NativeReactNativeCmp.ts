@@ -207,6 +207,7 @@ export type SPBuildOptions = {
   language?: SPMessageLanguage;
   messageTimeoutInSeconds?: number;
   androidDismissMessageOnBackPress?: boolean;
+  androidHideAppsViewsFromAccessibilityWhileMessageIsDisplayed?: boolean;
 }
 
 export type SPErrorName =
