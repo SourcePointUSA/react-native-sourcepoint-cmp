@@ -1,8 +1,7 @@
 PODS:
   - boost (1.84.0)
-  - ConsentViewController (7.12.4):
-    - Down (~> 0.11.0)
-    - SPMobileCore (= 0.1.11)
+  - ConsentViewController (7.12.7):
+    - SPMobileCore (= 0.1.13)
   - DoubleConversion (1.1.6)
   - fast_float (6.1.4)
   - FBLazyVector (0.79.2)
@@ -1660,7 +1659,7 @@ PODS:
     - React-perflogger (= 0.79.2)
     - React-utils (= 0.79.2)
   - ReactNativeCmp (1.0.13-beta.1):
-    - ConsentViewController (= 7.12.4)
+    - ConsentViewController (= 7.12.7)
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1685,7 +1684,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - Yoga
   - SocketRocket (0.7.1)
-  - SPMobileCore (0.1.11)
+  - SPMobileCore (0.1.13)
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -1919,7 +1918,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
-  ConsentViewController: 44b853fa9157e70a790f34d59e20a9d8433ca852
+  ConsentViewController: ed1ede8987f1fc017354ded94f17082173195b0a
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
   FBLazyVector: 84b955f7b4da8b895faf5946f73748267347c975
@@ -1989,9 +1988,9 @@ SPEC CHECKSUMS:
   ReactAppDependencyProvider: 04d5eb15eb46be6720e17a4a7fa92940a776e584
   ReactCodegen: 041559ba76d00f6680dfa0916b3c791f4babe5ea
   ReactCommon: 1511ef100f1afa4c199fe52fe7a8d2529a41429a
-  ReactNativeCmp: e71e1ae4203aafa676fbafb2e2cc9b0225218740
+  ReactNativeCmp: d743091062af597bdff58cdc9a0acfc48a9e571c
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
-  SPMobileCore: 220d109e404cb17169f7e26f2a34c6022b80079a
+  SPMobileCore: 2a77dd31b40f1457ef9df14a0e72163fa00d87c0
   Yoga: 50518ade05048235d91a78b803336dbb5b159d5d
 
 PODFILE CHECKSUM: fc7ed175dfbaaefde7501a413b61d7f865d8a005
