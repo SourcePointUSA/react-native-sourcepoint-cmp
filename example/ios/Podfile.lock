@@ -1658,7 +1658,7 @@ PODS:
     - React-logger (= 0.79.2)
     - React-perflogger (= 0.79.2)
     - React-utils (= 0.79.2)
-  - ReactNativeCmp (1.0.13-beta.1):
+  - ReactNativeCmp (1.0.13):
     - ConsentViewController (= 7.12.7)
     - DoubleConversion
     - glog
@@ -1988,11 +1988,11 @@ SPEC CHECKSUMS:
   ReactAppDependencyProvider: 04d5eb15eb46be6720e17a4a7fa92940a776e584
   ReactCodegen: 041559ba76d00f6680dfa0916b3c791f4babe5ea
   ReactCommon: 1511ef100f1afa4c199fe52fe7a8d2529a41429a
-  ReactNativeCmp: d743091062af597bdff58cdc9a0acfc48a9e571c
+  ReactNativeCmp: 6af55fdc9062df70b7e2e7c0cdf17de3d8296d8e
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   SPMobileCore: 2a77dd31b40f1457ef9df14a0e72163fa00d87c0
   Yoga: 50518ade05048235d91a78b803336dbb5b159d5d
 
 PODFILE CHECKSUM: fc7ed175dfbaaefde7501a413b61d7f865d8a005
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
